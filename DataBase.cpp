@@ -1,4 +1,4 @@
-// DataBase.cpp: определяет точку входа для консольного приложения.
+// DataBase.cpp: РѕРїСЂРµРґРµР»СЏРµС‚ С‚РѕС‡РєСѓ РІС…РѕРґР° РґР»СЏ РєРѕРЅСЃРѕР»СЊРЅРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ.
 //
 
 #include "stdafx.h"
@@ -34,7 +34,8 @@ typedef struct Node
 	int value;
 }Node;
 
-void DeleteFolder(Node *);
+void DeleteFolders(Node *);
+void Delete(Node *);
 
 int main()
 {
@@ -69,43 +70,43 @@ int main()
 	head->NextBrother = NULL;
 	head->PreviousBrother = NULL;
 	head->value = 4;
-
-	DeleteFolder(tmp->Child);
-	free(tmp);
+	Delete(tmp);
 }
 
-
-void DeleteFolder(Node * root)
+void Delete(Node * root)
 {
-	static Node * tmp;
-	if (root == NULL)
-	{
-		free(tmp);
-		printf("NULL");
-	}
+	if (root->Child)
+		DeleteFolders(root->Child);
+	printf("%d\t", root->value);
+	if (root->PreviousBrother && root->NextBrother)
+		root->PreviousBrother->NextBrother = root->NextBrother;
+	free(root);
+}
+
+void DeleteFolders(Node * root)
+{
 	if (root->Child == NULL && root->NextBrother)
 	{
-		DeleteFolder(root->NextBrother);
+		DeleteFolders(root->NextBrother);
 		printf("%d\t", root->value);
 		free(root);
 	}
 	else if (root->Child && root->NextBrother == NULL)
 	{
-		DeleteFolder(root->Child);
+		DeleteFolders(root->Child);
 		printf("%d\t", root->value);
 		free(root);
 	}
 	else if (root->Child && root->NextBrother)
 	{
-		DeleteFolder(root->NextBrother);
-		DeleteFolder(root->Child);
+		DeleteFolders(root->NextBrother);
+		DeleteFolders(root->Child);
 		printf("%d\t", root->value);
 		free(root);
 	}
 	else if (root->Child == NULL && root->NextBrother == NULL)
 	{
 		printf("%d\t", root->value);
-		tmp = root->Father;
 		free(root);
 	}
 }

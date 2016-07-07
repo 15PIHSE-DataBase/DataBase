@@ -15,3 +15,4 @@ int main()
 	printf("%d\n", *(int*)root->File->Parametr);
 	return 0;
 }
+

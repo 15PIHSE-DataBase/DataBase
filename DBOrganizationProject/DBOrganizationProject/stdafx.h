@@ -11,7 +11,7 @@ typedef struct filet
 
 typedef struct folder
 {
-	char FolderName[2];
+	char* FolderName;
 	folder * UpFolder;
 	folder * PreviousFolder;
 	folder * NextFolder;

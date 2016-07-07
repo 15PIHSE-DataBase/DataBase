@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DBOrganizationProject.cpp" />
+    <ClCompile Include="Directory.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="UpStep.cpp" />
   </ItemGroup>

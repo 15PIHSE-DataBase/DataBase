@@ -20,7 +20,3 @@ typedef struct folder
 	folder * DownFolder;
 	filet* File;
 }FOLDER;
-
-//прототипы функции для вставки
-void InputTree(FOLDER **);
-void Instruction();

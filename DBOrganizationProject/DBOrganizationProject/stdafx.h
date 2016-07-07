@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <conio.h>
 
 typedef struct filet
 {
@@ -16,5 +18,9 @@ typedef struct folder
 	folder * PreviousFolder;
 	folder * NextFolder;
 	folder * DownFolder;
-	filet* File;
+	//filet* File;
 }FOLDER;
+
+//прототипы функции для вставки
+void InputTree(FOLDER **);
+void Directory(FOLDER *CurrentF);

@@ -1,0 +1,15 @@
+typedef struct Node
+{
+	Node * Father;
+	struct OneLevel
+	{
+		Node * NextBrother;
+		Node * PreviousBrother;
+	}Brother;
+	Node * Child;
+	struct Val 
+	{
+		void * Parametr;
+		void * ParametrNext;
+	}Value;
+}Node;

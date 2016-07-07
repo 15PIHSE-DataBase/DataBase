@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "stdafx.h"
 
 typedef struct filet
 {

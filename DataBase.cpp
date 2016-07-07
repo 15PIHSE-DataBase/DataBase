@@ -25,12 +25,13 @@ typedef struct folder
 }FOLDER;*/
 
 
+
 typedef struct Node
 {
-	Node * Father;
-	Node * Child;
-	Node * NextBrother;
-	Node * PreviousBrother;
+	Node * UpFolder;
+	Node * DownFolder;
+	Node * NextFolder;
+	Node * PreviousFolder;
 	int value;
 }Node;
 
@@ -41,70 +42,75 @@ int main()
 {
 	Node * head = (Node*)malloc(sizeof(Node));
 	Node * tmp = head;
-	head->Father = NULL;
-	head->NextBrother = NULL;
-	head->PreviousBrother = NULL;
+	head->UpFolder = NULL;
+	head->NextFolder = NULL;
+	head->PreviousFolder = NULL;
 	head->value = 1;
-	head->Child = (Node*)malloc(sizeof(Node));
-	head = head->Child;
+	head->DownFolder = (Node*)malloc(sizeof(Node));
+	head = head->DownFolder;
 	head->value = 2;
-	head->Father = tmp;
-	head->Child = (Node*)malloc(sizeof(Node));
-	head->Child->Father = head;
-	head = head->Child;
-	head->Child = NULL;
-	head->NextBrother = NULL;
-	head->PreviousBrother = NULL;
+	head->UpFolder= tmp;
+	head->DownFolder = (Node*)malloc(sizeof(Node));
+	head->DownFolder->UpFolder = head;
+	head = head->DownFolder;
+	head->DownFolder = NULL;
+	head->NextFolder = NULL;
+	head->PreviousFolder = NULL;
 	head->value = 5;
-	head = head->Father;
-	head->NextBrother = (Node*)malloc(sizeof(Node));
-	head->NextBrother->PreviousBrother = head;
-	head = head->NextBrother;
+	head = head->UpFolder;
+	head->NextFolder = (Node*)malloc(sizeof(Node));
+	head->NextFolder->PreviousFolder = head;
+	head = head->NextFolder;
 	head->value = 3;
-	head->Father = tmp;
-	head->NextBrother = NULL;
-	head->Child = (Node*)malloc(sizeof(Node));
-	head->Child->Father = head;
-	head = head->Child;
-	head->Child = NULL;
-	head->NextBrother = NULL;
-	head->PreviousBrother = NULL;
+	head->UpFolder = tmp;
+	head->NextFolder = NULL;
+	head->DownFolder = (Node*)malloc(sizeof(Node));
+	head->DownFolder->UpFolder = head;
+	head = head->DownFolder;
+	head->DownFolder = NULL;
+	head->NextFolder = (Node*)malloc(sizeof(Node));
+	head->PreviousFolder = NULL;
 	head->value = 4;
+	head->NextFolder->PreviousFolder = head;
+	head = head->NextFolder;
+	head->NextFolder = NULL;
+	head->DownFolder = NULL;
+	head->value = 6;
 	Delete(tmp);
 }
 
 void Delete(Node * root)
 {
-	if (root->Child)
-		DeleteFolders(root->Child);
+	if (root->DownFolder)
+		DeleteFolders(root->DownFolder);
 	printf("%d\t", root->value);
-	if (root->PreviousBrother && root->NextBrother)
-		root->PreviousBrother->NextBrother = root->NextBrother;
+	if (root->PreviousFolder && root->NextFolder)
+		root->PreviousFolder->NextFolder = root->NextFolder;
 	free(root);
 }
 
 void DeleteFolders(Node * root)
 {
-	if (root->Child == NULL && root->NextBrother)
+	if (root->DownFolder == NULL && root->NextFolder)
 	{
-		DeleteFolders(root->NextBrother);
+		DeleteFolders(root->NextFolder);
 		printf("%d\t", root->value);
 		free(root);
 	}
-	else if (root->Child && root->NextBrother == NULL)
+	else if (root->DownFolder && root->NextFolder == NULL)
 	{
-		DeleteFolders(root->Child);
+		DeleteFolders(root->DownFolder);
 		printf("%d\t", root->value);
 		free(root);
 	}
-	else if (root->Child && root->NextBrother)
+	else if (root->DownFolder && root->NextFolder)
 	{
-		DeleteFolders(root->NextBrother);
-		DeleteFolders(root->Child);
+		DeleteFolders(root->NextFolder);
+		DeleteFolders(root->DownFolder);
 		printf("%d\t", root->value);
 		free(root);
 	}
-	else if (root->Child == NULL && root->NextBrother == NULL)
+	else if (root->DownFolder == NULL && root->NextFolder == NULL)
 	{
 		printf("%d\t", root->value);
 		free(root);

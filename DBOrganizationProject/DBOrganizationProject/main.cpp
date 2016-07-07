@@ -13,6 +13,5 @@ int main()
 	root->NextFolder = NULL;
 	InputTree(&root);
 	InputTree(&root);
-	Directory(root);
 	getch();
 }

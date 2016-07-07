@@ -18,9 +18,8 @@ typedef struct folder
 	folder * PreviousFolder;
 	folder * NextFolder;
 	folder * DownFolder;
-	//filet* File;
+	filet* File;
 }FOLDER;
 
 //прототипы функции для вставки
 void InputTree(FOLDER **);
-void Directory(FOLDER *CurrentF);

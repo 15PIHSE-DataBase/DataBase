@@ -10,6 +10,6 @@ typedef struct Node
 	struct Val 
 	{
 		void * Parametr;
-		Val * ParametrNext;
+		Val * ValNext;
 	}Value;
 }Node;

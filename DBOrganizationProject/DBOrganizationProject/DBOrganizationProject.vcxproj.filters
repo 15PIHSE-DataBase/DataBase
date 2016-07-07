@@ -32,5 +32,8 @@
     <ClCompile Include="DBOrganizationProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UpStep.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="DBOrganizationProject.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="UpStep.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct filet
 {
@@ -11,7 +12,7 @@ typedef struct filet
 
 typedef struct folder
 {
-	char* FolderName;
+	char FolderName[2];
 	folder * UpFolder;
 	folder * PreviousFolder;
 	folder * NextFolder;

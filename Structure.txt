@@ -1,11 +1,8 @@
 typedef struct Node
 {
 	Node * Father;
-	struct OneLevel
-	{
-		Node * NextBrother;
-		Node * PreviousBrother;
-	}Brother;
+	Node * NextBrother;
+	Node * PreviousBrother;
 	Node * Child;
 	struct Val 
 	{

@@ -1,4 +1,3 @@
-type UpStep()
+#include "stdafx.h"
 {
-
 }

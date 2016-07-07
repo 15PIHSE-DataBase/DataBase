@@ -23,3 +23,4 @@ typedef struct folder
 
 //прототипы функции для вставки
 void InputTree(FOLDER **);
+void Instruction();

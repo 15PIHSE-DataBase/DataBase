@@ -2,6 +2,7 @@
 
 void InputTree(FOLDER **currPtr)
 {
+	Instruction();
 	char buf[257], p = '/';
 	bool flag = 0;
 	int c;
@@ -14,7 +15,7 @@ void InputTree(FOLDER **currPtr)
 	{
 		flag = 0;
 		puts("Please enter a filename for the new folder:"); 
-		fgets(buf, 257, stdin);//считываем введённое имя
+		fgets(buf, 257, stdin);
 		c = strlen(buf);
 		while (temp!=NULL)//проверка на существование в списке из братьев папки с таким именем
 		{
@@ -33,12 +34,12 @@ void InputTree(FOLDER **currPtr)
 		}
 		if (strchr(buf, p) != 0) //имя содержит недопустимый символ '/'
 		{
-			puts("Error! The file name specified contains characters that are not permitted: '/'");
+			puts("Error! The folder name specified contains character that is not permitted: '/'");
 			flag = 1;
 		}
 		if (c == 1) //имя пустое
 		{
-			puts("Error! The file name cannot be empty");
+			puts("Error! The folder name cannot be empty");
 			flag = 1;
 		}
 	} while (flag != 0); //запрашиваем имя, пока оно не будет удовлетворять всем условиям
@@ -66,3 +67,11 @@ void InputTree(FOLDER **currPtr)
 	newPtr->PreviousFolder = NULL;
 	(*currPtr)->DownFolder = newPtr;//прицепляем новый узел к предку
 }//здесь заканчиваем заполнение новой структуры
+
+void Instruction()
+{
+	puts("Warning!");
+	puts("1. The folder name cannot be empty");
+	puts("2. The folder name cannot be less than 1 character or more than 255 characters");
+	puts("3. The folder name cannot coitain '/' character");
+}

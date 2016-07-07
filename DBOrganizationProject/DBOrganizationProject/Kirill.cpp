@@ -4,9 +4,10 @@
 #include <string.h>
 #include <assert.h>
 FOLDER* current;
+FOLDER* root;
 
 void goToFolder(char* s1) {
-	FOLDER* tmp = current;
+	FOLDER* tmp = root;
 	char* s2;
 	while (tmp->NextFolder != NULL) {
 		s2 = tmp->FolderName;

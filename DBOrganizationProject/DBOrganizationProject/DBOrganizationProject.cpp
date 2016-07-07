@@ -1,24 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "stdafx.h"
-
-typedef struct filet
-{
-	//enum!!!
-	char* FileName;
-	void* Parametr;
-	filet * NextFile;
-}FILET;
-
-typedef struct folder
-{
-	char* FolderName;
-	folder * UpFolder;
-	folder * PreviousFolder;
-	folder * NextFolder;
-	folder * DownFolder;
-	filet* File;
-}FOLDER;
 
 folder * root;
 
@@ -35,4 +15,3 @@ int main()
 	printf("%d\n", *(int*)root->File->Parametr);
 	return 0;
 }
-

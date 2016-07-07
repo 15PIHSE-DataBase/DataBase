@@ -24,8 +24,8 @@ typedef struct folder
 
 //прототипы
 //удаление узла(from Сергей)
-void DeleteFolders(Node *);
-void Delete(Node *);
+//void DeleteFolders(Node *);
+//void Delete(Node *);
 //добавление узла в текущую директорию(from Василий)
 void InputTree(FOLDER **);
 void Instruction();

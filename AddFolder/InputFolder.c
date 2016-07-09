@@ -8,7 +8,6 @@ FOLDER* InputTree(FOLDER **currPtr, char *newname)
 	if ((*currPtr)->DownFolder != NULL) temp = childPtr;
 	FOLDER *newPtr = NULL;
 	newPtr = (FOLDER*)malloc(sizeof(FOLDER));//заводим новую структуру(папку)
-	printf("%d", newPtr);
 	if (newPtr == NULL){
 		printf("No memory available \n");
 		return(NULL);

@@ -43,11 +43,6 @@ int main()
 	NewBox(&MainBox);
 	NewBox(&MainBox);
 	NewBox(&MainBox);
-	NewBox(&MainBox);
-	NewBox(&MainBox);
-	NewBox(&MainBox);
-	NewBox(&(MainBox->BoxIn));
-	NewBox(&(MainBox->BoxIn));
 	NewBox(&(MainBox->BoxIn));
 	NewBox(&(MainBox->BoxIn));
 	Record(MainBox->BoxIn);
@@ -118,15 +113,14 @@ void Record(Box * box)
 {
 	FILE * FileToOpen;
 	char FilePath[40];
-	printf("Path>>");
-	gets_s(FilePath, 40);
-	FileToOpen = fopen(FilePath, "w+");
-	while (FileToOpen == NULL)
+	do
 	{
-		printf("Couldn't open file\nPath>>");
-		gets_s(FilePath, 40);
+		printf("Path>>");
+		scanf("%s", FilePath);
 		FileToOpen = fopen(FilePath, "w+");
-	}
+		if (FileToOpen == NULL)
+			printf("Error openning file");
+	} while (FileToOpen == NULL);
 	RecordCouples(box, FileToOpen);
 	printf("Success\n");
 }
@@ -134,7 +128,12 @@ void RecordCouples(Box * box,FILE * file)
 {
 	if (box == NULL)
 		return;
+	fprintf(file, "%s\n\n%s\n\n", box->FatherBox->BoxName,box->BoxName);
 	RecordCouples(box->NextBox, file);
 	RecordCouples(box->BoxIn, file);
-	fprintf(file,"%s\n\n%s\n\n", box->BoxName, box->FatherBox->BoxName);
+}
+
+void Restore(Box * box)
+{
+
 }

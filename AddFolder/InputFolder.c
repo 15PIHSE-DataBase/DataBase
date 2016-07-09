@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-void InputTree(FOLDER **currPtr, char *newname)
+FOLDER* InputTree(FOLDER **currPtr, char *newname)
 {
 	FOLDER *childPtr = NULL;
 	childPtr = (*currPtr)->DownFolder;
@@ -8,9 +8,10 @@ void InputTree(FOLDER **currPtr, char *newname)
 	if ((*currPtr)->DownFolder != NULL) temp = childPtr;
 	FOLDER *newPtr = NULL;
 	newPtr = (FOLDER*)malloc(sizeof(FOLDER));//заводим новую структуру(папку)
+	printf("%d", newPtr);
 	if (newPtr == NULL){
 		printf("No memory available \n");
-		return;
+		return(NULL);
 	}
 	newPtr->FolderName = newname; //здесь начинаем заносить данные(имя, указатель на предка, указатели на братьев, всё остальное NULL)
 	newPtr->UpFolder = *currPtr;
@@ -27,5 +28,6 @@ void InputTree(FOLDER **currPtr, char *newname)
 	}
 	newPtr->PreviousFolder = NULL;
 	(*currPtr)->DownFolder = newPtr;//прицепляем новый узел к предку
+	return(newPtr);
 }//здесь заканчиваем заполнение новой структуры
 

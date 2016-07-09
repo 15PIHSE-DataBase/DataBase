@@ -32,22 +32,22 @@ typedef struct Box
 
 
 Box * MainBox = NULL;
-void NewBox(Box **);
+void NewBox(Box **, char *);
 void TreePrint(Box *);
 Box * Search(char *, Box *);
-void Record(Box *);
+void Record(Box *, char *);
 void RecordCouples(Box *, FILE *);
 
 int main()
 {
-	NewBox(&MainBox);
-	NewBox(&MainBox);
-	NewBox(&MainBox);
-	NewBox(&(MainBox->BoxIn));
-	NewBox(&(MainBox->BoxIn));
-	Record(MainBox->BoxIn);
+	NewBox(&MainBox, "kiska");
+	NewBox(&MainBox,"miska");
+	NewBox(&MainBox, "piska");
+	NewBox(&MainBox, "liska");
+	NewBox(&MainBox, "ziska");
+	NewBox(&MainBox,"alala");
+	Record(MainBox->BoxIn,"test.txt");
 }
-
 
 void TreePrint(Box * box)
 {
@@ -58,13 +58,12 @@ void TreePrint(Box * box)
 	printf("%s\n", box->BoxName);
 }
 
-void NewBox(Box ** box)
+void NewBox(Box ** box, char * string)
 {
 	Box * newBox = (Box*)malloc(sizeof(Box));
 	if (*box == NULL)
 	{
-	    printf("Enter new box name>>");
-		scanf("%s", newBox->BoxName);
+		strcpy(newBox->BoxName, string);
 		newBox->level = 1;
 		newBox->FatherBox = NULL;
 		newBox->NextBox = NULL;
@@ -74,8 +73,7 @@ void NewBox(Box ** box)
 	}
 	else
 	{
-		printf("Enter new box name>>");
-		scanf("%s", newBox->BoxName);
+		strcpy(newBox->BoxName, string);
 		newBox->FatherBox = *box;
 		newBox->level = (*box)->level + 1;
 		newBox->BoxIn = NULL;
@@ -95,7 +93,6 @@ void NewBox(Box ** box)
 	}
 }
 
-
 Box *Search(char *str, Box *pointer)
 {
 	if (strcmp(pointer->BoxName, str))
@@ -109,15 +106,12 @@ Box *Search(char *str, Box *pointer)
 	else return pointer;
 }
 
-void Record(Box * box)
+void Record(Box * box, char * path)
 {
 	FILE * FileToOpen;
-	char FilePath[40];
 	do
 	{
-		printf("Path>>");
-		scanf("%s", FilePath);
-		FileToOpen = fopen(FilePath, "w+");
+		FileToOpen = fopen(path, "w+");
 		if (FileToOpen == NULL)
 			printf("Error openning file");
 	} while (FileToOpen == NULL);
@@ -131,9 +125,4 @@ void RecordCouples(Box * box,FILE * file)
 	fprintf(file, "%s\n\n%s\n\n", box->FatherBox->BoxName,box->BoxName);
 	RecordCouples(box->NextBox, file);
 	RecordCouples(box->BoxIn, file);
-}
-
-void Restore(Box * box)
-{
-
 }

@@ -4,22 +4,39 @@
 #include <string.h>
 #include <stdarg.h>
 
-typedef struct filet
+typedef enum TYPE
 {
-	//enum!!!
-	char* FileName;
-	void* Parametr;
-	filet * NextFile;
-}FILET;
+None,
+Int,
+Float,
+Double,
+Bool,
+Character
+}TYPE;
+
+typedef struct keys
+{
+// TYPE type = None;
+union
+{
+int Integer;
+float Float;
+double Double;
+bool Bool;
+char Character;
+}Value;
+struct keys* NextKey;
+}KEYS;
 
 typedef struct folder
 {
-	char* FolderName;
-	folder * UpFolder;
-	folder * PreviousFolder;
-	folder * NextFolder;
-	folder * DownFolder;
-	filet* File;
+char* FolderName;
+int level;
+struct folder* UpFolder;
+struct folder* PreviousFolder;
+struct folder* NextFolder;
+struct folder* DownFolder;
+struct keys * Values;
 }FOLDER;
 
 //прототипы

@@ -6,9 +6,7 @@ FOLDER * DeleteFolders(FOLDER*);
 
 void Record(FOLDER*, FILE*); //+ сохранение
 
-void InputTree(FOLDER **); //+ создание
-
-void Instruction(); //?
+FOLDER* InputTree(FOLDER**, char*); //+ создание
 
 struct folder* scanfile(FILE*); //+ загрузка
 

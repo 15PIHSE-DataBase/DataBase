@@ -12,4 +12,6 @@ void Instruction(); //?
 
 struct folder* scanfile(FILE*); //+ загрузка
 
+folder* findfolder(char* findname, folder* beginf); //тоже поиск
+
 void way(folder*); //+ поиск

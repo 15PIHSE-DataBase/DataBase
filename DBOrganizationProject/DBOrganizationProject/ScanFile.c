@@ -7,7 +7,7 @@ struct folder* scanfile(FILE* dat)
 	root->NextFolder = NULL;
 	root->PreviousFolder = NULL;
 	root->DownFolder = NULL;
-	memset(root->FolderName, 0, 20);
+	//memset(root->FolderName, 0, 20);
 	if (dat == NULL)
 		return root;
 
@@ -16,7 +16,7 @@ struct folder* scanfile(FILE* dat)
 	root->DownFolder->NextFolder = NULL;
 	root->DownFolder->PreviousFolder = NULL;
 	root->DownFolder->DownFolder = NULL;
-	memset(root->DownFolder->FolderName, 0, 20);
+	//memset(root->DownFolder->FolderName, 0, 20);
 
 	fscanf(dat, "%s\n\n%s\n\n", root->FolderName, root->DownFolder->FolderName);
 	printf("%s=>%s  Begin\n", root->FolderName, root->DownFolder->FolderName);
@@ -33,8 +33,8 @@ struct folder* scanfile(FILE* dat)
 	int check = 0;
 	//!!!BEGIN!!!
 	while (!feof(dat)) {
-		memset(Father, 0, 20);
-		memset(Child, 0, 20);
+		//memset(Father, 0, 20);
+		//memset(Child, 0, 20);
 		fscanf(dat, "%s\n\n%s\n\n", Father, Child);
 		printf("%s=>%s  ", Father, Child);
 		if (strcmp(Father, "") == 0)
@@ -53,7 +53,7 @@ struct folder* scanfile(FILE* dat)
 				children->UpFolder = buf;
 				children->NextFolder = NULL;
 				children->DownFolder = NULL;
-				memset(children->FolderName, 0, 20);
+				//memset(children->FolderName, 0, 20);
 				strcpy(children->FolderName, Child);
 				if (check == 0) {
 					buf->DownFolder = children;
@@ -79,7 +79,7 @@ struct folder* scanfile(FILE* dat)
 				children->DownFolder->NextFolder = NULL;
 				children->DownFolder->PreviousFolder = NULL;
 				children->DownFolder->DownFolder = NULL;
-				memset(children->DownFolder->FolderName, 0, 20);
+				//memset(children->DownFolder->FolderName, 0, 20);
 				strcpy(children->DownFolder->FolderName, Child);
 
 				buf = children;
@@ -101,7 +101,7 @@ struct folder* scanfile(FILE* dat)
 			children->NextFolder = NULL;
 			children->PreviousFolder = NULL;
 			children->DownFolder = NULL;
-			memset(children->FolderName, 0, 20);
+			//memset(children->FolderName, 0, 20);
 			strcpy(children->FolderName, Child);
 			buf->DownFolder = children;
 

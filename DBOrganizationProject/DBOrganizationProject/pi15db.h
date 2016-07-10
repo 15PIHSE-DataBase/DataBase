@@ -15,3 +15,5 @@ struct folder* findfolder(char*, struct folder*); //поиск папки
 
 struct folder* scanfile(FILE*); //загрузка базы из файла
 
+void Delete(Node *);// удаление папки
+

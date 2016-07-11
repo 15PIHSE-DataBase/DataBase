@@ -1,14 +1,14 @@
 #include "deleteValue.h"
 int deleteVal(int key) {
-	KEYS *curKey;
+	Value *curKey;
 	curKey = searchKey(key);
-	if (curKey->NextKey ==  NULL || curKey == NULL) {
+	if (curKey->NextValue ==  NULL || curKey == NULL) {
 		free(curKey);
 		return 0;
 	}
-	KEYS *tmp = curKey->NextKey;
+	VALUE *tmp = curKey->NextValue;
 	curKey->Value = tmp->Value;
-	curKey->NextKey = tmp->NextKey;
+	curKey->NextValue = tmp->NextValue;
 	free(tmp);
 	return 1;
 }

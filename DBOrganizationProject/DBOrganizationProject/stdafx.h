@@ -3,6 +3,8 @@
 #include <conio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stdbool.h>
+
 
 typedef enum TYPE
 {
@@ -30,7 +32,7 @@ struct keys* NextKey;
 
 typedef struct folder
 {
-char* FolderName;
+char FolderName[255];
 int level;
 struct folder* UpFolder;
 struct folder* PreviousFolder;
@@ -51,8 +53,8 @@ void goToFolder(char*);
 char** str_split(char*, const char);
 void goToPath(char*);
 //поиск по названию(from Слава)
-folder* findfolder(char*, folder*);
-void way(folder*);
+struct folder* findfolder(char*, struct folder*);
+void way(struct folder*);
 //на шаг вверх и распечатать содержимое(from Алина)
 void Directory(FOLDER*);
 FOLDER* UpStep(FOLDER*);

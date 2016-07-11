@@ -1,7 +1,7 @@
 #include "find.h"
 
 
-void way(folder* beginf)
+void way(struct folder* beginf)
 {
 	char* ways;
 	char* buf;
@@ -32,21 +32,22 @@ void way(folder* beginf)
 	printf("  MyComputer:\\%s\n", ways);
 }
 
-folder* findfolder(char* findname, folder* beginf)//Поиск файлов с помощью рекурсии
+struct folder* findfolder(char* findname, struct folder* beginf)//Поиск файлов с помощью рекурсии
 {
-	folder* buf = NULL;
+	struct folder* buf = NULL;
 	char YN[2];
 	strcat(YN, "Y");
 	if (strcmp(beginf->FolderName, findname) == 0)//Идёт сравнение
 	{
-		way(beginf);
-		printf("    Continue searching? Y/N: ");
-		scanf("%s", YN);
-		if (strcmp(YN, "N") == 0)
-		{
-			memset(YN, 0, 2);
-			return(beginf);
-		}
+		//way(beginf);
+		//printf("    Continue searching? Y/N: ");
+		//scanf("%s", YN);
+		//if (strcmp(YN, "N") == 0)
+		//{
+		//	memset(YN, 0, 2);
+		//	return(beginf);
+		//}
+		return(beginf);
 	}
 	beginf = beginf->DownFolder;
 	if (beginf != NULL)

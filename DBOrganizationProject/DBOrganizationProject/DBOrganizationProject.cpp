@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-NODE* root;
+//NODE* root;//Объявлено в stdafx.h
 int main()
 {
 	int keys = 10;
-	root = (NODE*)malloc(sizeof(NODE));
+	NODE* root = (NODE*)malloc(sizeof(NODE));
 	root->UpNode = NULL;
 	root->PreviousNode = NULL;
 	root->DownNode = NULL;

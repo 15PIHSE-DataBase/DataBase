@@ -1,16 +1,16 @@
 #include "stdafx.h"
 
-void InputTree(FOLDER **currPtr)
+void InputTree(NODE **currPtr)
 {
 	Instruction();
 	char buf[257], p = '/';
 	bool flag = 0;
 	int c;
 	char *newname;
-	FOLDER *childPtr = NULL;
-	childPtr = (*currPtr)->DownFolder;
-	FOLDER *temp = NULL;
-	if ((*currPtr)->DownFolder != NULL) temp = childPtr;
+	NODE *childPtr = NULL;
+	childPtr = (*currPtr)->DownNode;
+	NODE *temp = NULL;
+	if ((*currPtr)->DownNode != NULL) temp = childPtr;
 	do
 	{
 		flag = 0;
@@ -19,13 +19,13 @@ void InputTree(FOLDER **currPtr)
 		c = strlen(buf);
 		while (temp!=NULL)//проверка на существование в списке из братьев папки с таким именем
 		{
-			if (strcmp(buf, temp->FolderName) == 0)
+			if (strcmp(buf, temp->NodeName) == 0)
 			{ 
 				puts("Error! Folder with this name already exists");
 				flag = 1;
 				break;
 			}
-		    temp = temp->NextFolder;
+		    temp = temp->NextNode;
 		}
 		if (c == 256) //размер имени превысил 255 символов
 		{
@@ -43,29 +43,29 @@ void InputTree(FOLDER **currPtr)
 			flag = 1;
 		}
 	} while (flag != 0); //запрашиваем имя, пока оно не будет удовлетворять всем условиям
-	FOLDER *newPtr = NULL;
-	newPtr = (FOLDER*)malloc(sizeof(FOLDER));//заводим новую структуру(папку)
+	NODE *newPtr = NULL;
+	newPtr = (NODE*)malloc(sizeof(NODE));//заводим новую структуру(папку)
 	if (newPtr == NULL){
 		printf("No memory available \n");
 		return;
 	}
 	newname = (char*)malloc(sizeof(char)*(c+1));//здесь начинаем заносить данные(имя, указатель на предка, указатели на братьев, всё остальное NULL)
 	strcpy(newname, buf);
-	newPtr->FolderName = newname;
-	newPtr->UpFolder = *currPtr;
-	newPtr->DownFolder = NULL;
-	newPtr->File = NULL;
+	strcpy(newPtr->NodeName, newname);//!!!!!!!!!!!!!!! Пришлось изменить самому(Слава) Если есть проблемы, то могут быть из-за этого
+	newPtr->UpNode = *currPtr;
+	newPtr->DownNode = NULL;
+	newPtr->Values = NULL;
 	if (childPtr != NULL)
 	{
-		newPtr->NextFolder = childPtr;//прицепляем новый узел к соседу
-		(childPtr)->PreviousFolder = newPtr;//и соседа к этому узлу
+		newPtr->NextNode = childPtr;//прицепляем новый узел к соседу
+		(childPtr)->PreviousNode = newPtr;//и соседа к этому узлу
 	}
 	else
 	{
-		newPtr->NextFolder = NULL;
+		newPtr->NextNode = NULL;
 	}
-	newPtr->PreviousFolder = NULL;
-	(*currPtr)->DownFolder = newPtr;//прицепляем новый узел к предку
+	newPtr->PreviousNode = NULL;
+	(*currPtr)->DownNode = newPtr;//прицепляем новый узел к предку
 }//здесь заканчиваем заполнение новой структуры
 
 void Instruction()

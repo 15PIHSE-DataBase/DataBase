@@ -1,7 +1,7 @@
 #include "deleteValue.h"
-int deleteVal(int key) {
+int deleteVal(int key, NODE* start) {
 	Value *curKey;
-	curKey = searchKey(key);
+	curKey = searchByKey(key, start);
 	if (curKey->NextValue ==  NULL || curKey == NULL) {
 		free(curKey);
 		return 0;

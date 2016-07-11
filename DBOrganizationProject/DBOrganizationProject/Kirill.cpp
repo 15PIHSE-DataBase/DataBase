@@ -1,21 +1,18 @@
-#include "Kirill.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-FOLDER* current; //текущая папка
-FOLDER* root; //корень базы 
+#include "stdafx.h"
+
+NODE* current; //текущая папка
+NODE* rootes;
 
 void goToFolder(char* s1) {                 //выполняет переход в папку с данным именем из текущей директории
-	FOLDER* tmp = root;
+	NODE* tmp = rootes;
 	char* s2;
-	while (tmp->NextFolder != NULL) {				//ищем папку с именем, совпадающим с тем, которое подано в функцию
-		s2 = tmp->FolderName;						
+	while (tmp->NextNode != NULL) {				//ищем папку с именем, совпадающим с тем, которое подано в функцию
+		s2 = tmp->NodeName;//!!! Спорный момент
 		if (strcmp(s1, s2) != 0) {
-			tmp = tmp->NextFolder;					//если не нашли, то идем в следущего брата
+			tmp = tmp->NextNode;					//если не нашли, то идем в следущего брата
 		}
 		else {
-			current = (tmp->DownFolder);			//если нашли, то меняем текущую директорию и возвращаемся в предыдущую функцию
+			current = (tmp->DownNode);			//если нашли, то меняем текущую директорию и возвращаемся в предыдущую функцию
 			break;
 		}
 	}

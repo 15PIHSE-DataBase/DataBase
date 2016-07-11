@@ -1,0 +1,53 @@
+
+
+void Delete(FOLDER * CurrentFolder)
+{
+	if (CurrentFolder->DownFolder)
+		CurrentFolder->DownFolder = DeleteFolders(CurrentFolder->DownFolder);
+	printf("%s deleted\n", CurrentFolder->FolderName);
+	if (CurrentFolder->PreviousFolder && CurrentFolder->NextFolder)
+	{
+		CurrentFolder->PreviousFolder->NextFolder = CurrentFolder->NextFolder;
+		CurrentFolder->NextFolder->PreviousFolder = CurrentFolder->PreviousFolder;
+		free(CurrentFolder);
+	}
+	else if (CurrentFolder->PreviousFolder)
+	{
+		CurrentFolder->PreviousFolder->NextFolder = NULL;
+		free(CurrentFolder);
+	}
+	else if (CurrentFolder->NextFolder)
+	{
+		CurrentFolder->UpFolder->DownFolder = CurrentFolder->NextFolder;
+		free(CurrentFolder);
+	}
+	else if (CurrentFolder->UpFolder)
+	{
+		CurrentFolder->UpFolder->DownFolder = NULL;
+		free(CurrentFolder);
+	}
+	else
+	{
+		free(CurrentFolder);
+		MainFolder = NULL;
+	}
+}
+
+FOLDER * DeleteFolders(FOLDER * CurrentFolder)
+{
+	if (CurrentFolder == NULL)
+		return NULL;
+	CurrentFolder->NextFolder = DeleteFolders(CurrentFolder->NextFolder);
+	CurrentFolder->DownFolder = DeleteFolders(CurrentFolder->DownFolder);
+	free(CurrentFolder);
+	return NULL;
+}
+
+void Record(FOLDER * CurrentFolder, FILE * file)
+{
+	if (CurrentFolder == NULL)
+		return;
+	fprintf(file, "%s\n\n%s\n\n", CurrentFolder->UpFolder->FolderName, CurrentFolder->FolderName);
+	Record(CurrentFolder->NextFolder, file);
+	Record(CurrentFolder->DownFolder, file);
+}

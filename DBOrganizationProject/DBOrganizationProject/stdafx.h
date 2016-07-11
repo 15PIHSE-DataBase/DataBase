@@ -3,39 +3,59 @@
 #include <conio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stdbool.h>
+#include <assert.h>
 
-typedef struct filet
+typedef enum TYPE
 {
-	//enum!!!
-	char* FileName;
-	void* Parametr;
-	filet * NextFile;
-}FILET;
+	INT,
+	FLOAT,
+	DOUBLE,
+	CHAR
+}TYPE;
 
-typedef struct folder
+typedef struct value
 {
-	char* FolderName;
-	folder * UpFolder;
-	folder * PreviousFolder;
-	folder * NextFolder;
-	folder * DownFolder;
-	filet* File;
-}FOLDER;
+	TYPE type;
+	char * Value;
+	int key;
+	struct value* NextValue;
+}VALUE;
 
+typedef struct node
+{
+	char NodeName[255];
+	int key;
+	struct node * UpNode;
+	struct node * PreviousNode;
+	struct node * NextNode;
+	struct node * DownNode;
+	struct value * Values;
+}NODE;
+
+extern NODE* root; //корень базы 
+extern int keys;
 //прототипы
 //удаление узла(from Сергей)
-//void DeleteFolders(Node *);
-//void Delete(Node *);
+void DeleteFolders(NODE *);
+void Delete(NODE *);
+
 //добавление узла в текущую директорию(from Василий)
-void InputTree(FOLDER **);
+void InputTree(NODE **);
 void Instruction();
+
 //переход по указанному пути(from Кирилл)
 void goToFolder(char*);
 char** str_split(char*, const char);
 void goToPath(char*);
+
 //поиск по названию(from Слава)
-folder* findfolder(char*, folder*);
-void way(folder*);
+NODE* findnode(char*, NODE*);
+void way(NODE*);
+
+//выгрузка дерева из файла(from Слава)
+NODE* scanfile(FILE*);
+
 //на шаг вверх и распечатать содержимое(from Алина)
-void Directory(FOLDER*);
-FOLDER* UpStep(FOLDER*);
+void Directory(NODE*);
+NODE* UpStep(NODE*);

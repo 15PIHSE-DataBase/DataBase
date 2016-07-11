@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9BEB0BAE-3BED-479D-970E-14E1A1079285}</ProjectGuid>
+    <ProjectGuid>{DAA2766F-5996-49A3-9D2E-17DE195AE749}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>DBOrganizationProject</RootNamespace>
+    <RootNamespace>DBdemo</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -145,18 +145,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="demoFunctions.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DBOrganizationProject.cpp" />
-    <ClCompile Include="Directory.cpp" />
-    <ClCompile Include="Find.cpp" />
-    <ClCompile Include="InputFolder.cpp" />
-    <ClCompile Include="Kirill.cpp" />
-    <ClCompile Include="ScanFile.cpp" />
+    <ClCompile Include="DBdemo.cpp" />
+    <ClCompile Include="demoFunctions.c" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="UpStep.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

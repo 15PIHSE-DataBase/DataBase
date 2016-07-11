@@ -1,7 +1,7 @@
 #include "deleteValue.h"
-int deleteVal(KEYS *keyToDelete) {
+int deleteVal(int key) {
 	KEYS *curKey;
-	curKey = searchKey(keyToDelete);
+	curKey = searchKey(key);
 	if (curKey->NextKey ==  NULL || curKey == NULL) {
 		free(curKey);
 		return 0;

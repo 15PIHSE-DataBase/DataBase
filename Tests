@@ -1,0 +1,574 @@
+#include "stdafx.h"
+#include <string.h>
+#include <stdlib.h>
+
+
+#if 0
+typedef enum TYPE{None,Int,Float,Double,Bool,Character}TYPE;
+ 
+typedef struct Sweets
+{
+	TYPE type = None;
+	union
+	{
+		int Integer;
+		float Float;
+		double Double;
+		bool Bool;
+		char Character;
+	}Candy;
+	Sweets * NextCandy;
+}Sweets;
+
+typedef struct Box
+{
+	char BoxName[20];
+	Box * FatherBox;
+	Box * NextBox;
+	Box * PreviousBox;
+	Box * BoxIn;
+	Sweets * Candies;
+}Box;
+
+
+
+Box * MainBox = NULL;
+void NewBox(Box **, char *);
+void TreePrint(Box *);
+Box * Search(char *, Box *);
+void Record(Box *, char *);
+void RecordCouples(Box *, FILE *);
+Box * DeleteBoxes(Box *);
+Box * Delete(Box *);
+
+int main()
+{
+	NewBox(&MainBox, "1");
+	NewBox(&MainBox, "2");
+	NewBox(&(MainBox->BoxIn), "3");
+	NewBox(&(MainBox->BoxIn), "4");
+	NewBox(&(MainBox->BoxIn->BoxIn->NextBox), "5");
+	//NewBox(&(MainBox->BoxIn->BoxIn), "6");
+	//NewBox(&(MainBox->BoxIn->BoxIn->BoxIn), "7");
+
+
+	Box * box;
+	box = Search("3", MainBox);
+	NewBox(&box, "6");
+	
+	TreePrint(MainBox);
+	//printf("\n-----------\n");
+	//box = Delete(box);
+	//printf("\n-----------\n");
+	//TreePrint(MainBox);
+	//printf("%s", MainBox->BoxName);
+	//Record(MainBox->BoxIn,"test.txt");
+}
+
+void TreePrint(Box * box)
+{
+	if (box == NULL)
+		return;
+	printf("%s\n", box->BoxName);
+	TreePrint(box->BoxIn);
+	TreePrint(box->NextBox);
+}
+
+void NewBox(Box ** box, char * string)
+{
+	Box * newBox = (Box*)malloc(sizeof(Box));
+	if (*box == NULL)
+	{
+		strcpy(newBox->BoxName, string);
+		newBox->FatherBox = NULL;
+		newBox->NextBox = NULL;
+		newBox->BoxIn = NULL;
+		newBox->PreviousBox = NULL;
+		*box = newBox;
+	}
+	else
+	{
+		strcpy(newBox->BoxName, string);
+		newBox->FatherBox = *box;
+		newBox->BoxIn = NULL;
+		if ((*box)->BoxIn)
+		{
+			(*box)->BoxIn->PreviousBox = newBox;
+			newBox->NextBox = (*box)->BoxIn;
+			newBox->PreviousBox = NULL;
+			(*box)->BoxIn = newBox;
+		}
+		else
+		{
+			newBox->NextBox = NULL;
+			newBox->PreviousBox = NULL;
+			(*box)->BoxIn = newBox;
+		}
+	}
+}
+
+Box * Search(char *str, Box *pointer)
+{
+	if (strcmp(pointer->BoxName, str) == 0) return pointer;
+	else
+	{
+		Box *ptr = NULL;
+		if (pointer->NextBox != NULL)
+		{
+			ptr = Search(str, pointer->NextBox);
+			if (ptr != pointer) return ptr;
+		}
+		if (pointer->BoxIn != NULL)
+		{
+			ptr = Search(str, pointer->BoxIn);
+			if (ptr != pointer) return ptr;
+			else if (pointer->PreviousBox != NULL)return pointer->PreviousBox;
+			else if (pointer->FatherBox != NULL)return pointer->FatherBox;
+			else return NULL;
+		}
+		else if (pointer->PreviousBox != NULL)return pointer->PreviousBox;
+		else if (pointer->FatherBox != NULL)return pointer->FatherBox;
+		else return NULL;
+	}
+}
+void Record(Box * box, char * path)
+{
+	FILE * FileToOpen;
+	do
+	{
+		FileToOpen = fopen(path, "w+");
+		if (FileToOpen == NULL)
+			printf("Error openning file");
+	} while (FileToOpen == NULL);
+	RecordCouples(box, FileToOpen);
+	printf("Success\n");
+}
+
+void RecordCouples(Box * box,FILE * file)
+{
+	if (box == NULL)
+		return;
+	fprintf(file, "%s\n\n%s\n\n", box->FatherBox->BoxName,box->BoxName);
+	RecordCouples(box->NextBox, file);
+	RecordCouples(box->BoxIn, file);
+}
+
+
+Box * Delete(Box * box)
+{
+	if (box->BoxIn)
+		box->BoxIn = DeleteBoxes(box->BoxIn);
+	printf("%s deleted\t", box->BoxName);
+	if (box->PreviousBox && box->NextBox)
+	{
+		box->PreviousBox->NextBox = box->NextBox;
+		box->NextBox->PreviousBox = box->PreviousBox;
+		free(box);
+		return NULL;
+	}
+	else if (box->PreviousBox)
+	{
+		box->PreviousBox->NextBox = NULL;
+		free(box);
+		return NULL;
+	}
+	else if (box->NextBox)
+	{
+		box->FatherBox->BoxIn = box->NextBox;
+		free(box);
+		return NULL;
+	}
+	else if (box->FatherBox)
+	{
+		box->FatherBox->BoxIn = NULL;
+		free(box);
+		return NULL;
+	}
+	else
+	{
+		free(box);
+		MainBox = NULL;
+		return NULL;
+	}
+}
+
+Box * DeleteBoxes(Box * box)
+{
+	if (box->BoxIn == NULL && box->NextBox)
+	{
+		box->NextBox = DeleteBoxes(box->NextBox);
+		free(box);
+		return NULL;
+	}
+	else if (box->BoxIn && box->NextBox == NULL)
+	{
+		box->BoxIn = DeleteBoxes(box->BoxIn);
+		free(box);
+		return NULL;
+	}
+	else if (box->BoxIn && box->NextBox)
+	{
+		box->NextBox = DeleteBoxes(box->NextBox);
+		box->BoxIn = DeleteBoxes(box->BoxIn);
+		free(box);
+		return NULL;
+	}
+	else if (box->BoxIn == NULL && box->NextBox == NULL)
+	{
+		free(box);
+		return NULL;
+	}
+	return NULL;
+
+}
+
+//////////////////////////// для API
+/*void Record(FOLDER * CurrentFolder, FILE * file)
+{
+	if (CurrentFolder == NULL)
+		return;
+	fprintf(file, "%s\n\n%s\n\n", CurrentFolder->UpFolder->FolderName, CurrentFolder->FolderName);
+	Record(CurrentFolder->NextFolder, file);
+	Record(CurrentFolder->DownFolder, file);
+}*/
+#endif
+#if 1
+typedef enum TYPE
+{
+	None,
+	Int,
+	Float,
+	Double,
+	Bool,
+	Character
+}TYPE;
+
+typedef struct keys
+{
+	TYPE type = None;
+	union
+	{
+		int Integer;
+		float Float;
+		double Double;
+		bool Bool;
+		char Character;
+	}Value;
+	struct keys* NextKey;
+}KEYS;
+
+typedef struct folder
+{
+	char FolderName[20];
+	int level;
+	struct folder* UpFolder;
+	struct folder* PreviousFolder;
+	struct folder* NextFolder;
+	struct folder* DownFolder;
+	struct keys * Values;
+}FOLDER;
+
+FOLDER * MainFolder = NULL;
+void NewFolder(FOLDER **, char *);
+void TreePrint(FOLDER *);
+FOLDER * Search(char *, FOLDER *);
+void Record(FOLDER *, FILE *);
+FOLDER * DeleteFolders(FOLDER *);
+void Delete(FOLDER *); 
+FOLDER * scanfile(FILE* );
+FOLDER * findfolder(char* , FOLDER * );
+
+
+int main()
+{
+	NewFolder(&MainFolder, "1");
+	NewFolder(&MainFolder, "2");
+	NewFolder(&MainFolder, "3");
+	NewFolder(&MainFolder, "4");
+	NewFolder(&MainFolder->DownFolder, "5");
+	NewFolder(&MainFolder->DownFolder, "6");
+	NewFolder(&MainFolder->DownFolder->NextFolder, "7");
+	NewFolder(&MainFolder->DownFolder->DownFolder, "8");
+	NewFolder(&MainFolder->DownFolder->NextFolder, "9");
+	NewFolder(&MainFolder->DownFolder->NextFolder->DownFolder, "10");
+	TreePrint(MainFolder);
+	FOLDER * Fold = Search("1", MainFolder);
+	Delete(Fold);
+	//Fold = Search("4", MainFolder);
+	//Fold = Delete(Fold);
+	TreePrint(MainFolder);
+	//FILE * FileToOpen = fopen("test.txt", "w+");
+	//Record(MainFolder->DownFolder, FileToOpen);
+	//fclose(FileToOpen);
+	//FOLDER * Folder = Delete(MainFolder);
+	//FileToOpen = fopen("test.txt", "r");
+	//MainFolder = scanfile(FileToOpen);
+	//printf("\n-------------------------\n");
+	//TreePrint(MainFolder);
+}
+
+
+
+
+
+
+
+void TreePrint(FOLDER * CurrentFolder)
+{
+	if (CurrentFolder == NULL)
+		return;
+	printf("%s\n", CurrentFolder->FolderName);
+	TreePrint(CurrentFolder->DownFolder);
+	TreePrint(CurrentFolder->NextFolder);
+}
+
+void NewFolder(FOLDER ** CurrentFolder, char * string)
+{
+	FOLDER * newFolder = (FOLDER*)malloc(sizeof(FOLDER));
+	if (*CurrentFolder == NULL)
+	{
+		strcpy(newFolder->FolderName, string);
+		newFolder->UpFolder = NULL;
+		newFolder->NextFolder = NULL;
+		newFolder->DownFolder = NULL;
+		newFolder->PreviousFolder = NULL;
+		*CurrentFolder = newFolder;
+	}
+	else
+	{
+		strcpy(newFolder->FolderName, string);
+		newFolder->UpFolder = *CurrentFolder;
+		newFolder->DownFolder = NULL;
+		if ((*CurrentFolder)->DownFolder)
+		{
+			(*CurrentFolder)->DownFolder->PreviousFolder = newFolder;
+			newFolder->NextFolder = (*CurrentFolder)->DownFolder;
+			newFolder->PreviousFolder = NULL;
+			(*CurrentFolder)->DownFolder = newFolder;
+		}
+		else
+		{
+			newFolder->NextFolder = NULL;
+			newFolder->PreviousFolder = NULL;
+			(*CurrentFolder)->DownFolder = newFolder;
+		}
+	}
+}
+
+FOLDER * Search(char *str, FOLDER *pointer)
+{
+	if (strcmp(pointer->FolderName, str) == 0) return pointer;
+	else
+	{
+		FOLDER *ptr = NULL;
+		if (pointer->NextFolder != NULL)
+		{
+			ptr = Search(str, pointer->NextFolder);
+			if (ptr != pointer) return ptr;
+		}
+		if (pointer->DownFolder != NULL)
+		{
+			ptr = Search(str, pointer->DownFolder);
+			if (ptr != pointer) return ptr;
+			else if (pointer->PreviousFolder != NULL)return pointer->PreviousFolder;
+			else if (pointer->UpFolder != NULL)return pointer->UpFolder;
+			else return NULL;
+		}
+		else if (pointer->PreviousFolder != NULL)return pointer->PreviousFolder;
+		else if (pointer->UpFolder != NULL)return pointer->UpFolder;
+		else return NULL;
+	}
+}
+
+
+void Delete(FOLDER * CurrentFolder)
+{
+	if (CurrentFolder->DownFolder)
+		CurrentFolder->DownFolder = DeleteFolders(CurrentFolder->DownFolder);
+	printf("%s deleted\n", CurrentFolder->FolderName);
+	if (CurrentFolder->PreviousFolder && CurrentFolder->NextFolder)
+	{
+		CurrentFolder->PreviousFolder->NextFolder = CurrentFolder->NextFolder;
+		CurrentFolder->NextFolder->PreviousFolder = CurrentFolder->PreviousFolder;
+		free(CurrentFolder);
+	}
+	else if (CurrentFolder->PreviousFolder)
+	{
+		CurrentFolder->PreviousFolder->NextFolder = NULL;
+		free(CurrentFolder);
+	}
+	else if (CurrentFolder->NextFolder)
+	{
+		CurrentFolder->UpFolder->DownFolder = CurrentFolder->NextFolder;
+		free(CurrentFolder);
+	}
+	else if (CurrentFolder->UpFolder)
+	{
+		CurrentFolder->UpFolder->DownFolder = NULL;
+		free(CurrentFolder);
+	}
+	else
+	{
+		free(CurrentFolder);
+		MainFolder = NULL;
+	}
+}
+
+FOLDER * DeleteFolders(FOLDER * CurrentFolder)
+{
+	if (CurrentFolder == NULL)
+		return NULL;
+	CurrentFolder->NextFolder = DeleteFolders(CurrentFolder->NextFolder);
+	CurrentFolder->DownFolder = DeleteFolders(CurrentFolder->DownFolder);
+	free(CurrentFolder);
+	return NULL;
+}
+
+void Record(FOLDER * CurrentFolder, FILE * file)
+{
+	if (CurrentFolder == NULL)
+		return;
+	fprintf(file, "%s\n\n%s\n\n", CurrentFolder->UpFolder->FolderName, CurrentFolder->FolderName);
+	Record(CurrentFolder->NextFolder, file);
+	Record(CurrentFolder->DownFolder, file);
+}
+FOLDER * findfolder(char* findname, FOLDER * beginf)//Поиск файлов с помощью рекурсии
+{
+	struct folder* buf = NULL;
+	//char YN[2];
+	//strcat(YN, "Y");
+	if (strcmp(beginf->FolderName, findname) == 0)//Идёт сравнение
+	{
+		//way(beginf);
+		//printf("    Continue searching? Y/N: ");
+		//scanf("%s", YN);
+		//if (strcmp(YN, "N") == 0)
+		//{
+		//  memset(YN, 0, 2);
+		//  return(beginf);
+		//}
+		return(beginf);
+	}
+	beginf = beginf->DownFolder;
+	if (beginf != NULL)
+		while (beginf != NULL)//Проходимся по каждому брату(NextFolder)
+		{
+			buf = findfolder(findname, beginf);
+			if (buf != NULL)//Требуется, для возварата значения при отказе дальнейшего поиска
+				return(buf);
+			beginf = beginf->NextFolder;
+		}
+
+	return(NULL);
+}
+
+FOLDER * scanfile(FILE* dat)
+{
+	FOLDER * root = (FOLDER*)malloc(sizeof(FOLDER));
+	root->UpFolder = NULL;
+	root->NextFolder = NULL;
+	root->PreviousFolder = NULL;
+	root->DownFolder = NULL;
+	memset(root->FolderName, 0, 20);
+	if (dat == NULL)
+		return root;
+
+	root->DownFolder = (FOLDER*)malloc(sizeof(FOLDER));
+	root->DownFolder->UpFolder = root;
+	root->DownFolder->NextFolder = NULL;
+	root->DownFolder->PreviousFolder = NULL;
+	root->DownFolder->DownFolder = NULL;
+	memset(root->DownFolder->FolderName, 0, 20);
+
+	fscanf(dat, "%s\n\n%s\n\n", root->FolderName, root->DownFolder->FolderName);
+	printf("%s=>%s  Begin\n", root->FolderName, root->DownFolder->FolderName);
+	if (strcmp(root->FolderName, "") == 0) {
+		printf("\nRead error or file is empty\nCreated new data base...\n");
+		return root;
+	}
+
+	char Father[20];
+	char Child[20];
+	FOLDER * buf = root;
+	FOLDER * children;
+	FOLDER * ggwp;
+	int check = 0;
+	//!!!BEGIN!!!
+	while (!feof(dat)) {
+		memset(Father, 0, 20);
+		memset(Child, 0, 20);
+		fscanf(dat, "%s\n\n%s\n\n", Father, Child);
+		printf("%s=>%s  ", Father, Child);
+		if (strcmp(Father, "") == 0)
+			return root;
+		children = buf->DownFolder;
+
+		if (strcmp(buf->FolderName, Father) == 0) {//Ищем по отцу
+			printf("Father\n");
+			while (children != NULL) {
+				++check;
+				ggwp = children;
+				children = children->NextFolder;
+			}
+			if (children == NULL) {
+				children = (FOLDER*)malloc(sizeof(FOLDER));
+				children->UpFolder = buf;
+				children->NextFolder = NULL;
+				children->DownFolder = NULL;
+				memset(children->FolderName, 0, 20);
+				strcpy(children->FolderName, Child);
+				if (check == 0) {
+					buf->DownFolder = children;
+					children->PreviousFolder = NULL;
+				}
+				else {
+					ggwp->NextFolder = children;
+					children->PreviousFolder = ggwp;
+				}
+				continue;
+			}
+		}
+
+		check = 1;
+		while (1) {//ищем по детям
+			if (children == NULL) {
+				break;
+			}
+			if (strcmp(children->FolderName, Father) == 0) {
+				printf("Children\n");
+				children->DownFolder = (FOLDER*)malloc(sizeof(FOLDER));
+				children->DownFolder->UpFolder = children;
+				children->DownFolder->NextFolder = NULL;
+				children->DownFolder->PreviousFolder = NULL;
+				children->DownFolder->DownFolder = NULL;
+				memset(children->DownFolder->FolderName, 0, 20);
+				strcpy(children->DownFolder->FolderName, Child);
+
+				buf = children;
+				check = 0;
+			}
+			children = children->NextFolder;
+		}
+
+		if (check == 1) {
+			//Поиск по всему дереву
+			check = 0;
+			printf("Find\n");
+			ggwp = findfolder(Father, root);
+			buf = ggwp;
+			children = buf->DownFolder;
+
+			children = (FOLDER*)malloc(sizeof(FOLDER));
+			children->UpFolder = buf;
+			children->NextFolder = NULL;
+			children->PreviousFolder = NULL;
+			children->DownFolder = NULL;
+			memset(children->FolderName, 0, 20);
+			strcpy(children->FolderName, Child);
+			buf->DownFolder = children;
+
+		}
+	}
+	return root;
+}
+#endif

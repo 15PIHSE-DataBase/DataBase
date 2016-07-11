@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
 //прототипы функции для вставки
-void InputTree(FOLDER **);
+FOLDER* InputTree(FOLDER **);
 void Instruction();
 char* GetName(FOLDER **);

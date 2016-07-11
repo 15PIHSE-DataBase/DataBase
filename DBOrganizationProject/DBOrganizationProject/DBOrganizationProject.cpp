@@ -1,18 +1,17 @@
 #include "stdafx.h"
 
-folder * root;
-
+//NODE* root;//Объявлено в stdafx.h
 int main()
 {
-	int a = 1;
-	root = (folder*)malloc(sizeof(folder));
-	root->UpFolder = NULL;
-	root->PreviousFolder = NULL;
-	root->NextFolder = (folder*)malloc(sizeof(folder));
-	root->File = (filet*)malloc(sizeof(filet));
-	root->File->Parametr = &a;
-	printf("lol");
-	printf("%d\n", *(int*)root->File->Parametr);
+	int keys = 10;
+	NODE* root = (NODE*)malloc(sizeof(NODE));
+	root->UpNode = NULL;
+	root->PreviousNode = NULL;
+	root->DownNode = NULL;
+	strcpy(root->NodeName, "LOL");
+	root->NextNode = (NODE*)malloc(sizeof(NODE));
+	printf("%s\n",root->NodeName);
+	printf("%d\n", keys);
 	return 0;
 }
 

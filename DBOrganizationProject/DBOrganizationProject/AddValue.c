@@ -20,6 +20,7 @@ NODE* AddValue(NODE *CurrentPtr, TYPE Type, char * Info)
 		else CurrentPtr->Values = NewValue; //Первое добавление данных
 		NewValue->NextValue = NULL;
 		NewValue->Value = Info;
+		NewValue->key = gen_newkey();
 		switch (Type){ //Определение типа
 		case INT:  NewValue->type = INT;  break;
 		case FLOAT:  NewValue->type = FLOAT;  break;

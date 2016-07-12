@@ -1,4 +1,6 @@
 #pragma once
 #include "stdafx.h"
 
-KEYS* searchByKey(int key, NODE*);
+VALUE* findValueInNode(NODE*, char*);
+
+NODE* searchNodeByValue(char*, NODE*);

@@ -1,6 +1,6 @@
 #include "SearchByKey.h"
 
-VALUE* searchThisNode(NODE* nodeptr, int key) {
+VALUE* findValueInNode(NODE* nodeptr, char* key) {
 	if (nodeptr->Values != NULL) {
 		VALUE* curVal = nodeptr->Values;
 		while (curVal) {
@@ -17,7 +17,7 @@ VALUE* searchThisNode(NODE* nodeptr, int key) {
 	}
 }
 
-VALUE* searchByKey(int key, NODE* beginf) {
+/*VALUE* searchValueByKey(int key, NODE* beginf) {
 	NODE* buf = NULL;
 	val = searchThisNode(buf, key);
 	if (val != NULL)//Идёт сравнение
@@ -28,9 +28,26 @@ VALUE* searchByKey(int key, NODE* beginf) {
 	if (beginf != NULL)
 		while (beginf != NULL)//Проходимся по каждому брату(NextNode)
 		{
-			buf = searchByKey(key, beginf);
+			buf = searchValueByKey(key, beginf);
 			beginf = beginf->NextNode;
 		}
 
 	return(NULL);
-}
+}*/
+/*NODE* searchNodeByKey(int key, NODE* beginf) {
+	NODE* buf = NULL;
+	val = searchThisNode(buf, key);
+	if (val != NULL)//Идёт сравнение
+	{
+		return(beginf);
+	}
+	beginf = beginf->DownNode;
+	if (beginf != NULL)
+		while (beginf != NULL)//Проходимся по каждому брату(NextNode)
+		{
+			buf = searchNodeByKey(key, beginf);
+			beginf = beginf->NextNode;
+		}
+
+	return(NULL);
+}*/

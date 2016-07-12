@@ -1,43 +1,45 @@
 #include "stdafx.h"
 
 
-void way(NODE* beginf)
+void way(NODE * beginf)
 {
 	char* ways;
 	char* buf;
 	int len = 0;
-	len = strlen(beginf->NodeName) + 1;//Находим нужную нам длину массива
+	len = strlen(beginf->NodeName) + 1;
 	ways = (char*)malloc(len);
 	buf = (char*)malloc(len);
-	memset(ways, 0, len);//обнуляем массив char для записи
-	memset(buf, 0, len);
-	strcat(ways, "\\");
+	memset(ways, 0, len);
+	strcat(ways, ".");
 	strcat(ways, beginf->NodeName);
 	strcpy(buf, ways);
+	printf("%s\n", buf);
 	beginf = beginf->UpNode;
 
-	while (beginf != NULL)//Будем идти вверх и записывать имена папок в массив, пока не встретим root
+	while (beginf != NULL)
 	{
 		len = len + strlen(beginf->NodeName) + 1;
-		ways = (char*)malloc(len);
+		ways = (char*)realloc(ways,len);
 		memset(ways, 0, len);
-		strcat(ways, "\\");
+		if (beginf->UpNode != NULL)
+			strcat(ways, ".");
 		strcat(ways, beginf->NodeName);
 		strcat(ways, buf);
-		buf = (char*)malloc(len);
-		memset(buf, 0, len);
+		buf = (char*)realloc(buf,len);
 		strcpy(buf, ways);
 		beginf = beginf->UpNode;
 	}
-	printf("  MyComputer:\\%s\n", ways);
+	printf("%s\n", ways);
+	free(ways);
+	free(buf);
 }
 
-NODE* findnode(char* findname, NODE* beginf)//Поиск файлов с помощью рекурсии
+NODE* findnode(char* findname, NODE* beginf)//ГЏГ®ГЁГ±ГЄ ГґГ Г©Г«Г®Гў Г± ГЇГ®Г¬Г®Г№ГјГѕ Г°ГҐГЄГіГ°Г±ГЁГЁ
 {
 	NODE* buf = NULL;
 	//char YN[2];
 	//strcat(YN, "Y");
-	if (strcmp(beginf->NodeName, findname) == 0)//Идёт сравнение
+	if (strcmp(beginf->NodeName, findname) == 0)//Г€Г¤ВёГІ Г±Г°Г ГўГ­ГҐГ­ГЁГҐ
 	{
 		//way(beginf);
 		//printf("    Continue searching? Y/N: ");
@@ -51,10 +53,10 @@ NODE* findnode(char* findname, NODE* beginf)//Поиск файлов с помощью рекурсии
 	}
 	beginf = beginf->DownNode;
 	if (beginf != NULL)
-		while (beginf != NULL)//Проходимся по каждому брату(NextNode)
+		while (beginf != NULL)//ГЏГ°Г®ГµГ®Г¤ГЁГ¬Г±Гї ГЇГ® ГЄГ Г¦Г¤Г®Г¬Гі ГЎГ°Г ГІГі(NextNode)
 		{
 			buf = findnode(findname, beginf);
-			if (buf != NULL)//Требуется, для возварата значения при отказе дальнейшего поиска
+			if (buf != NULL)//Г’Г°ГҐГЎГіГҐГІГ±Гї, Г¤Г«Гї ГўГ®Г§ГўГ Г°Г ГІГ  Г§Г­Г Г·ГҐГ­ГЁГї ГЇГ°ГЁ Г®ГІГЄГ Г§ГҐ Г¤Г Г«ГјГ­ГҐГ©ГёГҐГЈГ® ГЇГ®ГЁГ±ГЄГ 
 				return(buf);
 			beginf = beginf->NextNode;
 		}

@@ -1,9 +1,10 @@
 #include "deleteValue.h"
 
-int deleteVal(VALUE* toDelete) {
+int deleteVal(VALUE* toDelete, NODE* start) {
 	
 	if (toDelete->NextValue ==  NULL || toDelete == NULL) {
 		free(toDelete);
+		start->Values = NULL;
 		return 0;
 	}
 	else {

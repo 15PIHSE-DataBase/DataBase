@@ -1,10 +1,10 @@
-#include"stdafx.h"
-//Добавление значения в узел.
-//Если добавление прошло удачно, функция вернёт указатель на исходный узел, иначе - NULL
-//NODE * CurrentPtr - указатель на узел, в который помещается значение
-//char * Qualf - указатель на строку - спецификатор для новых данных
-//TYPE Type - тип помещаемого значения (INT,FLOAT,DOUBLE,CHAR)
-//char * Info - указатель на помещаемое значение в виде строки
+п»ї#include"stdafx.h"
+//Р”РѕР±Р°РІР»РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РІ СѓР·РµР».
+//Р•СЃР»Рё РґРѕР±Р°РІР»РµРЅРёРµ РїСЂРѕС€Р»Рѕ СѓРґР°С‡РЅРѕ, С„СѓРЅРєС†РёСЏ РІРµСЂРЅС‘С‚ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РёСЃС…РѕРґРЅС‹Р№ СѓР·РµР», РёРЅР°С‡Рµ - NULL
+//NODE * CurrentPtr - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СѓР·РµР», РІ РєРѕС‚РѕСЂС‹Р№ РїРѕРјРµС‰Р°РµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµ
+//char * Qualf - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃС‚СЂРѕРєСѓ - СЃРїРµС†РёС„РёРєР°С‚РѕСЂ РґР»СЏ РЅРѕРІС‹С… РґР°РЅРЅС‹С…
+//TYPE Type - С‚РёРї РїРѕРјРµС‰Р°РµРјРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ (INT,FLOAT,DOUBLE,CHAR)
+//char * Info - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРѕРјРµС‰Р°РµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ РІ РІРёРґРµ СЃС‚СЂРѕРєРё
 NODE* AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 {
 	if ((Type < 1) || (Type>4)) 
@@ -15,23 +15,23 @@ NODE* AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 		VALUE * NewValue = (VALUE*)malloc(sizeof(VALUE));
 		if (Pointer = CurrentPtr->Values){
 			while (Pointer->NextValue != NULL){
-				if (strcmp(Pointer->Qualifier, Qualf) == 0) return NULL; //Повтор спецификатора
+				if (strcmp(Pointer->Qualifier, Qualf) == 0) return NULL; //РџРѕРІС‚РѕСЂ СЃРїРµС†РёС„РёРєР°С‚РѕСЂР°
 				Pointer = Pointer->NextValue;
 			}
-			if (strcmp(Pointer->Qualifier, Qualf) == 0) return NULL; //Повтор спецификатора
+			if (strcmp(Pointer->Qualifier, Qualf) == 0) return NULL; //РџРѕРІС‚РѕСЂ СЃРїРµС†РёС„РёРєР°С‚РѕСЂР°
 			Pointer->NextValue = NewValue;
 		}
-		else CurrentPtr->Values = NewValue; //Первое добавление данных
+		else CurrentPtr->Values = NewValue; //РџРµСЂРІРѕРµ РґРѕР±Р°РІР»РµРЅРёРµ РґР°РЅРЅС‹С…
 		NewValue->NextValue = NULL;
 		NewValue->Value = Info;
 		NewValue->Qualifier = Qualf;
-		switch (Type){ //Определение типа
+		switch (Type){ //РћРїСЂРµРґРµР»РµРЅРёРµ С‚РёРїР°
 		case INT:  NewValue->type = INT;  break;
 		case FLOAT:  NewValue->type = FLOAT;  break;
 		case DOUBLE:  NewValue->type = DOUBLE;  break;
 		case CHAR:  NewValue->type = CHAR;  break;
 		}
-		//int count = PrintValues(CurrentPtr->Values, ALL); //Вывод всех данных узла с обновлениями, count - количество значений
+		//int count = PrintValues(CurrentPtr->Values, ALL); //Р’С‹РІРѕРґ РІСЃРµС… РґР°РЅРЅС‹С… СѓР·Р»Р° СЃ РѕР±РЅРѕРІР»РµРЅРёСЏРјРё, count - РєРѕР»РёС‡РµСЃС‚РІРѕ Р·РЅР°С‡РµРЅРёР№
 		return CurrentPtr;
 	}
 }

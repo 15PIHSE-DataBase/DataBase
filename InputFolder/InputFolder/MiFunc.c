@@ -120,16 +120,31 @@ int PrintValues(NODE *head, TYPE Type)
 	return Count;
 }
 
-int deleteVal(VALUE* toDelete) {
+int deleteVal(VALUE* toDelete, NODE* start) {
 
-	if (toDelete->NextValue == NULL || toDelete == NULL) {
-		free(toDelete);
-		return 0;
+	if (toDelete->NextValue == NULL) {
+		
+		if (start->Values->NextValue == NULL) {
+			free(toDelete);
+			start->Values = NULL;
+			return 0;
+		} else {
+			VALUE* cur = start->Values;
+			while (cur->NextValue != toDelete) {
+				cur = cur->NextValue;
+			}
+			free(toDelete);
+			cur->NextValue = NULL;
+			return 1;
+		}
+		
 	}
-	VALUE *tmp = toDelete->NextValue;
-	toDelete->Value = tmp->Value;
-	toDelete->NextValue = tmp->NextValue;
-	toDelete->Qualifier = tmp->Qualifier;
-	free(tmp);
-	return 1;
+	else {
+		VALUE *tmp = toDelete->NextValue;
+		toDelete->Value = tmp->Value;
+		toDelete->NextValue = tmp->NextValue;
+		toDelete->Qualifier = tmp->Qualifier;
+		free(tmp);
+		return 1;
+	}
 }

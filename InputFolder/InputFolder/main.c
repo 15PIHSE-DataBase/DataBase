@@ -26,7 +26,7 @@ int main()
 	//AddValue(root, p4, INT, p5);
 	//AddValue(root, p5, INT, p3);
 	//PrintValues(root, ALL);
-	deleteVal(root->Values);
+	deleteVal(root->Values, root);
 	//DeleteAllValue(root, ALL);
 	//ChangeValue(root->Values, 3, p3, p4);
 	PrintValues(root, ALL);

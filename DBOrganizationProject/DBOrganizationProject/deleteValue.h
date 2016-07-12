@@ -1,3 +1,3 @@
 #pragma once
 #include "stdafx.h"
-int deleteVal(VALUE*);
+int deleteVal(VALUE*, NODE*);

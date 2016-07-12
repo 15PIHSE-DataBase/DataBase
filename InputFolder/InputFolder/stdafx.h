@@ -59,5 +59,5 @@ int gen_newkey();
 void Directory(NODE *CurrentF);
 NODE* AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info);
 int PrintValues(NODE *head, TYPE Type);
-int deleteVal(VALUE* toDelete);
-int deleteVal(VALUE* toDelete);
+int deleteVal(VALUE* toDelete, NODE* start);
+

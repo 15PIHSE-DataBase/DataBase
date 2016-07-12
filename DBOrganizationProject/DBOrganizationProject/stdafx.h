@@ -8,6 +8,7 @@
 
 typedef enum TYPE
 {
+	ALL,
 	INT,
 	FLOAT,
 	DOUBLE,
@@ -18,7 +19,7 @@ typedef struct value
 {
 	TYPE type;
 	char * Value;
-	int key;
+	char * Qualifier;
 	struct value* NextValue;
 }VALUE;
 

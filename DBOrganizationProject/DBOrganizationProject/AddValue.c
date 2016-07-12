@@ -33,15 +33,16 @@ NODE* AddValue(NODE *CurrentPtr, TYPE Type, char * Info)
 }
 void PrintValues(VALUE *head) //Вывод на экран всех значений узла и их типов
 {
-	while (head != NULL){
-		printf("%s ", head->Value);
-		switch (head->type){
+	VALUE *temp = head;
+	while (temp != NULL){
+		printf("%s ", temp->Value);
+		switch (temp->type){
 		case INT:printf("(int)  "); break;
 		case FLOAT:printf("(float)  "); break;
 		case DOUBLE:printf("(double)  "); break;
 		case CHAR:printf("(char)  "); break;
 		}
-		head = head->NextValue;
+		temp = temp->NextValue;
 	}
 	printf("\n");
 }

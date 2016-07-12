@@ -1,47 +1,37 @@
-#include"stdafx.h"
-//Добавление значения в узел.
-//Если добавление прошло удачно, функция вернёт указатель на исходный узел, иначе - NULL
-//NODE *CurrentPtr - Указатель на узел, в который помещается значение
-//TYPE Type - тип помещаемого значения (INT,FLOAT,DOUBLE,CHAR)
-//char * Info - помещаемое значение в виде строки
-NODE* AddValue(NODE *CurrentPtr, TYPE Type, char * Info)
+п»ї#include"stdafx.h"
+//Р”РѕР±Р°РІР»РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РІ СѓР·РµР».
+//Р•СЃР»Рё РґРѕР±Р°РІР»РµРЅРёРµ РїСЂРѕС€Р»Рѕ СѓРґР°С‡РЅРѕ, С„СѓРЅРєС†РёСЏ РІРµСЂРЅС‘С‚ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РёСЃС…РѕРґРЅС‹Р№ СѓР·РµР», РёРЅР°С‡Рµ - NULL
+//NODE * CurrentPtr - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СѓР·РµР», РІ РєРѕС‚РѕСЂС‹Р№ РїРѕРјРµС‰Р°РµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµ
+//char * Qualf - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃС‚СЂРѕРєСѓ - СЃРїРµС†РёС„РёРєР°С‚РѕСЂ РґР»СЏ РЅРѕРІС‹С… РґР°РЅРЅС‹С…
+//TYPE Type - С‚РёРї РїРѕРјРµС‰Р°РµРјРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ (INT,FLOAT,DOUBLE,CHAR)
+//char * Info - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРѕРјРµС‰Р°РµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ РІ РІРёРґРµ СЃС‚СЂРѕРєРё
+NODE* AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 {
-	if ((Type < 0) || (Type>3)) 
+	if ((Type < 1) || (Type>4)) 
 		return NULL;
 	else
 	{
-		VALUE * Pointer=NULL;
+		VALUE * Pointer = NULL;
 		VALUE * NewValue = (VALUE*)malloc(sizeof(VALUE));
 		if (Pointer = CurrentPtr->Values){
-			while (Pointer->NextValue != NULL)
+			while (Pointer->NextValue != NULL){
+				if (strcmp(Pointer->Qualifier, Qualf) == 0) return NULL; //РџРѕРІС‚РѕСЂ СЃРїРµС†РёС„РёРєР°С‚РѕСЂР°
 				Pointer = Pointer->NextValue;
+			}
+			if (strcmp(Pointer->Qualifier, Qualf) == 0) return NULL; //РџРѕРІС‚РѕСЂ СЃРїРµС†РёС„РёРєР°С‚РѕСЂР°
 			Pointer->NextValue = NewValue;
 		}
-		else CurrentPtr->Values = NewValue; //Первое добавление данных
+		else CurrentPtr->Values = NewValue; //РџРµСЂРІРѕРµ РґРѕР±Р°РІР»РµРЅРёРµ РґР°РЅРЅС‹С…
 		NewValue->NextValue = NULL;
 		NewValue->Value = Info;
-		NewValue->key = gen_newkey();
-		switch (Type){ //Определение типа
+		NewValue->Qualifier = Qualf;
+		switch (Type){ //РћРїСЂРµРґРµР»РµРЅРёРµ С‚РёРїР°
 		case INT:  NewValue->type = INT;  break;
 		case FLOAT:  NewValue->type = FLOAT;  break;
 		case DOUBLE:  NewValue->type = DOUBLE;  break;
 		case CHAR:  NewValue->type = CHAR;  break;
 		}
-		//PrintValues(CurrentPtr->Values); //Вывод обновлённых значений узла
+		//int count = PrintValues(CurrentPtr->Values, ALL); //Р’С‹РІРѕРґ РІСЃРµС… РґР°РЅРЅС‹С… СѓР·Р»Р° СЃ РѕР±РЅРѕРІР»РµРЅРёСЏРјРё, count - РєРѕР»РёС‡РµСЃС‚РІРѕ Р·РЅР°С‡РµРЅРёР№
 		return CurrentPtr;
 	}
-}
-void PrintValues(VALUE *head) //Вывод на экран всех значений узла и их типов
-{
-	while (head != NULL){
-		printf("%s ", head->Value);
-		switch (head->type){
-		case INT:printf("(int)  "); break;
-		case FLOAT:printf("(float)  "); break;
-		case DOUBLE:printf("(double)  "); break;
-		case CHAR:printf("(char)  "); break;
-		}
-		head = head->NextValue;
-	}
-	printf("\n");
 }

@@ -1,48 +1,37 @@
 #include"stdafx.h"
 //Добавление значения в узел.
 //Если добавление прошло удачно, функция вернёт указатель на исходный узел, иначе - NULL
-//NODE *CurrentPtr - Указатель на узел, в который помещается значение
+//NODE * CurrentPtr - указатель на узел, в который помещается значение
+//char * Qualf - указатель на строку - спецификатор для новых данных
 //TYPE Type - тип помещаемого значения (INT,FLOAT,DOUBLE,CHAR)
-//char * Info - помещаемое значение в виде строки
-NODE* AddValue(NODE *CurrentPtr, TYPE Type, char * Info)
+//char * Info - указатель на помещаемое значение в виде строки
+NODE* AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 {
-	if ((Type < 0) || (Type>3)) 
+	if ((Type < 1) || (Type>4)) 
 		return NULL;
 	else
 	{
-		VALUE * Pointer=NULL;
+		VALUE * Pointer = NULL;
 		VALUE * NewValue = (VALUE*)malloc(sizeof(VALUE));
 		if (Pointer = CurrentPtr->Values){
-			while (Pointer->NextValue != NULL)
+			while (Pointer->NextValue != NULL){
+				if (strcmp(Pointer->Qualifier, Qualf) == 0) return NULL; //Повтор спецификатора
 				Pointer = Pointer->NextValue;
+			}
+			if (strcmp(Pointer->Qualifier, Qualf) == 0) return NULL; //Повтор спецификатора
 			Pointer->NextValue = NewValue;
 		}
 		else CurrentPtr->Values = NewValue; //Первое добавление данных
 		NewValue->NextValue = NULL;
 		NewValue->Value = Info;
-		NewValue->key = gen_newkey();
+		NewValue->Qualifier = Qualf;
 		switch (Type){ //Определение типа
 		case INT:  NewValue->type = INT;  break;
 		case FLOAT:  NewValue->type = FLOAT;  break;
 		case DOUBLE:  NewValue->type = DOUBLE;  break;
 		case CHAR:  NewValue->type = CHAR;  break;
 		}
-		//PrintValues(CurrentPtr->Values); //Вывод обновлённых значений узла
+		//int count = PrintValues(CurrentPtr->Values, ALL); //Вывод всех данных узла с обновлениями, count - количество значений
 		return CurrentPtr;
 	}
-}
-void PrintValues(VALUE *head) //Вывод на экран всех значений узла и их типов
-{
-	VALUE *temp = head;
-	while (temp != NULL){
-		printf("%s ", temp->Value);
-		switch (temp->type){
-		case INT:printf("(int)  "); break;
-		case FLOAT:printf("(float)  "); break;
-		case DOUBLE:printf("(double)  "); break;
-		case CHAR:printf("(char)  "); break;
-		}
-		temp = temp->NextValue;
-	}
-	printf("\n");
 }

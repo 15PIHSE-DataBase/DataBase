@@ -3,4 +3,4 @@
 
 VALUE* findValueInNode(NODE*, char*);
 
-NODE* searchNodeByValue(char*, NODE*);
+//NODE* searchNodeByValue(char*, NODE*);

@@ -9,7 +9,7 @@ int deleteVal(VALUE* toDelete) {
 	VALUE *tmp = toDelete->NextValue;
 	toDelete->Value = tmp->Value;
 	toDelete->NextValue = tmp->NextValue;
-	toDelete->Specificator = tmp->Specificator;
+	toDelete->Qualifier = tmp->Qualifier;
 	free(tmp);
 	return 1;
 }

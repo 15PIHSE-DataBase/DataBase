@@ -4,7 +4,7 @@ VALUE* findValueInNode(NODE* nodeptr, char* key) {
 	if (nodeptr->Values != NULL) {
 		VALUE* curVal = nodeptr->Values;
 		while (curVal) {
-			if (curVal->key == key) {
+			if (strcmp(curVal->Qualifier, key) == 0) {
 				return curVal;
 			}
 			else {

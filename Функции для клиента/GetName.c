@@ -1,15 +1,15 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 
-char* GetName(FOLDER **currPtr){
+char* GetName(NODE **currPtr){
 	bool flag = 0;
 	char buf[256], p = '/';
 	char *newname;
 	int c;
 
-	FOLDER *childPtr = NULL;
-	childPtr = (*currPtr)->DownFolder;
-	FOLDER *temp = NULL;
-	if ((*currPtr)->DownFolder != NULL) temp = childPtr;
+	NODE *childPtr = NULL;
+	childPtr = (*currPtr)->DownNode;
+	NODE *temp = NULL;
+	if ((*currPtr)->DownNode != NULL) temp = childPtr;
 	do
 	{
 		Instruction();
@@ -21,16 +21,16 @@ char* GetName(FOLDER **currPtr){
 			c = strlen(buf)-1;
 		else
 			c = strlen(buf);
-		while (temp != NULL)//проверка на существование в списке из братьев папки с таким именем
+		while (temp != NULL)//РїСЂРѕРІРµСЂРєР° РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ РІ СЃРїРёСЃРєРµ РёР· Р±СЂР°С‚СЊРµРІ РїР°РїРєРё СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
 		{
-			if (strcmp(buf, temp->FolderName) == 0)
+			if (strcmp(buf, temp->NodeName) == 0)
 			{
 				puts("Error! Folder with this name already exists");
 				flag = 1;
 			}
-			temp = temp->NextFolder;
+			temp = temp->NextNode;
 		}
-		if (c == 255) //размер имени превысил 254 символа
+		if (c == 255) //СЂР°Р·РјРµСЂ РёРјРµРЅРё РїСЂРµРІС‹СЃРёР» 254 СЃРёРјРІРѕР»Р°
 		{
 			puts("Error! File names seem to be limited to less than 254 characters");
 			flag = 1;
@@ -42,21 +42,21 @@ char* GetName(FOLDER **currPtr){
 		}
 		else
 		{
-			if (strchr(buf, p) != 0) //имя содержит недопустимый символ '/'
+			if (strchr(buf, p) != 0) //РёРјСЏ СЃРѕРґРµСЂР¶РёС‚ РЅРµРґРѕРїСѓСЃС‚РёРјС‹Р№ СЃРёРјРІРѕР» '/'
 			{
 				puts("Error! The folder name specified contains character that is not permitted: '/'");
 				flag = 1;
 			}
 			else
 			{
-				if (c == 1) //имя пустое
+				if (c == 1) //РёРјСЏ РїСѓСЃС‚РѕРµ
 				{
 					puts("Error! The folder name cannot be empty");
 					flag = 1;
 				}
 			}
 		}
-	} while (flag != 0); //запрашиваем имя, пока оно не будет удовлетворять всем условиям
+	} while (flag != 0); //Р·Р°РїСЂР°С€РёРІР°РµРј РёРјСЏ, РїРѕРєР° РѕРЅРѕ РЅРµ Р±СѓРґРµС‚ СѓРґРѕРІР»РµС‚РІРѕСЂСЏС‚СЊ РІСЃРµРј СѓСЃР»РѕРІРёСЏРј
 	newname = (char*)malloc(sizeof(char)*(c+1));
 	strcpy(newname, buf);
 	return(newname);

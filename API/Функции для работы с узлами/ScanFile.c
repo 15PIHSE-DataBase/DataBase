@@ -39,10 +39,11 @@ NODE* scanfile(FILE* dat)
 	num_key++;
 	unlegal_key = (int*)realloc(unlegal_key, num_key*4);
 	*(unlegal_key + num_key - 1) = rootes->key;
+	length = 0;
 	fread(&length, sizeof(int), 1, dat); // Кол-во значений
 	rootes->Values = fread_value(length, dat); // Сами значения
 
-	
+	length = 0;
 	fread(&length, sizeof(int), 1, dat); // Длина Имени Узла
 	if (length == 0) {
 		create_freek(unlegal_key, num_key);
@@ -54,6 +55,7 @@ NODE* scanfile(FILE* dat)
 	num_key++;
 	unlegal_key = (int*)realloc(unlegal_key, num_key * 4);
 	*(unlegal_key + num_key - 1) = rootes->DownNode->key;
+	length = 0;
 	fread(&length, sizeof(int), 1, dat); // Кол-во значений
 	rootes->DownNode->Values = fread_value(length, dat); // Сами значения
 
@@ -77,13 +79,15 @@ NODE* scanfile(FILE* dat)
 			free(unlegal_key);
 			return rootes;
 		}
-
+		
+		length = 0;
 		fread(&length, sizeof(int), 1, dat); // Длина Имени Узла
 		fread(Child->NodeName, sizeof(char), length, dat); // Имя Узла
 		fread(&Child->key, sizeof(int), 1, dat); // Ключ Узла
 		num_key++;
 		unlegal_key = (int*)realloc(unlegal_key, num_key * 4);
 		*(unlegal_key + num_key - 1) = Child->key;
+		length = 0;
 		fread(&length, sizeof(int), 1, dat); // Кол-во значений
 		if(length != 0)
 			Child->Values = fread_value(length, dat); // Сами значения

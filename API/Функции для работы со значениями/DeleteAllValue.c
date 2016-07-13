@@ -2,35 +2,43 @@
 
 void DeleteAllValue(NODE *currPtr, TYPE Type) //удаляет все значения из узла или значения конкретного типа
 {
-	VALUE* prewValue = NULL; //указатель на предшествующий рассматриваемому элемент
-	VALUE* currValue = currPtr->Values; // указатель рассматриваемый элемент
-	while (currValue != NULL)
+
+	VALUE* beginV = currPtr->Values;
+	VALUE* temp2 = currPtr->Values;
+	VALUE* temp = NULL;
+	while (beginV != NULL)
 	{
-		if ((currValue->type == Type) || (Type == ALL)) //если удовлетворяет заданному типу, то удалить
+		if ((beginV->type == Type) || (Type == ALL))
 		{
-			if (currValue->NextValue != NULL) // если этот элемент не последний, то переключаем указатель предыдущего на последующий, иначе указатель предыдущего NULL
+			temp = beginV->NextValue;
+			if (temp != NULL)
 			{
-				currValue->Qualifier = currValue->NextValue->Qualifier;
-				currValue->type = currValue->NextValue->type;
-				currValue->Value = currValue->NextValue->Value;
-				currValue->NextValue = currValue->NextValue->NextValue;
-				free(currValue->NextValue->Qualifier); //освобождаем память выделенную под спецификатор
-				free(currValue->NextValue->Value);//освобождаем память выделенную под имя
+				free(beginV->Qualifier);
+				free(beginV->Value);
+				beginV->Qualifier = temp->Qualifier;
+				beginV->type = temp->type;
+				beginV->Value = temp->Value;
+				beginV->NextValue = temp->NextValue;
+				free(temp);
 			}
 			else
 			{
-				if (currPtr->Values == currValue)//удаляемый элемент первый и последний?
+				if (currPtr->Values == beginV)
 					currPtr->Values = NULL;
-				else
-					prewValue->NextValue = NULL;
-				free(currValue->Qualifier);
-				free(currValue->Value);
-				free(currValue);
+				free(beginV->Qualifier);
+				free(beginV->Value);
+				temp = beginV;
+				temp2->NextValue = NULL;
+				beginV = NULL;
+				free(temp);
 				break;
 			}
 
 		}
-		prewValue = currValue;
-		currValue = currValue->NextValue;
+		else
+		{
+			temp2 = beginV;
+			beginV = beginV->NextValue;
+		}
 	}
 }

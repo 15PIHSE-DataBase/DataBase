@@ -3,7 +3,7 @@
 void ChangeValue(VALUE* currPtr, TYPE Type, char* NewName, char* NewValue) //меняет значение, в т.ч. его тип: 1 указатель на значение, 2 тип, 3 новое имя, 4 новое значение
 {
 
-	if (Type != ALL) //если тип ALL, то не меняем тип
+	if (Type != ALL)
 	{
 		if (currPtr->type != Type)
 		{
@@ -16,8 +16,8 @@ void ChangeValue(VALUE* currPtr, TYPE Type, char* NewName, char* NewValue) //м�
 			}
 		}
 	}
-	if (NewName != NULL)//если указатель NULL, то не меняем спецификатор
+	if (NewName != NULL)
 		strcpy(currPtr->Qualifier, NewName);
-	if (NewValue != NULL)//если указатель NULL, то не меняем значение
+	if (NewValue != NULL)
 		strcpy(currPtr->Value, NewValue);
 }

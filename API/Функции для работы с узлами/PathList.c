@@ -8,6 +8,7 @@ void PathList(NODE * CurrentNode)
 	PathList(CurrentNode->NextNode);
 }
 
+
 void way(NODE * beginf)
 {
 	char* ways;
@@ -17,7 +18,6 @@ void way(NODE * beginf)
 	ways = (char*)malloc(len);
 	buf = (char*)malloc(len);
 	memset(ways, 0, len);
-	//memset(buf, 0, len);
 	strcat(ways, ".");
 	strcat(ways, beginf->NodeName);
 	strcpy(buf, ways);
@@ -26,17 +26,18 @@ void way(NODE * beginf)
 	while (beginf != NULL)
 	{
 		len = len + strlen(beginf->NodeName) + 1;
-		ways = (char*)malloc(len);
+		ways = (char*)realloc(ways,len);
 		memset(ways, 0, len);
 		if (beginf->UpNode != NULL)
 			strcat(ways, ".");
 		strcat(ways, beginf->NodeName);
 		strcat(ways, buf);
-		buf = (char*)malloc(len);
-		//memset(buf, 0, len);
+		buf = (char*)realloc(buf,len);
 		strcpy(buf, ways);
 		beginf = beginf->UpNode;
 	}
 	printf("%s\n", ways);
+	free(ways);
+	free(buf);
 }
 

@@ -49,3 +49,22 @@ void delete_key(int a)
 		++number;
 	}
 }
+
+void create_freek(int * buf, int size)
+{
+	qsort(buf, size, sizeof(int), compare);
+	int save = *(buf + size - 1);
+	int t = 0;
+	for (int i = 1; i < save; ++i) {
+		if ((t > size) || i != *(buf + t)) {
+			++number;
+			freek = (int*)realloc(freek, number*sizeof(int));
+			*(freek + number - 1) = i;
+			continue;
+		}
+		if (i == *(buf + t)) {
+			++t;
+			continue;
+		}
+	}
+}

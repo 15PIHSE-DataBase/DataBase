@@ -50,6 +50,11 @@ void delete_key(int a)
 	}
 }
 
+int compare(const void * x1, const void * x2)
+{
+	return (*(int*)x1 - *(int*)x2);
+}
+
 void create_freek(int * buf, int size)
 {
 	qsort(buf, size, sizeof(int), compare);

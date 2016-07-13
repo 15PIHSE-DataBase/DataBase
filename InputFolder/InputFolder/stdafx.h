@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdbool.h>
-#include <assert.h>
+
 
 typedef enum TYPE
 {
@@ -34,29 +34,30 @@ typedef struct node
 	struct value * Values;
 }NODE;
 
-extern NODE* root; //корень базы 
-extern int keys;
+
+
 //прототипы
 //удаление узла(from Сергей)
-void DeleteFolders(NODE *);
-void Delete(NODE *);
-
+//void DeleteFolders(Node *);
+//void Delete(Node *);
 //добавление узла в текущую директорию(from Василий)
-void InputTree(NODE **);
+NODE* InputTree(NODE**, char*);
+char* GetName(NODE **);
 void Instruction();
-
 //переход по указанному пути(from Кирилл)
 void goToFolder(char*);
 char** str_split(char*, const char);
 void goToPath(char*);
-
 //поиск по названию(from Слава)
-NODE* findnode(char*, NODE*);
-void way(NODE*);
-
-//выгрузка дерева из файла(from Слава)
-NODE* scanfile(FILE*);
-
+//FOLDER* findfolder(char*, FOLDER*);
+//void way(FOLDER*);
 //на шаг вверх и распечатать содержимое(from Алина)
-void Directory(NODE*);
-NODE* UpStep(NODE*);
+//void Directory(FOLDER*);
+//FOLDER* UpStep(FOLDER*);
+
+int gen_newkey();
+void Directory(NODE *CurrentF);
+NODE* AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info);
+int PrintValues(NODE *head, TYPE Type);
+int deleteVal(VALUE* toDelete, NODE* start);
+

@@ -1,18 +1,18 @@
 ﻿#include "stdafx.h"
 //Вывод на экран всех значений узла с их спецификаторами и типов этих значений.
 //Функция возвразает количество значений требуемого типа в указанном узле
-//VALUE *head - указатель на первое прикреплённое к узлу значение
+//NODE * head - указатель на узел
 //TYPE Type - тип значений, которые нуобходимо вывести (ALL, INT, FLOAT, DOUBLE, CHAR)
-int PrintValues(VALUE *head, TYPE Type) 
+int PrintValues(NODE *head, TYPE Type) //Вывод на экран всех значений узла и их типов
 {
-	if (head == NULL) { //В узле нет значений
+	if (head->Values == NULL) { //Нет значений в узле 
 		printf("Empty\n");
 		return 0;
 	}
-	VALUE *temp = head;
-	int Count = 0;
-	while (temp != NULL){
-		if ((temp->type == Type) || (Type == ALL)){
+	VALUE *temp = head->Values;
+	int Count = 0; //Счётчик количества значений в узле требуемого типа
+	while (temp != NULL){		
+		if ((temp->type == Type)||(Type==ALL)){
 			printf("%s: %s ", temp->Qualifier, temp->Value);
 			switch (temp->type){
 			case INT:printf("(int)  "); break;

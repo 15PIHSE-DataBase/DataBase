@@ -91,8 +91,7 @@ NODE* scanfile(FILE* dat)
 		*(unlegal_key + num_key - 1) = Child->key;
 		length = 0;
 		fread(&length, sizeof(int), 1, dat); // Кол-во значений
-		if (length != 0)
-			Child->Values = fread_value(length, dat); // Сами значения
+		Child->Values = fread_value(length, dat); // Сами значения
 
 		children = buf->DownNode;
 
@@ -162,13 +161,19 @@ NODE* scanfile(FILE* dat)
 
 VALUE* fread_value(int n, FILE* dat)
 {
+	if (n == 0)
+		return NULL;
 	VALUE * buf = NULL;
+	VALUE * free_buf = NULL;
 	VALUE * save = NULL;
 	int length = 0;
 	buf = (VALUE*)malloc(sizeof(VALUE));
-	save = buf;
+	free_buf = buf;
+	buf->NextValue = (VALUE*)malloc(sizeof(VALUE));
+	save = buf->NextValue;
 	for (int i = 0; i < n; ++i)
 	{
+		buf = buf->NextValue;
 		buf->NextValue = NULL;
 		fread(&length, sizeof(int), 1, dat);//ДлинаСпецификатора
 		buf->Specifier = (char*)malloc(length*sizeof(char));
@@ -178,10 +183,10 @@ VALUE* fread_value(int n, FILE* dat)
 		buf->Value = (char*)malloc(length*sizeof(char));
 		fread(buf->Value, sizeof(char), length, dat);//Значение
 		buf->NextValue = (VALUE*)malloc(sizeof(VALUE));
-		buf = buf->NextValue;
 	}
-	free(buf);
-	buf = NULL;
+	free(free_buf);
+	free(buf->NextValue);
+	buf->NextValue = NULL;
 	return save;
 }
 

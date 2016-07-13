@@ -4,15 +4,17 @@
 VALUE* fread_value(int, FILE*);
 // Функция поиска узла по значению ключа
 NODE* findkey(int, NODE*);
+//возвращает размер файла
+long int filesize(FILE *);
 
 NODE* scanfile(FILE* dat)
 {
-	if (dat == NULL){
+	if (dat == NULL) {
 		printf("\n!Error reading file\nCreated new data base...\n");
 		return NULL;
 	}
-	
-	if (!feof(dat)) {
+
+	if (filesize(dat) == 0) {
 		printf("\n!File is empty!\nCreated new data base...\n");
 		return NULL;
 	}
@@ -37,7 +39,7 @@ NODE* scanfile(FILE* dat)
 	fread(rootes->NodeName, sizeof(char), length, dat); // Имя Узла
 	fread(&rootes->key, sizeof(int), 1, dat); // Ключ Узла
 	num_key++;
-	unlegal_key = (int*)realloc(unlegal_key, num_key*4);
+	unlegal_key = (int*)realloc(unlegal_key, num_key * 4);
 	*(unlegal_key + num_key - 1) = rootes->key;
 	length = 0;
 	fread(&length, sizeof(int), 1, dat); // Кол-во значений
@@ -79,7 +81,7 @@ NODE* scanfile(FILE* dat)
 			free(unlegal_key);
 			return rootes;
 		}
-		
+
 		length = 0;
 		fread(&length, sizeof(int), 1, dat); // Длина Имени Узла
 		fread(Child->NodeName, sizeof(char), length, dat); // Имя Узла
@@ -89,7 +91,7 @@ NODE* scanfile(FILE* dat)
 		*(unlegal_key + num_key - 1) = Child->key;
 		length = 0;
 		fread(&length, sizeof(int), 1, dat); // Кол-во значений
-		if(length != 0)
+		if (length != 0)
 			Child->Values = fread_value(length, dat); // Сами значения
 
 		children = buf->DownNode;
@@ -203,3 +205,14 @@ NODE* findkey(int findkeyy, NODE* beginf)//Поиск файлов с помощ
 	return(NULL);
 }
 
+
+long int filesize(FILE *fp)
+{
+	long int save_pos, size_of_file;
+
+	save_pos = ftell(fp);
+	fseek(fp, 0L, SEEK_END);
+	size_of_file = ftell(fp);
+	fseek(fp, save_pos, SEEK_SET);
+	return(size_of_file);
+}

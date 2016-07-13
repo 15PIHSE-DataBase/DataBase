@@ -13,6 +13,8 @@ void DeleteAllValue(NODE *currPtr, TYPE Type) //удаляет все значе
 			temp = beginV->NextValue;
 			if (temp != NULL)
 			{
+				free(beginV->Qualifier);
+				free(beginV->Value);
 				beginV->Qualifier = temp->Qualifier;
 				beginV->type = temp->type;
 				beginV->Value = temp->Value;
@@ -23,6 +25,8 @@ void DeleteAllValue(NODE *currPtr, TYPE Type) //удаляет все значе
 			{
 				if (currPtr->Values == beginV)
 					currPtr->Values = NULL;
+				free(beginV->Qualifier);
+				free(beginV->Value);
 				temp = beginV;
 				temp2->NextValue = NULL;
 				beginV = NULL;

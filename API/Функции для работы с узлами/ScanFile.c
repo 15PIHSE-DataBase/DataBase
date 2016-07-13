@@ -12,6 +12,11 @@ NODE* scanfile(FILE* dat)
 		printf("\n!Error reading file\nCreated new data base...\n");
 		return NULL;
 	}
+	
+		if (!feof(dat)) {
+		printf("\n!File is empty!\nCreated new data base...\n");
+		return NULL;
+	}
 	int length = 0;
 	int *unlegal_key = NULL;
 	int num_key = 0;
@@ -30,10 +35,6 @@ NODE* scanfile(FILE* dat)
 	rootes->DownNode->Values = NULL;
 
 	fread(&length, sizeof(int), 1, dat); // Длина Имени Узла
-	if (length == 0) {
-		printf("\n!File is empty!\nCreated new data base...\n");
-		return rootes;
-	}
 	fread(rootes->NodeName, sizeof(char), length, dat); // Имя Узла
 	fread(&rootes->key, sizeof(int), 1, dat); // Ключ Узла
 	num_key++;

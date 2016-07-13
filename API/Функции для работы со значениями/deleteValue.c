@@ -5,6 +5,7 @@ int deleteVal(VALUE* toDelete, NODE* start) {
 	if (toDelete->NextValue == NULL) {
 
 		if (start->Values->NextValue == NULL) {
+			free(toDelete->Value);
 			free(toDelete);
 			start->Values = NULL;
 			return 0;
@@ -14,6 +15,7 @@ int deleteVal(VALUE* toDelete, NODE* start) {
 			while (cur->NextValue != toDelete) {
 				cur = cur->NextValue;
 			}
+			free(toDelete->Value);
 			free(toDelete);
 			cur->NextValue = NULL;
 			return 1;
@@ -25,6 +27,7 @@ int deleteVal(VALUE* toDelete, NODE* start) {
 		toDelete->Value = tmp->Value;
 		toDelete->NextValue = tmp->NextValue;
 		toDelete->Qualifier = tmp->Qualifier;
+		free(tmp->Value);
 		free(tmp);
 		return 1;
 	}

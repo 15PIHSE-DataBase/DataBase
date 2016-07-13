@@ -4,17 +4,16 @@ NODE* InputTree(NODE *currPtr, char *newname)
 {
 	NODE *newPtr = NULL;
 	newPtr = (NODE*)malloc(sizeof(NODE));//заводим новую структуру(папку)
-	if (newPtr == NULL){
-		printf("No memory available \n");
-		return(NULL);
-	}
-	strcpy(newPtr->NodeName, newname); //здесь начинаем заносить данные(имя, указатель на предка, указатели на братьев, всё остальное NULL)
+	if (newPtr == NULL) return(NULL);
+	//здесь начинаем заносить данные(имя, указатель на предка, указатели на братьев, всё остальное NULL)
 	newPtr->PreviousNode = NULL;
 	newPtr->DownNode = NULL;
 	newPtr->Values = NULL;
 	newPtr->key = gen_newkey();
 	if (currPtr != NULL)//начальная вершина?
 	{
+		if (goToNode(newname, currPtr->DownNode) != NULL) return(NULL); //проверяем существование узла с таким именем
+		strcpy(newPtr->NodeName, newname);
 		newPtr->UpNode = currPtr;
 		NODE *childPtr = NULL;
 		childPtr = (currPtr)->DownNode;
@@ -31,6 +30,7 @@ NODE* InputTree(NODE *currPtr, char *newname)
 	}
 	else
 	{
+		strcpy(newPtr->NodeName, newname);
 		newPtr->NextNode = NULL;
 		newPtr->UpNode = currPtr;
 	}

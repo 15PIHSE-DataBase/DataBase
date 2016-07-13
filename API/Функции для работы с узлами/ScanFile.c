@@ -7,13 +7,12 @@ NODE* findkey(int, NODE*);
 
 NODE* scanfile(FILE* dat)
 {
-	if (dat == NULL)
-	{
+	if (dat == NULL){
 		printf("\n!Error reading file\nCreated new data base...\n");
 		return NULL;
 	}
 	
-		if (!feof(dat)) {
+	if (!feof(dat)) {
 		printf("\n!File is empty!\nCreated new data base...\n");
 		return NULL;
 	}

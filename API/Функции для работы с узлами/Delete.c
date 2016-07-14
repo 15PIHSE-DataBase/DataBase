@@ -1,5 +1,7 @@
-void Delete(NODE** CurrentNode, NODE** Root)
+int Delete(NODE** CurrentNode, NODE** Root)//если удалил,то вернет 1;Нечего удалять --> вернет 0;
 {
+	if (*CurrentNode == NULL)
+		return 0;
 	if ((*CurrentNode)->DownNode)
 		(*CurrentNode)->DownNode = DeleteNodes((*CurrentNode)->DownNode);
 	printf("%s deleted\n", (*CurrentNode)->NodeName);
@@ -39,6 +41,7 @@ void Delete(NODE** CurrentNode, NODE** Root)
 		*CurrentNode = NULL;
 		*Root = NULL;
 	}
+	return 1;
 }
 
 NODE * DeleteNodes(NODE * CurrentNode)

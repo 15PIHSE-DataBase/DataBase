@@ -1,6 +1,7 @@
 #include "SearchByKey.h"
 
 VALUE* findValueInNode(NODE* nodeptr, char* key) {
+	if (nodeptr == NULL) return NULL;
 	if (nodeptr->Values != NULL) {
 		VALUE* curVal = nodeptr->Values;
 		while (curVal) {
@@ -11,6 +12,7 @@ VALUE* findValueInNode(NODE* nodeptr, char* key) {
 				curVal = curVal->NextValue;
 			}
 		}
+		return NULL;
 	}
 	else {
 		return NULL;

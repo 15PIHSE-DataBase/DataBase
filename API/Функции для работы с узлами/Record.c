@@ -1,8 +1,9 @@
-void Record(FILE * file)
+
+void Record(NODE * CurrentNode,FILE * file)
 {
-	if (MainNode == NULL)
+	if (CurrentNode == NULL)
 		return;
-	NODE * TempNode = MainNode;
+	NODE * TempNode = CurrentNode;
 	VALUE  * value = TempNode->Values;
 	//fwrite(&from, sizeof(type), numberOfElements, to);
 	//Parent

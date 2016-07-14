@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 
+
 void DeleteAllValue(NODE *currPtr, TYPE Type) //удаляет все значения из узла или значения конкретного типа
 {
 
@@ -8,11 +9,13 @@ void DeleteAllValue(NODE *currPtr, TYPE Type) //удаляет все значе
 	VALUE* temp = NULL;
 	while (beginV != NULL)
 	{
-		if ((beginV->type == Type) || (Type == ALL))
+		if ((beginV->type == Type) || (Type == ALL)) //если удовлетворяет заданному типу, то удалить
 		{
 			temp = beginV->NextValue;
 			if (temp != NULL)
 			{
+				free(beginV->Qualifier);
+				free(beginV->Value);
 				beginV->Qualifier = temp->Qualifier;
 				beginV->type = temp->type;
 				beginV->Value = temp->Value;
@@ -23,6 +26,8 @@ void DeleteAllValue(NODE *currPtr, TYPE Type) //удаляет все значе
 			{
 				if (currPtr->Values == beginV)
 					currPtr->Values = NULL;
+				free(beginV->Qualifier); //освобождаем память выделенную под спецификатор
+				free(beginV->Value); //освобождаем память выделенную под имя
 				temp = beginV;
 				temp2->NextValue = NULL;
 				beginV = NULL;

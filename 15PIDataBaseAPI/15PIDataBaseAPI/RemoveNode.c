@@ -1,3 +1,8 @@
+﻿
+#include "key.h"
+#include "15PIDataBaseAPI.h"
+NODE * DeleteNodes(NODE *);
+
 int Delete(NODE** CurrentNode, NODE** Root)//если удалил,то вернет 1;Нечего удалять --> вернет 0;
 {
 	if (*CurrentNode == NULL)

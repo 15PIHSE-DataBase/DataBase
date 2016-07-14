@@ -1,11 +1,12 @@
-void PathList(NODE * CurrentNode)
+int PathList(NODE * CurrentNode)
 {
 	if (CurrentNode == NULL)
-		return;
+		return NULL;//пустое дерево
 	PathList(CurrentNode->DownNode);
 	if (CurrentNode->DownNode == NULL )
 		way(CurrentNode);
 	PathList(CurrentNode->NextNode);
+	return 1;//1 если хоть что-то вывело
 }
 
 

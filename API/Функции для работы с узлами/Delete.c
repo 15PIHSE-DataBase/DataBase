@@ -1,4 +1,4 @@
-void Delete(NODE** CurrentNode)
+void Delete(NODE** CurrentNode, NODE** Root)
 {
 	if ((*CurrentNode)->DownNode)
 		(*CurrentNode)->DownNode = DeleteNodes((*CurrentNode)->DownNode);
@@ -32,11 +32,12 @@ void Delete(NODE** CurrentNode)
 		free(*CurrentNode);
 		*CurrentNode = NULL;
 	}
-	else
+	else if (*CurrentNode == *Root)
 	{
 		DeleteAllValues(*CurrentNode, ALL);
 		free(*CurrentNode);
-		MainNode = NULL;
+		*CurrentNode = NULL;
+		*Root = NULL;
 	}
 }
 

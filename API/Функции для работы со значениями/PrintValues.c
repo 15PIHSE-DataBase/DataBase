@@ -5,7 +5,7 @@
 //TYPE Type - тип значений, которые нуобходимо вывести (ALL, INT, FLOAT, DOUBLE, CHAR)
 int PrintValues(NODE *head, TYPE Type) //Вывод на экран всех значений узла и их типов
 {
-	if (head->Values == NULL) { //Нет значений в узле 
+	if (!(head)||!(head->Values)) { //Указатель пуст или нет значений в узле 
 		printf("Empty\n");
 		return 0;
 	}

@@ -14,34 +14,34 @@ int Delete(NODE** CurrentNode, NODE** Root)//если удалил,то верн
 	{
 		(*CurrentNode)->PreviousNode->NextNode = (*CurrentNode)->NextNode;
 		(*CurrentNode)->NextNode->PreviousNode = (*CurrentNode)->PreviousNode;
-		DeleteAllValues((*CurrentNode), ALL);
+		DeleteAllValue((*CurrentNode), ALL);
 		free(*CurrentNode);
 		*CurrentNode = NULL;
 	}
 	else if ((*CurrentNode)->PreviousNode)
 	{
 		(*CurrentNode)->PreviousNode->NextNode = NULL;
-		DeleteAllValues((*CurrentNode), ALL);
+		DeleteAllValue((*CurrentNode), ALL);
 		free((*CurrentNode));
 		*CurrentNode = NULL;
 	}
 	else if ((*CurrentNode)->NextNode)
 	{
 		(*CurrentNode)->UpNode->DownNode = (*CurrentNode)->NextNode;
-		DeleteAllValues((*CurrentNode), ALL);
+		DeleteAllValue((*CurrentNode), ALL);
 		free(*CurrentNode);
 		*CurrentNode = NULL;
 	}
 	else if ((*CurrentNode)->UpNode)
 	{
 		(*CurrentNode)->UpNode->DownNode = NULL;
-		DeleteAllValues((*CurrentNode), ALL);
+		DeleteAllValue((*CurrentNode), ALL);
 		free(*CurrentNode);
 		*CurrentNode = NULL;
 	}
 	else if (*CurrentNode == *Root)
 	{
-		DeleteAllValues(*CurrentNode, ALL);
+		DeleteAllValue(*CurrentNode, ALL);
 		free(*CurrentNode);
 		*CurrentNode = NULL;
 		*Root = NULL;
@@ -55,7 +55,7 @@ NODE * DeleteNodes(NODE * CurrentNode)
 		return NULL;
 	CurrentNode->NextNode = DeleteNodes(CurrentNode->NextNode);
 	CurrentNode->DownNode = DeleteNodes(CurrentNode->DownNode);
-	DeleteAllValues(CurrentNode, ALL);
+	DeleteAllValue(CurrentNode, ALL);
 	free(CurrentNode);
 	return NULL;
 }

@@ -91,3 +91,10 @@ void ErrorSearch_ChangeNodeName(char *NewName, NODE *CurPtr, NODE *funct(NODE*, 
 			CurPtr = CurPtr->NextNode;
 		}
 }
+void ErrorSearch_DeleteNode(char *Name, NODE * MainRoot)
+{
+	NODE * temp;
+	while (temp = findnode(Name, MainRoot))
+		if (!Delete(&temp,&MainRoot)) 
+		printf("Nothing to remove\n");
+}

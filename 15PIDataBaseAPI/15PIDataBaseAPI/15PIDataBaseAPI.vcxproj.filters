@@ -24,10 +24,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="15PIDataBaseAPI.h">
+    <ClInclude Include="key.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="key.h">
+    <ClInclude Include="DataBase15.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

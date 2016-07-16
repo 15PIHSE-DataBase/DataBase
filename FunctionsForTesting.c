@@ -50,23 +50,20 @@ void CheckFunc(NODE * ptr)
 }
 void ErrorSearch(char *NewName, NODE *CurPtr)
 {
-	if (!strcmp(pointer->NodeName, NewName))
-		if (pointer->DownNode == NULL) {
-			if (pointer->NextNode == NULL)
-				if (pointer->NextNode) pointer = pointer->NextNode; 
-				return;
-		}
-	FindError(InputTree(pointer, NewName), NewName);
-	FindError(InputTree(pointer, NewName), NULL);
-	NODE *ptr = NULL;
-	pointer = pointer->DownNode;
-	printf("Directory %s contains: ", pointer->NodeName);
-	Directory(pointer);
-	if (pointer->DownNode != NULL){
-		Search(NewName, pointer->DownNode);
-		while (pointer->NextNode != NULL)
-			Search(NewName, pointer->NextNode);
+	//printf("%s\n", beginf->NodeName);
+	//printf("\n%d %s\n", count++, beginf->NodeName);
+	FindError(funct(CurPtr, NewName), NewName);
+	FindError(funct(CurPtr, NewName), NULL);
+
+	if (strcmp(CurPtr->NodeName, NewName) == 0)
 		return;
-	}
-	return;
+	CurPtr = CurPtr->DownNode;
+	//printf("down: %s\n",  beginf->NodeName);
+	if (CurPtr != NULL)
+		while (CurPtr != NULL)
+		{
+			ErrorSearch(NewName, CurPtr);
+			CurPtr = CurPtr->NextNode;
+		}
+	return(NULL);
 }

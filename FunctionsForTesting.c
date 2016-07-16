@@ -1,6 +1,6 @@
 void FindError(NODE * CurNode, char * ExprectedName)
 {
-		if (!strcmp(CurNode->NodeName, ExprectedName))
+	if (((!CurNode) && (!ExprectedName)) || (!strcmp(CurNode->NodeName, ExprectedName))) 
 		{
 			printf("It's OK\n");
 			return;

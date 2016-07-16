@@ -39,7 +39,34 @@ void BuildTree(NODE * root)
 	pointer = InputTree(ptr, name5);
 	pointer = InputTree(ptr, name6);
 	ptr = ptr->NextNode;
-	pointer = InputTree(ptr, name7);
-	pointer = InputTree(ptr, name8); 
-	pointer = InputTree(ptr, name9); 
+	pointer = InputTree(ptr, name7); CheckFunc(pointer);
+	pointer = InputTree(ptr, name8); CheckFunc(pointer);
+	pointer = InputTree(ptr, name9); CheckFunc(pointer);
+}
+void CheckFunc(NODE * ptr)
+{
+	if (ptr)printf("%s\n", ptr->NodeName);
+	else printf("Error\n");
+}
+void ErrorSearch(char *NewName, NODE *CurPtr)
+{
+	if (!strcmp(pointer->NodeName, NewName))
+		if (pointer->DownNode == NULL) {
+			if (pointer->NextNode == NULL)
+				if (pointer->NextNode) pointer = pointer->NextNode; 
+				return;
+		}
+	FindError(InputTree(pointer, NewName), NewName);
+	FindError(InputTree(pointer, NewName), NULL);
+	NODE *ptr = NULL;
+	pointer = pointer->DownNode;
+	printf("Directory %s contains: ", pointer->NodeName);
+	Directory(pointer);
+	if (pointer->DownNode != NULL){
+		Search(NewName, pointer->DownNode);
+		while (pointer->NextNode != NULL)
+			Search(NewName, pointer->NextNode);
+		return;
+	}
+	return;
 }

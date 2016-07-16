@@ -1,5 +1,5 @@
 ﻿
-#include "15PIDataBaseAPI.h"
+#include "DataBase15.h"
 
 void DeleteAllValue(NODE *currPtr, TYPE Type) //удаляет все значения из узла или значения конкретного типа
 {

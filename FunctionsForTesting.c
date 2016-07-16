@@ -31,7 +31,15 @@ void BuildTree(NODE * root)
 	char name8[20] = "node8";//_3_22_2
 	char name9[20] = "node9";//_3_22_1
 	(*root) = InputTree((*root), name1); 
+	NODE*pointer = NULL;
 	pointer = InputTree((*root), name2);
 	pointer = InputTree((*root), name3); 
-	pointer = InputTree((*root), name4); 
+	pointer = InputTree((*root), name4);
+	NODE *ptr = (*root)->DownNode;
+	pointer = InputTree(ptr, name5);
+	pointer = InputTree(ptr, name6);
+	ptr = ptr->NextNode;
+	pointer = InputTree(ptr, name7);
+	pointer = InputTree(ptr, name8); 
+	pointer = InputTree(ptr, name9); 
 }

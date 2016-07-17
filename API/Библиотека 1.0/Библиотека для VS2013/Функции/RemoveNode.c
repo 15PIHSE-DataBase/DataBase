@@ -2,7 +2,7 @@
 #include "key.h"
 #include "DataBase13.h"
 
-NODE * DeleteNodes(NODE * CurrentNode)
+NODE * DeleteNodes(NODE * CurrentNode);
 
 int Delete(NODE ** CurrentNode, NODE ** Root)
 {

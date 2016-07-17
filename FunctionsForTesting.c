@@ -47,8 +47,7 @@ void CheckFunc(NODE * ptr)
 void FullTree(NODE * begin)
 {
 	int print = PathList(begin);
-	if (print) printf("\n");
-	else printf("\nEmpty\n");
+	if (!print)  printf("\nEmpty\n");
 }
 //Распечатка всех путей
 int PathList(NODE * CurrentNode)
@@ -75,26 +74,34 @@ void ErrorSearch_InsertNode(char *NewName, NODE *CurPtr, NODE *funct(NODE*, char
 			ErrorSearch_InsertNode(NewName, CurPtr, funct);
 			CurPtr = CurPtr->NextNode;
 		}
-	return(NULL);
 }
 //Поиск ошибок в функции ChangeNodeName, параметром funct необходимо указать именно её
-void ErrorSearch_ChangeNodeName(char *NewName, NODE *CurPtr, NODE *funct(NODE*, char*))
+void ErrorSearch_ChangeNodeName(char *NewName, char*FindName, NODE *CurPtr, NODE *root)
 {
-	if (goToNode(NewName, CurPtr->UpNode)) //Такое имя уже есть в узле
-		FindError(funct(CurPtr, NewName), NULL);
-	else FindError(funct(CurPtr, NewName), NewName);
+	NODE * temp = findnode(FindName, root);
+	if (!temp) return;
+	if (goToNode(NewName, UpStep(temp))) //Такое имя уже есть в узле
+		FindError(ChangeNodeName(temp, NewName), NULL);
+	else FindError(ChangeNodeName(temp, NewName), NewName);
 	CurPtr = CurPtr->DownNode;
 	if (CurPtr != NULL)
 		while (CurPtr != NULL)
 		{
-			ErrorSearch_ChangeNodeName(NewName, CurPtr, funct);
+			ErrorSearch_ChangeNodeName(NewName, FindName, CurPtr, root);
 			CurPtr = CurPtr->NextNode;
 		}
 }
 void ErrorSearch_DeleteNode(char *Name, NODE * MainRoot)
 {
 	NODE * temp;
-	while (temp = findnode(Name, MainRoot))
-		if (!Delete(&temp,&MainRoot)) 
-		printf("Nothing to remove\n");
+	while (temp = findnode(Name, MainRoot)){
+		if (!Delete(&temp, &MainRoot))
+			printf("Nothing to delete\n");
+		if (!MainRoot) break;
+	}
+}
+void PrintLine(void)
+{
+	for (int i = 0; i < 30; i++)
+		printf("=");
 }

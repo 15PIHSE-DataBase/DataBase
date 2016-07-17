@@ -48,8 +48,7 @@ void CheckFunc(NODE * ptr)
 //Проверка результатов PathList
 void FullTree(NODE * begin)
 {
-	int print = PathList(begin);
-	if (!print)  printf("\nEmpty\n");
+	if (!(PathList(begin))) printf("Empty\n");
 }
 //Распечатка всех путей
 int PathList(NODE * CurrentNode)

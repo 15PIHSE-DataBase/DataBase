@@ -50,6 +50,13 @@ void FullTree(NODE * begin)
 {
 	if (!(PathList(begin))) printf("Empty\n");
 }
+//Линия разделения проверок
+void PrintLine(void)
+{
+	for (int i = 0; i < 30; i++)
+		printf("=");
+	printf("\n");
+}
 //Распечатка всех путей
 int PathList(NODE * CurrentNode)
 {
@@ -92,6 +99,7 @@ void ErrorSearch_ChangeNodeName(char *NewName, char*FindName, NODE *CurPtr, NODE
 			CurPtr = CurPtr->NextNode;
 		}
 }
+//Поиск ошибок в функции Delete
 void ErrorSearch_DeleteNode(char *Name, NODE * MainRoot)
 {
 	NODE * temp;
@@ -101,9 +109,26 @@ void ErrorSearch_DeleteNode(char *Name, NODE * MainRoot)
 		if (!MainRoot) break;
 	}
 }
-void PrintLine(void)
+//Сравнивает информацию указанного значения с ожидаемыми
+void FindErrorInValues(VALUE * Current, char * ExpectedValue, char*ExpectedQualifier, TYPE ExpectedType)
 {
-	for (int i = 0; i < 30; i++)
-		printf("=");
-	printf("\n");
+	if ((!Current) || (!ExpectedValue) || (!ExpectedQualifier))
+		if ((!Current) && (!ExpectedValue) && (!ExpectedQualifier)) { printf("It's OK\n"); return; }
+		else { printf("Error\n"); return; }
+	else{
+		if ((!strcmp(Current->Value, ExpectedValue)) && (!strcmp(Current->Qualifier, ExpectedQualifier)) && (Current->type = ExpectedType))
+		{
+			printf("It's OK\n"); return;
+		}
+		else { printf("Error\n"); return; }
+	}
+}
+//Поиск ошибок в функции AddValue
+void ErrorSearch_AddValue(NODE * node)
+{
+	char Value[3][10] = { "100y", "red", "forest" }, Qualif[3][10] = { "Age", "Color", "Place" };
+	for (int i = 0; i < 3; i++){
+		FindErrorInValues(AddValue(node, Qualif[i], INT, Value[i]), Value[i], Qualif[i], INT);
+		FindErrorInValues(AddValue(node, Qualif[i], INT, Value[i]), NULL, NULL, INT);
+	}
 }

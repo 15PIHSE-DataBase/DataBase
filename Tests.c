@@ -3,6 +3,7 @@
 
 void main()
 {
+	//============================== N O D E S ==============================
 	NODE * pointer = NULL;
 	NODE * MainRoot = NULL;
 	char NewName1[255] = "NewNode1", NewName2[255] = "NewNode2",
@@ -60,7 +61,22 @@ void main()
 	ErrorSearch_DeleteNode("node1", &MainRoot);
 	FullTree(MainRoot);
 	PrintLine();
-	
+	//============================== V A L U E S ==============================
+	BuildTree(&MainRoot);
+	PrintLine();
+	char Value[3][10] = { "100y", "red", "forest" }, Qualif[3][10] = { "Age", "Color", "Place" };
+	pointer = MainRoot;
+
+	printf("AddValue check...\n");				// NODE* InputTree(NODE *, char *);
+	ErrorSearch_AddValue(pointer);
+	PrintValues(pointer, ALL);
+	PrintLine();
+
+	printf("findValueInNode check...\n");		//VALUE* findValueInNode(NODE*, char*);
+	ErrorSearch_AddValue(pointer);
+	PrintValues(pointer, ALL);
+	PrintLine();
+
 	printf("\nPress any key to exit\n");
 	getch();
 }

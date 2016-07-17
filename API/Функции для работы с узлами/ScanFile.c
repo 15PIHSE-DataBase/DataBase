@@ -9,14 +9,14 @@ long int filesize(FILE *);
 //функция только для чтения значений для root
 VALUE* value_root(fpos_t , FILE* );
 
-NODE* scanfile(FILE* dat, FILE* val)
+NODE* scanfile(FILE* FileWithNodes, FILE* FileWithValue)
 {
-	if (dat == NULL) {
+	if (FileWithNodes == NULL) {
 		printf("\n!Error reading file\nCreated new data base...\n");
 		return NULL;
 	}
 
-	if (filesize(dat) == 0) {
+	if (filesize(FileWithNodes) == 0) {
 		printf("\n!File is empty!\nCreated new data base...\n");
 		return NULL;
 	}
@@ -35,44 +35,44 @@ NODE* scanfile(FILE* dat, FILE* val)
 	//(Ключ int)
 	//(Флаг Удаления 1 байт)(Ключ Int)(Имя char* 255)(Смещенние на данные во втором файле 8 байт)(Смещение на подузлы в первом файле 8 байт)
 	flagDel = 0;
-	fread(&flagDel, sizeof(bool), 1, dat);// Флаг удаления
+	fread(&flagDel, sizeof(bool), 1, FileWithNodes);// Флаг удаления
 	if (flagDel == 1) {
 		printf("\n!All the tree removed!\n");
 		return NULL;
 	}
-	fread(&rootes->key, sizeof(int), 1, dat); // Ключ Узла
+	fread(&rootes->key, sizeof(int), 1, FileWithNodes); // Ключ Узла
 	num_key++;
 	unlegal_key = (int*)realloc(unlegal_key, num_key * 4);
 	*(unlegal_key + num_key - 1) = rootes->key;
 	length = 0;
-	fread(rootes->NodeName, sizeof(char), 255, dat); // Имя Узла
+	fread(rootes->NodeName, sizeof(char), 255, FileWithNodes); // Имя Узла
 	posVal = 0;
-	fread(&posVal, sizeof(fpos_t), 1, dat); // Cмещения на значения
-	rootes->Values = value_root(posVal, val); // Сами значения
+	fread(&posVal, sizeof(fpos_t), 1, FileWithNodes); // Cмещения на значения
+	rootes->Values = value_root(posVal, FileWithValue); // Сами значения
 	posTree = 0;
-	fread(&posTree, sizeof(fpos_t), 1, dat); // Cмещения на подузлы
+	fread(&posTree, sizeof(fpos_t), 1, FileWithNodes); // Cмещения на подузлы
 
 	flagDel = 0;
-	fread(&flagDel, sizeof(bool), 1, dat);// Флаг удаления
+	fread(&flagDel, sizeof(bool), 1, FileWithNodes);// Флаг удаления
 	if (flagDel == 1)
 	{
-		fseek(dat, (sizeof(int) + 255 * sizeof(char) + sizeof(fpos_t)), ftell(dat));
+		fseek(FileWithNodes, (sizeof(int) + 255 * sizeof(char) + sizeof(fpos_t)), ftell(FileWithNodes));
 		posTree = 0;
-		fread(&posTree, sizeof(fpos_t), 1, dat);
+		fread(&posTree, sizeof(fpos_t), 1, FileWithNodes);
 	}
 	else {
 		rootes->DownNode = (NODE*)malloc(sizeof(NODE));
-		fread(&rootes->DownNode->key, sizeof(int), 1, dat); // Ключ Узла
+		fread(&rootes->DownNode->key, sizeof(int), 1, FileWithNodes); // Ключ Узла
 		num_key++;
 		unlegal_key = (int*)realloc(unlegal_key, num_key * 4);
 		*(unlegal_key + num_key - 1) = rootes->DownNode->key;
-		fread(rootes->DownNode->NodeName, sizeof(char), 255, dat); // Имя Узла
+		fread(rootes->DownNode->NodeName, sizeof(char), 255, FileWithNodes); // Имя Узла
 		posVal = 0;
-		fread(&posVal, sizeof(fpos_t), 1, dat); // Cмещения на значения
-		rootes->DownNode->Values = fread_value(posVal, val); // Сами значения
+		fread(&posVal, sizeof(fpos_t), 1, FileWithNodes); // Cмещения на значения
+		rootes->DownNode->Values = fread_value(posVal, FileWithValue); // Сами значения
 		//printf("%s\n", rootes->DownNode->Values->Value);
 		posTree = 0;
-		fread(&posTree, sizeof(fpos_t), 1, dat); // Cмещения на подузлы
+		fread(&posTree, sizeof(fpos_t), 1, FileWithNodes); // Cмещения на подузлы
 		rootes->DownNode->UpNode = rootes;
 		rootes->DownNode->NextNode = NULL;
 		rootes->DownNode->PreviousNode = NULL;
@@ -86,12 +86,12 @@ NODE* scanfile(FILE* dat, FILE* val)
 	int check = 0;
 	int numeration = 0;
 	//!!!BEGIN!!!
-	while (!feof(dat)) {
+	while (!feof(FileWithNodes)) {
 		numeration++;
 		Child = (NODE*)malloc(sizeof(NODE));
 
 		keyer = 0;
-		fread(&keyer, 4, 1, dat);
+		fread(&keyer, 4, 1, FileWithNodes);
 		if (keyer == 0) {
 			create_freek(unlegal_key, num_key);
 			free(unlegal_key);
@@ -99,24 +99,24 @@ NODE* scanfile(FILE* dat, FILE* val)
 		}
 
 		flagDel = 0;
-		fread(&flagDel, sizeof(bool), 1, dat);// Флаг удаления
+		fread(&flagDel, sizeof(bool), 1, FileWithNodes);// Флаг удаления
 		if (flagDel == 1)
 		{
-			fseek(dat, (sizeof(int) + 255 * sizeof(char) + sizeof(fpos_t)), ftell(dat));
+			fseek(FileWithNodes, (sizeof(int) + 255 * sizeof(char) + sizeof(fpos_t)), ftell(FileWithNodes));
 			posTree = 0;
-			fread(&posTree, sizeof(fpos_t), 1, dat);
+			fread(&posTree, sizeof(fpos_t), 1, FileWithNodes);
 		}
 		else {
-			fread(&Child->key, sizeof(int), 1, dat); // Ключ Узла
+			fread(&Child->key, sizeof(int), 1, FileWithNodes); // Ключ Узла
 			num_key++;
 			unlegal_key = (int*)realloc(unlegal_key, num_key * 4);
 			*(unlegal_key + num_key - 1) = Child->key;
-			fread(Child->NodeName, sizeof(char), 255, dat); // Имя Узла
+			fread(Child->NodeName, sizeof(char), 255, FileWithNodes); // Имя Узла
 			posVal = 0;
-			fread(&posVal, sizeof(fpos_t), 1, dat); // Cмещения на значения
-			Child->Values = fread_value(posVal, val); // Сами значения
+			fread(&posVal, sizeof(fpos_t), 1, FileWithNodes); // Cмещения на значения
+			Child->Values = fread_value(posVal, FileWithValue); // Сами значения
 			posTree = 0;
-			fread(&posTree, sizeof(fpos_t), 1, dat); // Cмещения на подузлы
+			fread(&posTree, sizeof(fpos_t), 1, FileWithNodes); // Cмещения на подузлы
 		}
 
 		children = buf->DownNode;
@@ -186,7 +186,7 @@ NODE* scanfile(FILE* dat, FILE* val)
 
 //(Кол-во значений int == k)(Флаг удаление 1 байт)(Длина спецификатора int == n)(Спецификатор char* [n])(Длина значения int)(Значений char* [n])(Тип Int)*k(Смещение на новые зн. 8 байт)
 
-VALUE* fread_value(fpos_t posFile, FILE* val)
+VALUE* fread_value(fpos_t posFile, FILE* FileWithValue)
 {
 	if (posFile == 0)
 		return NULL;
@@ -202,38 +202,38 @@ VALUE* fread_value(fpos_t posFile, FILE* val)
 	save = buf;
 
 	while (buf_pos != 0) {
-		fseek(val, buf_pos, SEEK_SET);
+		fseek(FileWithValue, buf_pos, SEEK_SET);
 		n = 0;
-		fread(&n, sizeof(unsigned), 1, val); // Кол-во значений
+		fread(&n, sizeof(unsigned), 1, FileWithValue); // Кол-во значений
 		printf("%d\n", n);
 		for (int i = 0; i < n; ++i) {
 			buf->NextValue = (VALUE*)malloc(sizeof(VALUE));
 			buf = buf->NextValue;
 			buf->NextValue = NULL;
 			//flagDel = 0;
-			//fread(&flagDel, sizeof(bool), 1, val);
+			//fread(&flagDel, sizeof(bool), 1, FileWithValue);
 			//printf("%d\n", flagDel);
 			/*if (flagDel == 1) {
 				length = 0;
-				fread(&length, sizeof(int), 1, val);
-				fseek(val, length*sizeof(char), ftell(val));
+				fread(&length, sizeof(int), 1, FileWithValue);
+				fseek(val, length*sizeof(char), ftell(FileWithValue));
 				length = 0;
-				fread(&length, sizeof(int), 1, val);
-				fseek(val, length*sizeof(char), ftell(val));
-				fseek(val, sizeof(int), ftell(val));
+				fread(&length, sizeof(int), 1, FileWithValue);
+				fseek(val, length*sizeof(char), ftell(FileWithValue));
+				fseek(val, sizeof(int), ftell(FileWithValue));
 				continue;
 			}*/
 			checkVal = 1;
 			length = 0;
-			fread(&length, sizeof(unsigned), 1, val); // Длина Спецификатора
+			fread(&length, sizeof(unsigned), 1, FileWithValue); // Длина Спецификатора
 			buf->Qualifier = (char*)malloc(length*sizeof(char));
-			fread(buf->Qualifier, sizeof(char), length, val); // Спецификатор
-			fread(&length, sizeof(unsigned), 1, val); // Длина значения
+			fread(buf->Qualifier, sizeof(char), length, FileWithValue); // Спецификатор
+			fread(&length, sizeof(unsigned), 1, FileWithValue); // Длина значения
 			buf->Value = (char*)malloc(length*sizeof(char));
-			fread(buf->Value, sizeof(char), length, val); // Значение
-			fread(&buf->type, sizeof(TYPE), 1, val); // Тип
+			fread(buf->Value, sizeof(char), length, FileWithValue); // Значение
+			fread(&buf->type, sizeof(TYPE), 1, FileWithValue); // Тип
 		}
-		fread(&buf_pos, sizeof(fpos_t), 1, val); // Смещение на новые значения(для перезаписи)
+		fread(&buf_pos, sizeof(fpos_t), 1, FileWithValue); // Смещение на новые значения(для перезаписи)
 	}
 	if (checkVal == 0)
 		return 0;
@@ -241,7 +241,7 @@ VALUE* fread_value(fpos_t posFile, FILE* val)
 }
 
 
-VALUE* value_root(fpos_t posFile, FILE* val)
+VALUE* value_root(fpos_t posFile, FILE* FileWithValue)
 {
 	fpos_t buf_pos = posFile;
 	int n = 0;
@@ -255,38 +255,38 @@ VALUE* value_root(fpos_t posFile, FILE* val)
 	save = buf;
 
 	while (1) {
-		fseek(val, buf_pos, SEEK_SET);
+		fseek(FileWithValue, buf_pos, SEEK_SET);
 		n = 0;
-		fread(&n, sizeof(int), 1, val); // Кол-во значений
+		fread(&n, sizeof(int), 1, FileWithValue); // Кол-во значений
 		printf("%d\n", n);
 		for (int i = 0; i < n; ++i) {
 			buf->NextValue = (VALUE*)malloc(sizeof(VALUE));
 			buf = buf->NextValue;
 			buf->NextValue = NULL;
 			//flagDel = 0;
-			//fread(&flagDel, sizeof(bool), 1, val);
+			//fread(&flagDel, sizeof(bool), 1, FileWithValue);
 			//printf("%d\n", flagDel);
 			/*if (flagDel == 1) {
 			length = 0;
-			fread(&length, sizeof(int), 1, val);
-			fseek(val, length*sizeof(char), ftell(val));
+			fread(&length, sizeof(int), 1, FileWithValue);
+			fseek(val, length*sizeof(char), ftell(FileWithValue));
 			length = 0;
-			fread(&length, sizeof(int), 1, val);
+			fread(&length, sizeof(int), 1, FileWithValue);
 			fseek(val, length*sizeof(char), ftell(val));
-			fseek(val, sizeof(int), ftell(val));
+			fseek(val, sizeof(int), ftell(FileWithValue));
 			continue;
 			}*/
 			checkVal = 1;
 			length = 0;
-			fread(&length, sizeof(int), 1, val); // Длина Спецификатора
+			fread(&length, sizeof(int), 1, FileWithValue); // Длина Спецификатора
 			buf->Qualifier = (char*)malloc(length*sizeof(char));
-			fread(buf->Qualifier, sizeof(char), length, val); // Спецификатор
-			fread(&length, sizeof(int), 1, val); // Длина значения
+			fread(buf->Qualifier, sizeof(char), length, FileWithValue); // Спецификатор
+			fread(&length, sizeof(int), 1, FileWithValue); // Длина значения
 			buf->Value = (char*)malloc(length*sizeof(char));
-			fread(buf->Value, sizeof(char), length, val); // Значение
-			fread(&buf->type, sizeof(int), 1, val); // Тип
+			fread(buf->Value, sizeof(char), length, FileWithValue); // Значение
+			fread(&buf->type, sizeof(int), 1, FileWithValue); // Тип
 		}
-		fread(&buf_pos, sizeof(fpos_t), 1, val); // Смещение на новые значения(для перезаписи)
+		fread(&buf_pos, sizeof(fpos_t), 1, FileWithValue); // Смещение на новые значения(для перезаписи)
 		if (buf_pos == NULL)
 			break;
 	}

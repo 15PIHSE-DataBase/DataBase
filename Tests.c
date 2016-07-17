@@ -46,6 +46,21 @@ void main()
 	FindError(findnode("node4", MainRoot), "node4");
 	PrintLine();
 
+	printf("Delete check...\n");			//int Delete(NODE**, NODE**);
+	i = 1; printf("\n>>Check %d<<\n", i++);
+	ErrorSearch_DeleteNode(NewName2, &MainRoot);
+	FullTree(MainRoot);
+	printf("\n>>Check %d<<\n", i++);
+	ErrorSearch_DeleteNode("node3", &MainRoot);
+	FullTree(MainRoot);
+	printf("\n>>Check %d<<\n", i++);
+	ErrorSearch_DeleteNode("node1", &MainRoot);
+	FullTree(MainRoot);
+	printf("\n>>Check %d<<\n", i++);
+	ErrorSearch_DeleteNode("node1", &MainRoot);
+	FullTree(MainRoot);
+	PrintLine();
+	
 	printf("\nPress any key to exit\n");
 	getch();
 }

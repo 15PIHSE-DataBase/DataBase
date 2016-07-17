@@ -1,3 +1,7 @@
+#include"DataBase13.h"
+
+void way(NODE * beginf);
+
 int PathList(NODE * CurrentNode)
 {
 	if (CurrentNode == NULL)

@@ -1,7 +1,10 @@
-﻿#include "stdafx.h"
+﻿
+#include "key.h"
+#include "DataBase13.h"
 
 NODE* InputTree(NODE *currPtr, char *newname)
 {
+	if (goToNode(newname, currPtr) != NULL) return(NULL); //проверяем существование узла с таким именем
 	NODE *newPtr = NULL;
 	newPtr = (NODE*)malloc(sizeof(NODE));//заводим новую структуру(папку)
 	if (newPtr == NULL) return(NULL);
@@ -12,7 +15,6 @@ NODE* InputTree(NODE *currPtr, char *newname)
 	newPtr->key = gen_newkey();
 	if (currPtr != NULL)//начальная вершина?
 	{
-		if (goToNode(newname, currPtr->DownNode) != NULL) return(NULL); //проверяем существование узла с таким именем
 		strcpy(newPtr->NodeName, newname);
 		newPtr->UpNode = currPtr;
 		NODE *childPtr = NULL;

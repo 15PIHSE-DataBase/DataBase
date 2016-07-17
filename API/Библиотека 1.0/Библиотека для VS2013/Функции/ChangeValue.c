@@ -1,10 +1,26 @@
-﻿#include "stdafx.h"
+﻿ 
+#include "DataBase13.h"
 
 int ChangeValue(NODE *CurrentPtr, VALUE* currPtr, TYPE Type, char* NewName, char* NewValue) //меняет значение, в т.ч. его тип: 1 указатель на узел, 2 указатель на значение, 3 тип, 4 новое имя, 5 новое значение
-//функция вернёт 0 в случае успеха, 1 в случае неправильного типа 2 при попытке переименовать спецификатор используя имя другого спецификатора
+																							//функция вернёт 0 в случае успеха, 1 в случае неправильного типа 2 при попытке переименовать спецификатор используя имя другого спецификатора
 {
+	if (NewName != NULL)//если указатель NULL, то не меняем спецификатор
+	{
+		if (findValueInNode(CurrentPtr, NewName) == NULL)
+		{
+			free(currPtr->Qualifier);
+			currPtr->Qualifier = (char*)malloc(strlen(NewName) + 1);
+			strcpy(currPtr->Qualifier, NewName);
+		}
+		else
+			return(2);
+	}
 	if (NewValue != NULL)//если указатель NULL, то не меняем значение
+	{
+		free(currPtr->Value);
+		currPtr->Value = (char*)malloc(strlen(NewValue) + 1);
 		strcpy(currPtr->Value, NewValue);
+	}
 	if (Type != ALL) //если тип ALL, то не меняем тип
 	{
 		if (currPtr->type != Type)
@@ -18,13 +34,6 @@ int ChangeValue(NODE *CurrentPtr, VALUE* currPtr, TYPE Type, char* NewName, char
 			default: return(1); break;
 			}
 		}
-	}
-	if (NewName != NULL)//если указатель NULL, то не меняем спецификатор
-	{
-		if (findValueInNode(CurrentPtr, NewName) == NULL)
-			strcpy(currPtr->Qualifier, NewName);
-		else
-			return(2);
 	}
 	return(0);
 }

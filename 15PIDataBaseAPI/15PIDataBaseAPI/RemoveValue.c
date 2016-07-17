@@ -1,7 +1,8 @@
-#include "deleteValue.h"
+﻿
+#include "DataBase15.h"
 
 int deleteVal(VALUE* toDelete, NODE* start)
-{
+{	
 	VALUE* beginV = start->Values;
 	VALUE* temp2 = NULL;
 	VALUE* temp = NULL;
@@ -34,4 +35,5 @@ int deleteVal(VALUE* toDelete, NODE* start)
 		free(temp);
 	}
 	return(1);
+	
 }

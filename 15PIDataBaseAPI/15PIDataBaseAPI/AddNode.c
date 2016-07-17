@@ -1,4 +1,6 @@
-﻿#include "stdafx.h"
+﻿
+#include "key.h"
+#include "DataBase15.h"
 
 NODE* InputTree(NODE *currPtr, char *newname)
 {

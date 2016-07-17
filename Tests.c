@@ -67,15 +67,21 @@ void main()
 	char Value[3][10] = { "100y", "red", "forest" }, Qualif[3][10] = { "Age", "Color", "Place" };
 	pointer = MainRoot;
 
-	printf("AddValue check...\n");				// NODE* InputTree(NODE *, char *);
+	printf("AddValue check...\n");						// NODE* InputTree(NODE *, char *);
 	ErrorSearch_AddValue(pointer);
 	PrintValues(pointer, ALL);
 	PrintLine();
 
-	printf("findValueInNode check...\n");		//VALUE* findValueInNode(NODE*, char*);
-	ErrorSearch_AddValue(pointer);
+	printf("PrintValues check...\n");					//void PrintValues(NODE*, TYPE);
 	PrintValues(pointer, ALL);
+	PrintValues(pointer->DownNode, ALL);
 	PrintLine();
+
+	printf("findValueInNode & deleteValues check...\n"); //VALUE* findValueInNode(NODE*, char*); int deleteVal(VALUE*, NODE*);
+	ErrorSearch_FindDeleteValue(pointer);
+
+	printf("DeleteAllValue check...\n");					//void DeleteAllValue(NODE *, TYPE);
+	ErrorSearch_DeleteAllValues(pointer);
 
 	printf("\nPress any key to exit\n");
 	getch();

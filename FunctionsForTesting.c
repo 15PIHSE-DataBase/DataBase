@@ -132,3 +132,36 @@ void ErrorSearch_AddValue(NODE * node)
 		FindErrorInValues(AddValue(node, Qualif[i], INT, Value[i]), NULL, NULL, INT);
 	}
 }
+//Поиск ошибок в функциях поиска и удаления значения узла
+void ErrorSearch_FindDeleteValue(NODE * node)
+{
+	char Qualif[4][10] = { "Age", "Color", "Place", "Size" }, Value[4][10] = { "100y", "red", "forest", "1m" };
+	VALUE * temp; int result;
+	temp = findValueInNode(node, Qualif[0]);
+	FindErrorInValues(temp, Value[0], Qualif[0], INT);
+	result = deleteVal(temp, node);
+	PrintValues(node, ALL);
+
+	temp = findValueInNode(node, Qualif[2]);
+	FindErrorInValues(temp, Value[2], Qualif[2], INT);
+	result = deleteVal(temp, node);
+	PrintValues(node, ALL);
+
+	temp = findValueInNode(node, Qualif[3]);
+	FindErrorInValues(temp, Value[3], Qualif[3], INT);
+	result = deleteVal(temp, node);
+	PrintValues(node, ALL);
+
+	FindErrorInValues(findValueInNode(node, Qualif[3]), NULL, NULL, INT); //провека на поиск несуществующего спецификатора
+	/*
+	temp = findValueInNode(node, Qualif[1]);
+	FindErrorInValues(temp, Value[1], Qualif[1], INT);
+	result = deleteVal(temp, node);
+	PrintValues(node, ALL);
+	*/
+}
+void ErrorSearch_DeleteAllValues(NODE * node)
+{
+	DeleteAllValues(node, INT);
+	PrintValues(node, INT);
+}

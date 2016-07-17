@@ -1,4 +1,6 @@
-﻿//Сравнивает имя указанного узла и ожидаемое имя
+﻿#include"FunctionsForTesting.h"
+#include"DataBase13.h"
+//Сравнивает имя указанного узла и ожидаемое имя
 void FindError(NODE * CurNode, char * ExprectedName) 
 {
 	if ((!CurNode) || (!ExprectedName))
@@ -46,9 +48,14 @@ void CheckFunc(NODE * ptr)
 //Проверка результатов PathList
 void FullTree(NODE * begin)
 {
-	int print = PathList(begin);
-	if (print) printf("\n");
-	else printf("\nEmpty\n");
+	if (!(PathList(begin))) printf("Empty\n");
+}
+//Линия разделения проверок
+void PrintLine(void)
+{
+	for (int i = 0; i < 30; i++)
+		printf("=");
+	printf("\n");
 }
 //Распечатка всех путей
 int PathList(NODE * CurrentNode)
@@ -75,26 +82,86 @@ void ErrorSearch_InsertNode(char *NewName, NODE *CurPtr, NODE *funct(NODE*, char
 			ErrorSearch_InsertNode(NewName, CurPtr, funct);
 			CurPtr = CurPtr->NextNode;
 		}
-	return(NULL);
 }
 //Поиск ошибок в функции ChangeNodeName, параметром funct необходимо указать именно её
-void ErrorSearch_ChangeNodeName(char *NewName, NODE *CurPtr, NODE *funct(NODE*, char*))
+void ErrorSearch_ChangeNodeName(char *NewName, char*FindName, NODE *CurPtr, NODE *root)
 {
-	if (goToNode(NewName, CurPtr->UpNode)) //Такое имя уже есть в узле
-		FindError(funct(CurPtr, NewName), NULL);
-	else FindError(funct(CurPtr, NewName), NewName);
+	NODE * temp = findnode(FindName, root);
+	if (!temp) return;
+	if (goToNode(NewName, UpStep(temp))) //Такое имя уже есть в узле
+		FindError(ChangeNodeName(temp, NewName), NULL);
+	else FindError(ChangeNodeName(temp, NewName), NewName);
 	CurPtr = CurPtr->DownNode;
 	if (CurPtr != NULL)
 		while (CurPtr != NULL)
 		{
-			ErrorSearch_ChangeNodeName(NewName, CurPtr, funct);
+			ErrorSearch_ChangeNodeName(NewName, FindName, CurPtr, root);
 			CurPtr = CurPtr->NextNode;
 		}
 }
+//Поиск ошибок в функции Delete
 void ErrorSearch_DeleteNode(char *Name, NODE * MainRoot)
 {
 	NODE * temp;
-	while (temp = findnode(Name, MainRoot))
-		if (!Delete(&temp,&MainRoot)) 
-		printf("Nothing to remove\n");
+	while (temp = findnode(Name, MainRoot)){
+		if (!Delete(&temp, &MainRoot))
+			printf("Nothing to delete\n");
+		if (!MainRoot) break;
+	}
+}
+//Сравнивает информацию указанного значения с ожидаемыми
+void FindErrorInValues(VALUE * Current, char * ExpectedValue, char*ExpectedQualifier, TYPE ExpectedType)
+{
+	if ((!Current) || (!ExpectedValue) || (!ExpectedQualifier))
+		if ((!Current) && (!ExpectedValue) && (!ExpectedQualifier)) { printf("It's OK\n"); return; }
+		else { printf("Error\n"); return; }
+	else{
+		if ((!strcmp(Current->Value, ExpectedValue)) && (!strcmp(Current->Qualifier, ExpectedQualifier)) && (Current->type = ExpectedType))
+		{
+			printf("It's OK\n"); return;
+		}
+		else { printf("Error\n"); return; }
+	}
+}
+//Поиск ошибок в функции AddValue
+void ErrorSearch_AddValue(NODE * node)
+{
+	char Value[3][10] = { "100y", "red", "forest" }, Qualif[3][10] = { "Age", "Color", "Place" };
+	for (int i = 0; i < 3; i++){
+		FindErrorInValues(AddValue(node, Qualif[i], INT, Value[i]), Value[i], Qualif[i], INT);
+		FindErrorInValues(AddValue(node, Qualif[i], INT, Value[i]), NULL, NULL, INT);
+	}
+}
+//Поиск ошибок в функциях поиска и удаления значения узла
+void ErrorSearch_FindDeleteValue(NODE * node)
+{
+	char Qualif[4][10] = { "Age", "Color", "Place", "Size" }, Value[4][10] = { "100y", "red", "forest", "1m" };
+	VALUE * temp; int result;
+	temp = findValueInNode(node, Qualif[0]);
+	FindErrorInValues(temp, Value[0], Qualif[0], INT);
+	result = deleteVal(temp, node);
+	PrintValues(node, ALL);
+
+	temp = findValueInNode(node, Qualif[2]);
+	FindErrorInValues(temp, Value[2], Qualif[2], INT);
+	result = deleteVal(temp, node);
+	PrintValues(node, ALL);
+
+	temp = findValueInNode(node, Qualif[3]);
+	FindErrorInValues(temp, Value[3], Qualif[3], INT);
+	result = deleteVal(temp, node);
+	PrintValues(node, ALL);
+
+	FindErrorInValues(findValueInNode(node, Qualif[3]), NULL, NULL, INT); //провека на поиск несуществующего спецификатора
+	/*
+	temp = findValueInNode(node, Qualif[1]);
+	FindErrorInValues(temp, Value[1], Qualif[1], INT);
+	result = deleteVal(temp, node);
+	PrintValues(node, ALL);
+	*/
+}
+void ErrorSearch_DeleteAllValues(NODE * node)
+{
+	DeleteAllValues(node, INT);
+	PrintValues(node, INT);
 }

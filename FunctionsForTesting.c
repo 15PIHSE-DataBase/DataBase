@@ -1,4 +1,6 @@
-﻿//Сравнивает имя указанного узла и ожидаемое имя
+﻿#include"FunctionsForTesting.h"
+#include"DataBase13.h"
+//Сравнивает имя указанного узла и ожидаемое имя
 void FindError(NODE * CurNode, char * ExprectedName) 
 {
 	if ((!CurNode) || (!ExprectedName))
@@ -104,4 +106,5 @@ void PrintLine(void)
 {
 	for (int i = 0; i < 30; i++)
 		printf("=");
+	printf("\n");
 }

@@ -20,8 +20,8 @@ VALUE* CopyPasteValue(NODE *PtrFrom, VALUE *temp, NODE *PtrTo, int* i) //фун�
 			i=2;
 		break;
 	case 1:
-		deleteVal(temp, PtrFrom);
 		p = AddValue(PtrTo, temp->Qualifier, temp->type, temp->Value);
+		deleteVal(temp, PtrFrom);
 		if (p != NULL)
 		{
 			return (p);

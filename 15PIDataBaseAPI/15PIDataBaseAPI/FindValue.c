@@ -1,7 +1,7 @@
 ﻿
 #include "DataBase15.h"
 
-VALUE* findValueInNode(NODE* nodeptr, char* key) {
+VALUE* find_value_in_node(NODE* nodeptr, char* key) {
 	if (nodeptr == NULL) return NULL;
 	if (nodeptr->Values != NULL) {
 		VALUE* curVal = nodeptr->Values;
@@ -20,9 +20,9 @@ VALUE* findValueInNode(NODE* nodeptr, char* key) {
 	}
 }
 
-/*VALUE* searchValueByKey(int key, NODE* beginf) {
+/*VALUE* search_value_by_key(int key, NODE* beginf) {
 NODE* buf = NULL;
-val = searchThisNode(buf, key);
+val = search_this_node(buf, key);
 if (val != NULL)//???? ?????????
 {
 return(val);
@@ -31,14 +31,14 @@ beginf = beginf->DownNode;
 if (beginf != NULL)
 while (beginf != NULL)//?????????? ?? ??????? ?????(NextNode)
 {
-buf = searchValueByKey(key, beginf);
+buf = search_value_by_key(key, beginf);
 beginf = beginf->NextNode;
 }
 return(NULL);
 }*/
-/*NODE* searchNodeByKey(int key, NODE* beginf) {
+/*NODE* search_node_by_key(int key, NODE* beginf) {
 NODE* buf = NULL;
-val = searchThisNode(buf, key);
+val = search_this_node(buf, key);
 if (val != NULL)//???? ?????????
 {
 return(beginf);
@@ -47,7 +47,7 @@ beginf = beginf->DownNode;
 if (beginf != NULL)
 while (beginf != NULL)//?????????? ?? ??????? ?????(NextNode)
 {
-buf = searchNodeByKey(key, beginf);
+buf = search_node_by_key(key, beginf);
 beginf = beginf->NextNode;
 }
 return(NULL);

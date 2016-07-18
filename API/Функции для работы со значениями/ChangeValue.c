@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-int ChangeValue(NODE *CurrentPtr, VALUE* currPtr, TYPE Type, char* NewName, char* NewValue) //меняет значение, в т.ч. его тип: 1 указатель на узел, 2 указатель на значение, 3 тип, 4 новое имя, 5 новое значение
+int change_value(NODE *CurrentPtr, VALUE* currPtr, TYPE Type, char* NewName, char* NewValue) //меняет значение, в т.ч. его тип: 1 указатель на узел, 2 указатель на значение, 3 тип, 4 новое имя, 5 новое значение
 //функция вернёт 0 в случае успеха, 1 в случае неправильного типа 2 при попытке переименовать спецификатор используя имя другого спецификатора
 {
 	if (NewValue != NULL)//если указатель NULL, то не меняем значение
@@ -21,7 +21,7 @@ int ChangeValue(NODE *CurrentPtr, VALUE* currPtr, TYPE Type, char* NewName, char
 	}
 	if (NewName != NULL)//если указатель NULL, то не меняем спецификатор
 	{
-		if (findValueInNode(CurrentPtr, NewName) == NULL)
+		if (find_value_in_node(CurrentPtr, NewName) == NULL)
 			strcpy(currPtr->Qualifier, NewName);
 		else
 			return(2);

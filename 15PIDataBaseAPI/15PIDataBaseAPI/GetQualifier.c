@@ -1,7 +1,7 @@
 ﻿
 #include "DataBase15.h"
 
-char* GetQualifier(VALUE * pointer)
+char* get_qualifier(VALUE * pointer)
 {
 	if (pointer)
 	{

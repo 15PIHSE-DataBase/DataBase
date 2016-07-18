@@ -2,24 +2,24 @@
 #include "DataBase15.h"
 
 void help();
-void startUp();
-void callNewNode();
- void callDeleteNode();
- void callPath(); 
- void callPrintNode(); 
- void callChangeNodeName();
- void callSaveDB(); 
-void  callExit(); 
+void start_up();
+void call_new_node();
+ void call_delete_node();
+ void call_path(); 
+ void call_print_node(); 
+ void call_change_node_name();
+ void call_save_db(); 
+void  call_exit(); 
 
-void callNewValue();
-void callChangeVal(); 
-void  callCopy(); 
-void callGetNameVal();
-void callPrintVal();
-void callDeleteVal(); 
-void callDeleteAllVal(); 
-void callCreateNew();
-void callLoad();
+void call_new_value();
+void call_change_val(); 
+void  call_copy(); 
+void call_get_name_val();
+void call_print_val();
+void call_delete_val(); 
+void call_delete_all_val(); 
+void call_create_new();
+void call_load();
 
 NODE* root = NULL;
 
@@ -109,21 +109,21 @@ void help() {
 		printf("\n 1 - add value \n 2 - change value \n 3 - copy value \n 4 - print values in node \n 5 - delete a value \n 6 - delete all values \n 7 - exit \n");
 		scanf("%d", &c);
 		switch (c) {
-		case 1: callNewValue(); break;
-		case 2: callChangeVal(); break;
-		case 3: callCopy(); break;
-		//case 4: callGetNameVal(); break;
-		case 4: callPrintVal(); break;
-		case 5: callDeleteVal(); break;
-		case 6: callDeleteAllVal(); break;
-		case 7: callExit(); break;
+		case 1: call_new_value(); break;
+		case 2: call_change_val(); break;
+		case 3: call_copy(); break;
+		//case 4: call_get_name_val(); break;
+		case 4: call_print_val(); break;
+		case 5: call_delete_val(); break;
+		case 6: call_delete_all_val(); break;
+		case 7: call_exit(); break;
 		default: printf("error"); help(); break;
 		}
 	}
 	getch();
 }
 
-void startUp() {
+void start_up() {
 	printf("\n Welcome to 15PI Data Base \n Would you like to load a DataBase? \n Press y for YES, n for NO \n");
 	char choice;
 	scanf("%c", &choice);
@@ -135,19 +135,19 @@ void startUp() {
 	}
 	if (choice == 'y' || choice == 'Y') {
 		system("cls");
-		callLoad();
+		call_load();
 		printf("DB loaded\n");
 		getch();
 	}
 	else if (choice == 'n' || choice == 'N') {
 		system("cls");
-		callCreateNew();
+		call_create_new();
 		printf("new DB is created\n");
 		getch();
 	}
 }
 
-void callNewNode() {
+void call_new_node() {
 	NODE* curNode;
 	char buf1[255];
 	char buf2[255];
@@ -156,37 +156,37 @@ void callNewNode() {
 	scanf("%s", &buf1);
 	printf("\n type in the node in which you want to place the new node \n");
 	scanf("%s", &buf2);
-	NODE* f = findnode(buf2, root);
-	curNode = InputTree(f, buf1);
+	NODE* f = find_node(buf2, root);
+	curNode = input_tree(f, buf1);
 	
 }
 
-void callDeleteNode() {
+void call_delete_node() {
 	NODE* curNode;
 	char buf1[255];
 	system("cls");
 	printf("\n type in the name of the node you want to delete \n");
 	scanf("%s", &buf1);
-	NODE* f = findnode(buf1, root);
-	int lala = Delete(&f, &root);
+	NODE* f = find_node(buf1, root);
+	int lala = delete(&f, &root);
 }
 
-void callPath() {
+void call_path() {
 	printf("3");
 	//Возможно это лишняя функция
 }
 
-void callPrintNode() {
+void call_print_node() {
 	
 	char buf1[255];
 	system("cls");
 	printf("\n type in the name of the node you want to print \n");
 	scanf("%s", &buf1);
-	NODE* f = findnode(buf1, root);
-	Directory(f);
+	NODE* f = find_node(buf1, root);
+	directory(f);
 }
 
-void callChangeNodeName() {
+void call_change_node_name() {
 	NODE* curNode;
 	char buf1[255];
 	char buf2[255];
@@ -195,11 +195,11 @@ void callChangeNodeName() {
 	scanf("%s", &buf1);
 	printf("\n type in the new name for the node \n");
 	scanf("%s", &buf2);
-	NODE* f = findnode(buf1, root);
-	ChangeNodeName(f, buf2);
+	NODE* f = find_node(buf1, root);
+	change_node_name(f, buf2);
 }
 
-void callSaveDB() {
+void call_save_db() {
 	NODE* curNode;
 	FILE* pfile;
 	char buf1[255];
@@ -207,17 +207,17 @@ void callSaveDB() {
 	printf("\n type in the name of the file \n");
 	scanf("%s", &buf1);
 	pfile = fopen(buf1, "w");
-	Record(root, pfile);
+	record_tree(root, pfile);
 	fclose(pfile);
 }
 
-void  callExit() {
+void  call_exit() {
 	printf("\nEXIT\n");
 	getch();
 	exit(0);
 }
 
-void callNewValue() {
+void call_new_value() {
 	VALUE* newVal = NULL;
 	char buf1[255];
 	char buf2[255];
@@ -243,13 +243,13 @@ void callNewValue() {
 	printf("\n type in the node to add value to \n");
 	scanf("%s", &buf3);
 
-	NODE* f = findnode(buf3, root);
+	NODE* f = find_node(buf3, root);
 
-	AddValue(f, buf1, type1, buf2);
+	add_value(f, buf1, type1, buf2);
 	
 }
 
-void callChangeVal() {
+void call_change_val() {
 	int lala;
 
 	VALUE* newVal = NULL;
@@ -266,15 +266,15 @@ void callChangeVal() {
 	printf("\n type in the node where the value is stored \n");
 	scanf("%s", &buf3);
 
-	NODE* f = findnode(buf3, root);
-	newVal = findValueInNode(f, buf4);
+	NODE* f = find_node(buf3, root);
+	newVal = find_value_in_node(f, buf4);
 
 	printf("\n do you want to change the name of the variable? 1 - yes, 2 - no\n");
 	scanf("%d", &a);
 	if (a == 1) {
 		printf("\n type in the new name for the value \n");
 		scanf("%s", &buf1);
-		ChangeQualifier(f, newVal, buf1);
+		change_qualifier(f, newVal, buf1);
 	}
 	
 
@@ -291,11 +291,11 @@ void callChangeVal() {
 		printf("\n type in the new value itself\n");
 		scanf("%s", &buf2);
 
-		ChangeValue(newVal, type1, buf2);
+		change_value(newVal, type1, buf2);
 	
 }
 
-void  callCopy() {
+void  call_copy() {
 	char buf1[255];
 	char buf2[255];
 	char buf3[255];
@@ -312,21 +312,21 @@ void  callCopy() {
 	scanf("%s", &buf3);
 
 
-	NODE* from = findnode(buf1, root);
-	NODE* to = findnode(buf2, root);
-	VALUE* v = findValueInNode(from, buf3);
+	NODE* from = find_node(buf1, root);
+	NODE* to = find_node(buf2, root);
+	VALUE* v = find_value_in_node(from, buf3);
 	VALUE* copied;
-	copied = Copy(v);
-	lala = Paste(to, copied);
+	copied = copy(v);
+	lala = paste(to, copied);
 	
 }
 
-void callGetNameVal() {
+void call_get_name_val() {
 	printf("4");
 	//lлишняя функция
 }
 
-void callPrintVal() {
+void call_print_val() {
 	int lala, a;
 	TYPE type1;
 	char buf1[255];
@@ -345,12 +345,12 @@ void callPrintVal() {
 	case 5:type1 = ALL; break;
 	}
 
-	NODE* f = findnode(buf1, root);
+	NODE* f = find_node(buf1, root);
 
-	lala = PrintValues(f, type1);
+	lala = print_values(f, type1);
 }
 
-void callDeleteVal() {
+void call_delete_val() {
 
 	int lala;
 
@@ -367,12 +367,12 @@ void callDeleteVal() {
 	printf("\n type in the value, which you want to delete \n");
 	scanf("%s", &buf2);
 
-	VALUE* v = findValueInNode(f, buf2);
+	VALUE* v = find_value_in_node(f, buf2);
 
-	lala = deleteVal(v, f);
+	lala = delete_val(v, f);
 }
 
-void callDeleteAllVal() {
+void call_delete_all_val() {
 
 	int a;
 	TYPE type1;
@@ -392,27 +392,27 @@ void callDeleteAllVal() {
 	case 5:type1 = ALL; break;
 	}
 
-	NODE* f = findnode(buf1, root);
+	NODE* f = find_node(buf1, root);
 
-	DeleteAllValue(f, type1);
+	delete_all_value(f, type1);
 }
-void callCreateNew() {
-	root = InputTree(NULL, "root");
+void call_create_new() {
+	root = input_tree(NULL, "root");
 	NODE* curNode;
 	char buf[255];
 	system("cls");
 	printf("\n type in the name for a new node \n");
 	scanf("%s", &buf);
-	curNode = InputTree(root, buf);
+	curNode = input_tree(root, buf);
 	
 }
-void callLoad() {
+void call_load() {
 	FILE* pfile;
 	char buf[100];
 	system("cls");
 	printf("\n type in file name of the Data Base \n");
 	scanf("%s", &buf);
 	pfile = fopen(buf, "r");
-	root = scanfile(pfile);
+	root = scan_file(pfile);
 	fclose(pfile);
 }

@@ -34,7 +34,7 @@ void way(NODE * beginf)
 	free(buf);
 }
 
-NODE* findnode(char* findname, NODE* beginf)//Ïîèñê ôàéëîâ ñ ïîìîùüþ ðåêóðñèè
+NODE* find_node(char* findname, NODE* beginf)//Ïîèñê ôàéëîâ ñ ïîìîùüþ ðåêóðñèè
 {
 	NODE* buf = NULL;
 	//char YN[2];

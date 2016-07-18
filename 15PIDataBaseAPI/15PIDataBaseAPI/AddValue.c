@@ -1,7 +1,7 @@
 ﻿
 #include "DataBase15.h"
 
-VALUE * AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
+VALUE * add_value(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 {
 	if (CurrentPtr == NULL) return NULL;
 	VALUE * Pointer = NULL;

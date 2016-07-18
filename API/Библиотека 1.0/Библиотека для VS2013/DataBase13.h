@@ -66,6 +66,8 @@ NODE* UpStep(NODE*);
 NODE* ChangeNodeName(NODE *, char *);
 //Вывод всех вложенных узлов
 void Directory(NODE *);
+//Вывод всех путей
+int PathList(NODE *);
 //************************************************************************
 
 //*******************************Значения*********************************
@@ -73,9 +75,12 @@ void Directory(NODE *);
 //Добавление значения
 VALUE * AddValue(NODE *, char *, TYPE, char *);
 //Изменение значения
-int ChangeValue(NODE *, VALUE*, TYPE, char*, char*);
+int ChangeValue(VALUE * Value, TYPE type, char * string);
+int ChangeQualifier(NODE * Current, VALUE * Value, char * string);
 //Копирование значения
-VALUE* CopyPasteValue(NODE *, VALUE *, NODE *, int*);
+VALUE* Copy(VALUE * ValueFrom);
+//Вставка значения
+int Paste(NODE * PasteTo, VALUE * Copy);
 //Поиск значения
 VALUE* findValueInNode(NODE*, char*);
 //Вывод всех значений 

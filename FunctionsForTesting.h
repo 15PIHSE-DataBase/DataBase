@@ -1,5 +1,4 @@
-#include"stdafx.h"
-#include"DataBase13.h"
+#include"DataBase15.h"
 
 //прототипы
 void check_func(NODE * ptr);
@@ -15,3 +14,5 @@ void find_error_in_values(VALUE * Current, char * ExpectedValue, char*ExpectedQu
 void error_search_add_value(NODE * node);
 void error_search_find_delete_value(NODE * node);
 void error_search_delete_all_values(NODE * node);
+void error_search_read_write(NODE * root);
+void error_search_read_write_check(NODE * dup_root, NODE * dup_root2, VALUE * temp, VALUE * temp2);

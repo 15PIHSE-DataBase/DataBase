@@ -1,5 +1,5 @@
 ﻿#include"FunctionsForTesting.h"
-#include"DataBase13.h"
+#include"DataBase15.h"
 //Сравнивает имя указанного узла и ожидаемое имя
 void find_error(NODE * CurNode, char * ExprectedName)
 {
@@ -65,7 +65,6 @@ void error_search_insert_node(char *NewName, NODE *CurPtr, NODE *funct(NODE*, ch
 	if (strcmp(CurPtr->NodeName, NewName) == 0)
 		return;
 	CurPtr = CurPtr->DownNode;
-	if (CurPtr != NULL)
 		while (CurPtr != NULL)
 		{
 			error_search_insert_node(NewName, CurPtr, funct);
@@ -80,13 +79,7 @@ void error_search_change_node_name(char *NewName, char*FindName, NODE *CurPtr, N
 	if (go_to_node(NewName, up_step(temp))) //Такое имя уже есть в узле
 		find_error(change_node_name(temp, NewName), NULL);
 	else find_error(change_node_name(temp, NewName), NewName);
-	CurPtr = CurPtr->DownNode;
-	if (CurPtr != NULL)
-		while (CurPtr != NULL)
-		{
 			error_search_change_node_name(NewName, FindName, CurPtr, root);
-			CurPtr = CurPtr->NextNode;
-		}
 }
 //Поиск ошибок в функции delete_node
 void error_search_delete_node(char *Name, NODE ** MainRoot)
@@ -101,7 +94,7 @@ void error_search_delete_node(char *Name, NODE ** MainRoot)
 			printf("Nothing to delete\n");
 		if (!(*MainRoot)) break;
 	}
-
+	return;
 }
 //Сравнивает информацию указанного значения с ожидаемыми
 void find_error_in_values(VALUE * Current, char * ExpectedValue, char*ExpectedQualifier, TYPE ExpectedType)
@@ -159,4 +152,46 @@ void error_search_delete_all_values(NODE * node)
 {
 	delete_all_value(node, INT);
 	print_values(node, INT);
+}
+//Поиск ошибок в функциях работы БД с файлом
+void error_search_read_write(NODE * root)
+{
+	NODE* dup_root = NULL;
+	NODE* dup_root2 = root;
+	VALUE* temp = NULL;
+	VALUE* temp2 = NULL;
+	FILE* nodes = fopen("1.txt", "wb");
+	FILE* values = fopen("2.txt", "wb");
+	if (record_tree(root, nodes, values) == 0)
+	{
+		puts("Incorrect pointer");
+		return;
+	}
+	fclose(nodes);
+	fclose(values);
+	nodes = fopen("1.txt", "rb");
+	values = fopen("2.txt", "rb");
+	dup_root = scan_file(nodes, values);
+	error_search_read_write_check(dup_root, dup_root2, temp, temp2);
+	full_tree(dup_root);
+}
+//Вспомогательная функция к предыдущей
+void error_search_read_write_check(NODE * dup_root, NODE * dup_root2, VALUE * temp, VALUE * temp2)
+{
+	find_error(dup_root, dup_root2->NodeName);
+	if ((temp = dup_root->Values) && (temp2 = dup_root2->Values))
+		while (temp)
+		{
+			find_error_in_values(temp2, temp->Value, temp->Qualifier, temp->type);
+				temp = temp->NextValue;
+			temp2 = temp2->NextValue;
+		}
+	dup_root = dup_root->DownNode;
+	dup_root2 = dup_root2->DownNode;
+	while (dup_root && dup_root2)
+	{
+		error_search_read_write_check(dup_root, dup_root2, temp, temp2);
+		dup_root = dup_root->NextNode;
+		dup_root2 = dup_root2->NextNode;
+	}
 }

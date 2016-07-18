@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-VALUE* CopyPasteValue(NODE *PtrFrom, VALUE *temp, NODE *PtrTo, int* i) //функция cutpuste, copypaste. функция принимает указатель на узел из которого скопировать,
+VALUE* copy_paste_value(NODE *PtrFrom, VALUE *temp, NODE *PtrTo, int* i) //функция cutpuste, copypaste. функция принимает указатель на узел из которого скопировать,
 //адрес копируемого значения и указатель на узел куда нужно вставить значение, а также режим 1-копия 2-вырезать-вставить
 {
 	VALUE* temp2 = temp;
@@ -8,7 +8,7 @@ VALUE* CopyPasteValue(NODE *PtrFrom, VALUE *temp, NODE *PtrTo, int* i) //фун�
 	switch (*i)
 	{
 	case 0:
-		p = AddValue(PtrTo, temp->Qualifier, temp->type, temp->Value);
+		p = add_value(PtrTo, temp->Qualifier, temp->type, temp->Value);
 		if (p != NULL)
 		{
 			return (p);
@@ -17,8 +17,8 @@ VALUE* CopyPasteValue(NODE *PtrFrom, VALUE *temp, NODE *PtrTo, int* i) //фун�
 			return(2);
 		break;
 	case 1:
-		deleteVal(PtrFrom, temp);
-		p = AddValue(PtrTo, temp2->Qualifier, temp2->type, temp2->Value);
+		delete_val(PtrFrom, temp);
+		p = add_value(PtrTo, temp2->Qualifier, temp2->type, temp2->Value);
 		free(temp2);
 		break;
 	default:

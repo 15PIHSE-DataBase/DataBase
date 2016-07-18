@@ -1,7 +1,7 @@
 ﻿
 #include "DataBase15.h"
 
-int PrintValues(NODE *head, TYPE Type) //Вывод на экран всех значений узла и их типов
+int print_values(NODE *head, TYPE Type) //Вывод на экран всех значений узла и их типов
 {
 	if (!(head) || !(head->Values)) { //Указатель пуст или нет значений в узле 
 		printf("Empty\n");

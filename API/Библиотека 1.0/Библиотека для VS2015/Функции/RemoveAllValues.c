@@ -1,7 +1,7 @@
 ﻿
 #include "DataBase15.h"
 
-void DeleteAllValue(NODE *currPtr, TYPE Type) //удаляет все значения из узла или значения конкретного типа
+void delete_all_value(NODE *currPtr, TYPE Type) //удаляет все значения из узла или значения конкретного типа
 {
 
 	VALUE* beginV = currPtr->Values;

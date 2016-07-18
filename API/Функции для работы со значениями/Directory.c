@@ -1,7 +1,7 @@
 //Функция распечатывает содержимое текущей директории
 
 #include "stdafx.h"
-void Directory(NODE *CurrentF)
+void directory(NODE *CurrentF)
 {
 	NODE *temp;
 	//Проверка на наличие содержимого в данной директории

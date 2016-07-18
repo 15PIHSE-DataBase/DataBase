@@ -1,9 +1,8 @@
-﻿
-#include "DataBase13.h"
+﻿#include "DataBase15.h"
 
-NODE* UpStep(NODE*Current)
+NODE* up_step(NODE*Current)
 {
-	if (Current==NULL) return NULL;
-	if (Current->UpNode == NULL) return Current; 
+	if (Current == NULL) return NULL;
+	if (Current->UpNode == NULL) return Current;
 	return Current->UpNode;
 }

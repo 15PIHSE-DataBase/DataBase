@@ -7,7 +7,7 @@
 
 
 
-VALUE * Copy(VALUE * ValueFrom)
+VALUE * copy(VALUE * ValueFrom)
 {
 	if (ValueFrom == NULL)
 		return NULL;
@@ -21,7 +21,7 @@ VALUE * Copy(VALUE * ValueFrom)
 	return COPY;//СОЗДАЕТСЯ КОПИЯ ОБЪЕКТА ,ЕЙ НУЖНО БУДЕТ ОСВОБОЖДАТЬ ПАМЯТЬ,ЕСЛИ НЕ БУДЕТ ИСПОЛЬЗОВАТЬСЯ ДАЛЬШЕ(ОЧИСТКА БУФЕРА ТИПО)
 }
 
-int Paste(NODE * PasteTo, VALUE * Copy)
+int paste(NODE * PasteTo, VALUE * Copy)
 {
 	if (PasteTo == NULL)
 		return NULL;
@@ -33,7 +33,7 @@ int Paste(NODE * PasteTo, VALUE * Copy)
 	}
 	else
 	{
-		if (findValueInNode(PasteTo, Copy->Qualifier) != NULL)
+		if (find_value_in_node(PasteTo, Copy->Qualifier) != NULL)
 			return ALREADY_EXISTS;
 		Copy->NextValue = PasteTo->Values;
 		PasteTo->Values = Copy;

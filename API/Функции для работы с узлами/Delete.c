@@ -1,5 +1,5 @@
 
-int Delete(NODE ** CurrentNode, NODE ** Root)
+int delete(NODE ** CurrentNode, NODE ** Root)
 {
 	NODE* TempNode = *CurrentNode;
 	if (TempNode == NULL)
@@ -11,30 +11,30 @@ int Delete(NODE ** CurrentNode, NODE ** Root)
 	{
 		TempNode->NextNode->PreviousNode = TempNode->PreviousNode;
 		TempNode->PreviousNode->NextNode = TempNode->NextNode;
-		DeleteAllValues(TempNode, ALL);
+		delete_all_values(TempNode, ALL);
 		free(TempNode);
 	}
 	else if (TempNode->PreviousNode)
 	{
 		TempNode->PreviousNode->NextNode = NULL;
-		DeleteAllValues(TempNode, ALL);
+		delete_all_values(TempNode, ALL);
 		free(TempNode);
 	}
 	else if (TempNode->NextNode)
 	{
 		TempNode->UpNode->DownNode = TempNode->NextNode;
-		DeleteAllValues(TempNode, ALL);
+		delete_all_values(TempNode, ALL);
 		free(TempNode);
 	}
 	else if (TempNode->UpNode)
 	{
 		TempNode->UpNode->DownNode = NULL;
-		DeleteAllValues(TempNode, ALL);
+		delete_all_values(TempNode, ALL);
 		free(TempNode);
 	}
 	else if (TempNode == *Root)
 	{
-		DeleteAllValues(TempNode, ALL);
+		delete_all_values(TempNode, ALL);
 		free(TempNode);
 		*Root = NULL;
 		*CurrentNode = NULL;
@@ -42,13 +42,13 @@ int Delete(NODE ** CurrentNode, NODE ** Root)
 	return 1;
 }
 
-NODE * DeleteNodes(NODE * CurrentNode)
+NODE * delete_nodes(NODE * CurrentNode)
 {
 	if (CurrentNode == NULL)
 		return NULL;
 	CurrentNode->NextNode = DeleteNodes(CurrentNode->NextNode);
 	CurrentNode->DownNode = DeleteNodes(CurrentNode->DownNode);
-	DeleteAllValues(CurrentNode, ALL);
+	delete_all_values(CurrentNode, ALL);
 	free(CurrentNode);
 	return NULL;
 }

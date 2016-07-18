@@ -1,6 +1,7 @@
-﻿#include "DataBase13.h"
+﻿
+#include "DataBase15.h"
 
-int deleteVal(VALUE* toDelete, NODE* start)
+int delete_val(VALUE* toDelete, NODE* start)
 {
 	VALUE* beginV = start->Values;
 	VALUE* temp2 = NULL;

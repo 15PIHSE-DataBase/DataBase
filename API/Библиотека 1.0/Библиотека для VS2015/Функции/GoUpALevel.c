@@ -1,6 +1,6 @@
 ﻿#include "DataBase15.h"
 
-NODE* UpStep(NODE*Current)
+NODE* up_step(NODE*Current)
 {
 	if (Current == NULL) return NULL;
 	if (Current->UpNode == NULL) return Current;

@@ -1,59 +1,59 @@
 ﻿
-#include "key.h"
-#include "DataBase13.h"
 
-NODE * DeleteNodes(NODE * CurrentNode);
+#include "DataBase15.h"
+NODE * delete_nodes(NODE *);
 
-int Delete(NODE ** CurrentNode, NODE ** Root)
+int delete(NODE** CurrentNode, NODE** Root)//если удалил,то вернет 1;Нечего удалять --> вернет 0;
 {
-	NODE* TempNode = *CurrentNode;
-	if (TempNode == NULL)
+	NODE* temp = *CurrentNode;
+	if (*CurrentNode == NULL)
 		return 0;
-	if (TempNode->DownNode)
-		TempNode->DownNode = DeleteNodes(TempNode->DownNode);
-	printf("%s deleted\n", TempNode->NodeName);
-	if (TempNode->PreviousNode && TempNode->NextNode)
+	if ((*CurrentNode)->DownNode)
+		(*CurrentNode)->DownNode = delete_nodes((*CurrentNode)->DownNode);
+	printf("%s deleted\n", (*CurrentNode)->NodeName);
+	if ((*CurrentNode)->PreviousNode && (*CurrentNode)->NextNode)
 	{
-		TempNode->NextNode->PreviousNode = TempNode->PreviousNode;
-		TempNode->PreviousNode->NextNode = TempNode->NextNode;
-		DeleteAllValues(TempNode, ALL);
-		free(TempNode);
+		(*CurrentNode)->PreviousNode->NextNode = (*CurrentNode)->NextNode;
+		temp->NextNode->PreviousNode = temp->PreviousNode;
+		DeleteAllValue(temp, ALL);
+		free(temp);
 	}
-	else if (TempNode->PreviousNode)
+	else if ((*CurrentNode)->PreviousNode)
 	{
-		TempNode->PreviousNode->NextNode = NULL;
-		DeleteAllValues(TempNode, ALL);
-		free(TempNode);
-	}
-	else if (TempNode->NextNode)
-	{
-		TempNode->UpNode->DownNode = TempNode->NextNode;
-		DeleteAllValues(TempNode, ALL);
-		free(TempNode);
-	}
-	else if (TempNode->UpNode)
-	{
-		TempNode->UpNode->DownNode = NULL;
-		DeleteAllValues(TempNode, ALL);
-		free(TempNode);
-	}
-	else if (TempNode == *Root)
-	{
-		DeleteAllValues(TempNode, ALL);
-		free(TempNode);
-		*Root = NULL;
+		(*CurrentNode)->PreviousNode->NextNode = NULL;
+		delete_all_value(temp, ALL);
+		free(temp);
 		*CurrentNode = NULL;
+	}
+	else if ((*CurrentNode)->NextNode)
+	{
+		(*CurrentNode)->UpNode->DownNode = (*CurrentNode)->NextNode;
+		delete_all_value(temp, ALL);
+		free(temp);
+	}
+	else if ((*CurrentNode)->UpNode)
+	{
+		(*CurrentNode)->UpNode->DownNode = NULL;
+		delete_all_value(temp, ALL);
+		free(temp);
+	}
+	else if (*CurrentNode == *Root)
+	{
+		delete_all_value(*CurrentNode, ALL);
+		free(*CurrentNode);
+		*CurrentNode = NULL;
+		*Root = NULL;
 	}
 	return 1;
 }
 
-NODE * DeleteNodes(NODE * CurrentNode)
+NODE * delete_nodes(NODE * CurrentNode)
 {
 	if (CurrentNode == NULL)
 		return NULL;
 	CurrentNode->NextNode = DeleteNodes(CurrentNode->NextNode);
 	CurrentNode->DownNode = DeleteNodes(CurrentNode->DownNode);
-	DeleteAllValues(CurrentNode, ALL);
+	delete_all_value(CurrentNode, ALL);
 	free(CurrentNode);
 	return NULL;
 }

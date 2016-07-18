@@ -2,7 +2,7 @@
 #include "DataBase15.h"
 char** str_split(char*, const char);
 
-NODE* goToPath(NODE * Root, char* path) {								//по заданному пути переходит в нужную папку
+NODE* go_to_path(NODE * Root, char* path) {								//по заданному пути переходит в нужную папку
 	if (strcmp(path, "\n") == 0)
 		return NULL;
 	char** tokens;										//указатель на массив указателей с адрессами подстрок

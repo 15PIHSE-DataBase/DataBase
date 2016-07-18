@@ -1,7 +1,7 @@
 ﻿//Функция получения по указателю специфкатора значения 
 //В случае успеха возвращает указатель на строку-спецификатор, иначе - NULL
 //VALUE * pointer - указатель на значение
-char* GetQualifier(VALUE * pointer)
+char* get_qualifier(VALUE * pointer)
 {
 	if (pointer)
 	{

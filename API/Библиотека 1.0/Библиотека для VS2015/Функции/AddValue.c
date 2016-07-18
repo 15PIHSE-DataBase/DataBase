@@ -1,7 +1,7 @@
 ﻿
 #include "DataBase15.h"
 
-VALUE * AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
+VALUE * add_value(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 {
 	if (CurrentPtr == NULL) return NULL;
 	VALUE * Pointer = NULL;
@@ -24,7 +24,7 @@ VALUE * AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 		case DOUBLE:  NewValue->type = DOUBLE;  break;
 		case CHAR:  NewValue->type = CHAR;  break;
 		}
-		//int count = PrintValues(CurrentPtr, ALL); //Вывод всех данных узла с обновлениями, count - количество значений
+		//int count = print_values(CurrentPtr, ALL); //Вывод всех данных узла с обновлениями, count - количество значений
 		return NewValue;
 	}
 }

@@ -1,5 +1,5 @@
 
-void Record(NODE * CurrentNode,FILE * file)
+void record(NODE * CurrentNode,FILE * file)
 {
 	if (CurrentNode == NULL)
 		return;
@@ -62,10 +62,10 @@ void Record(NODE * CurrentNode,FILE * file)
 		fwrite(value->Value, sizeof(char), length, file);
 		value = value->NextValue;
 	}
-	RecordRecursion(TempNode->NextNode, file);
-	RecordRecursion(TempNode->DownNode, file);
+	record_recursion(TempNode->NextNode, file);
+	record_recursion(TempNode->DownNode, file);
 }
-void RecordRecursion(NODE * CurrentNode, FILE * file)
+void record_recursion(NODE * CurrentNode, FILE * file)
 {
 	if (CurrentNode == NULL)
 		return;
@@ -96,6 +96,6 @@ void RecordRecursion(NODE * CurrentNode, FILE * file)
 		fwrite(value->Value, sizeof(char), length, file);
 		value = value->NextValue;
 	}
-	RecordRecursion(CurrentNode->NextNode, file);
-	RecordRecursion(CurrentNode->DownNode, file);
+	record_recursion(CurrentNode->NextNode, file);
+	record_recursion(CurrentNode->DownNode, file);
 }

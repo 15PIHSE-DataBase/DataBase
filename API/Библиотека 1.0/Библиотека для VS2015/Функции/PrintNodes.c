@@ -2,7 +2,7 @@
 #include "DataBase15.h"
 
 
-void Directory(NODE *Current)
+void directory(NODE *Current)
 {
 	NODE *temp;
 	if ((Current != NULL) && (Current->DownNode != NULL)) temp = Current->DownNode;

@@ -155,6 +155,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="run.c" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="test.c" />
   </ItemGroup>

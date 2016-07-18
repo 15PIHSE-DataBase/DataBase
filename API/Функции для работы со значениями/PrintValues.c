@@ -18,7 +18,7 @@ int print_values(NODE *head, TYPE Type) //Вывод на экран всех з
 			case INT:printf("(int)  "); break;
 			case FLOAT:printf("(float)  "); break;
 			case DOUBLE:printf("(double)  "); break;
-			case CHAR:printf("(char)  "); break;
+			case STRING:printf("(char)  "); break;
 			}
 			Count++;
 		}

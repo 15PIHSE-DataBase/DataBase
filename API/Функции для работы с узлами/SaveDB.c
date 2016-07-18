@@ -1,5 +1,3 @@
-#include "DataBase15.h"
-
 fpos_t GetNewValuesPosition(FILE * );
 fpos_t GetNewNodesPosition(FILE * );
 void RecordValues(NODE * , FILE * , fpos_t );
@@ -7,13 +5,16 @@ void RecordNodes(NODE * , FILE * , FILE* );
 void Recursion(NODE * , FILE * , FILE * );
 int RecordTree(NODE *, FILE *, FILE *);
 
-#define FILE_ERROR 2
-#define EMPTY_FILE 1
+#define FILE_ERROR 3
+#define EMPTY_FILE 2
+#define NOT_FOUND 1
+#define FOUND 0
+#define NODE_NULL -1
 
 int RecordTree(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 {
 	if (CurrentNode == NULL)
-		return NULL;
+		return NODE_NULL;
 	if (FileWithNodes == NULL || FileWithValues == NULL)
 		return FILE_ERROR;
 	NODE * TempNode = CurrentNode->DownNode;

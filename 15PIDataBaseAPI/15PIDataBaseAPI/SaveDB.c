@@ -9,9 +9,9 @@ fpos_t get_new_values_position(FILE * FileWithValues);
 int record_tree(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 {
 	if (CurrentNode == NULL)
-		return NULL;
+		return NULL;///////////0
 	if (FileWithNodes == NULL || FileWithValues == NULL)
-		return FILE_ERROR;///////////
+		return FILE_ERROR;///////////1
 	NODE * TempNode = CurrentNode->DownNode;
 	record_nodes(CurrentNode, FileWithNodes, FileWithValues);
 	record_nodes(CurrentNode->DownNode, FileWithNodes, FileWithValues);
@@ -20,7 +20,7 @@ int record_tree(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 		recursion(TempNode->NextNode, FileWithNodes, FileWithValues);
 		recursion(TempNode->DownNode, FileWithNodes, FileWithValues);
 	}
-	return SUCCESS;
+	return SUCCESS;///////////////2
 }
 void recursion(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 {

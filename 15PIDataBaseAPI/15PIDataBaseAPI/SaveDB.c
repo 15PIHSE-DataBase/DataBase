@@ -1,104 +1,95 @@
-﻿
 #include "DataBase15.h"
 
-void RecordRecursion(NODE *, FILE *);
-void Record(NODE * CurrentNode, FILE * file)
-{
-	if (CurrentNode == NULL)
-		return;
-	NODE * TempNode = CurrentNode;
-	VALUE  * value = TempNode->Values;
-	//fwrite(&from, sizeof(type), numberOfElements, to);
-	//Parent
-	size_t counter = strlen(TempNode->NodeName) + 1; // size_t ==== unsigned int
-	fwrite(&counter, sizeof(counter), 1, file);
-	fwrite(TempNode->NodeName, 1, counter, file);
-	fwrite(&TempNode->key, sizeof(int), 1, file);
-	counter = 0;
-	while (value)
-	{
-		counter++;
-		value = value->NextValue;
-	}
-	value = TempNode->Values;
-	fwrite(&counter, sizeof(int), 1, file);
-	for (int i = 0; i < counter; i++)
-	{
-		size_t length = strlen(value->Qualifier) + 1;
-		fwrite(&length, sizeof(int), 1, file);
-		fwrite(value->Qualifier, sizeof(char), length, file);
-		fwrite(&value->type, sizeof(int), 1, file);
-		length = strlen(value->Value) + 1;
-		fwrite(&length, sizeof(int), 1, file);
-		fwrite(value->Value, sizeof(char), length, file);
-		value = value->NextValue;
-	}
+fpos_t GetNewValuesPosition(FILE * );
+fpos_t GetNewNodesPosition(FILE * );
+void RecordValues(NODE * , FILE * , fpos_t );
+void RecordNodes(NODE * , FILE * , FILE* );
+void Recursion(NODE * , FILE * , FILE * );
+int RecordTree(NODE *, FILE *, FILE *);
 
-	if (TempNode->DownNode)
+#define FILE_ERROR 2
+#define EMPTY_FILE 1
+
+int RecordTree(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
+{
+	if (CurrentNode == NULL)
+		return NULL;
+	if (FileWithNodes == NULL || FileWithValues == NULL)
+		return FILE_ERROR;
+	NODE * TempNode = CurrentNode->DownNode;
+	RecordNodes(CurrentNode, FileWithNodes, FileWithValues);
+	RecordNodes(CurrentNode->DownNode, FileWithNodes, FileWithValues);
+	if (TempNode)
 	{
-		TempNode = TempNode->DownNode;
-		value = TempNode->Values;
+		Recursion(TempNode->NextNode, FileWithNodes, FileWithValues);
+		Recursion(TempNode->DownNode, FileWithNodes, FileWithValues);
 	}
-	else
-		return;
-	//Child
-	counter = strlen(TempNode->NodeName) + 1;
-	fwrite(&counter, sizeof(counter), 1, file);
-	fwrite(TempNode->NodeName, 1, counter, file);
-	fwrite(&TempNode->key, sizeof(int), 1, file);
-	counter = 0;
-	while (value)
-	{
-		counter++;
-		value = value->NextValue;
-	}
-	value = TempNode->Values;
-	fwrite(&counter, sizeof(int), 1, file);
-	for (int i = 0; i < counter; i++)
-	{
-		size_t length = strlen(value->Qualifier) + 1;
-		fwrite(&length, sizeof(int), 1, file);
-		fwrite(value->Qualifier, sizeof(char), length, file);
-		fwrite(&value->type, sizeof(int), 1, file);
-		length = strlen(value->Value) + 1;
-		fwrite(&length, sizeof(int), 1, file);
-		fwrite(value->Value, sizeof(char), length, file);
-		value = value->NextValue;
-	}
-	RecordRecursion(TempNode->NextNode, file);
-	RecordRecursion(TempNode->DownNode, file);
 }
-void RecordRecursion(NODE * CurrentNode, FILE * file)
+void Recursion(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 {
 	if (CurrentNode == NULL)
 		return;
-	//Parent key without values(already in file)
-	fwrite(&CurrentNode->UpNode->key, sizeof(int), 1, file);
-	//New Child
-	size_t counter = strlen(CurrentNode->NodeName) + 1; //static?
-	fwrite(&counter, sizeof(int), 1, file);
-	fwrite(CurrentNode->NodeName, sizeof(char), counter, file);
-	fwrite(&CurrentNode->key, sizeof(int), 1, file);
-	VALUE *value = CurrentNode->Values;  //static?
-	counter = 0;
-	while (value)
+	fwrite(&CurrentNode->UpNode->key, sizeof(int), 1, FileWithNodes);
+	RecordNodes(CurrentNode, FileWithNodes, FileWithValues);
+	Recursion(CurrentNode->NextNode, FileWithNodes, FileWithValues);
+	Recursion(CurrentNode->DownNode, FileWithNodes, FileWithValues);
+}
+
+void RecordNodes(NODE * CurrentNode, FILE * FileWithNodes, FILE* FileWithValues)
+{
+	if (CurrentNode == NULL)
+		return;
+	bool check = 0;
+	NODE* TempNode = CurrentNode;
+	fpos_t ValuesPosition = GetNewValuesPosition(FileWithValues);
+	RecordValues(CurrentNode, FileWithValues, ValuesPosition);
+	fwrite(&check, sizeof(bool), 1, FileWithNodes);
+	fwrite(&TempNode->key, sizeof(int), 1, FileWithNodes);
+	fwrite(TempNode->NodeName, sizeof(char), 255, FileWithNodes);
+	fwrite(&ValuesPosition, sizeof(fpos_t), 1, FileWithNodes);
+	ValuesPosition = GetNewNodesPosition(FileWithNodes);
+	fwrite(&ValuesPosition, sizeof(fpos_t), 1, FileWithNodes);
+}
+void RecordValues(NODE * CurrentNode, FILE * FileWithValues, fpos_t FilePosition)
+{
+	fseek(FileWithValues, FilePosition, SEEK_SET);
+	unsigned count = 0;
+	unsigned length = 0;
+	VALUE * TempValues = CurrentNode->Values;
+	while (TempValues)
 	{
-		counter++;
-		value = value->NextValue;
+		count++;
+		TempValues = TempValues->NextValue;
 	}
-	value = CurrentNode->Values;
-	fwrite(&counter, sizeof(int), 1, file);
-	for (int i = 0; i < counter; i++)
+	TempValues = CurrentNode->Values;
+	fwrite(&count, sizeof(unsigned), 1, FileWithValues);
+	for (int i = 0; i < count; i++)
 	{
-		size_t length = strlen(value->Qualifier) + 1;
-		fwrite(&length, sizeof(int), 1, file);
-		fwrite(value->Qualifier, sizeof(char), length, file);
-		fwrite(&value->type, sizeof(int), 1, file);
-		length = strlen(value->Value) + 1;
-		fwrite(&length, sizeof(int), 1, file);
-		fwrite(value->Value, sizeof(char), length, file);
-		value = value->NextValue;
+		length = strlen(TempValues->Qualifier) + 1;
+		fwrite(&length, sizeof(unsigned), 1, FileWithValues);
+		fwrite(TempValues->Qualifier, sizeof(char), length, FileWithValues);
+		length = strlen(TempValues->Value) + 1;
+		fwrite(&length, sizeof(unsigned), 1, FileWithValues);
+		fwrite(TempValues->Value, sizeof(char), length, FileWithValues);
+		fwrite(&TempValues->type, sizeof(TYPE), 1, FileWithValues);
+		TempValues = TempValues->NextValue;
 	}
-	RecordRecursion(CurrentNode->NextNode, file);
-	RecordRecursion(CurrentNode->DownNode, file);
+	fpos_t NewValues = 0;
+	fwrite(&NewValues, sizeof(fpos_t), 1, FileWithValues);
+}
+
+fpos_t GetNewNodesPosition(FILE * FileWithNodes)
+{
+	fpos_t BytesNumber;
+	fseek(FileWithNodes, 0, SEEK_END);
+	BytesNumber = ftell(FileWithNodes);
+	return BytesNumber;
+}
+
+fpos_t GetNewValuesPosition(FILE * FileWithValues)
+{
+	fpos_t BytesNumber;
+	fseek(FileWithValues, 0, SEEK_END);
+	BytesNumber = ftell(FileWithValues);
+	return BytesNumber;
 }

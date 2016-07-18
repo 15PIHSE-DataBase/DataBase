@@ -1,23 +1,17 @@
-﻿#include "DataBase15.h"
+#include "DataBase15.h"
 
-fpos_t get_new_values_position(FILE * );
-fpos_t get_new_nodes_position(FILE * );
-void record_values(NODE * , FILE * , fpos_t );
-void record_nodes(NODE * , FILE * , FILE* );
-void recursion(NODE * , FILE * , FILE * );
-
-#define FILE_ERROR 3
-#define EMPTY_FILE 2
-#define NOT_FOUND 1
-#define FOUND 0
-#define NODE_NULL -1
+void recursion(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues);
+void record_nodes(NODE * CurrentNode, FILE * FileWithNodes, FILE* FileWithValues);
+void record_values(NODE * CurrentNode, FILE * FileWithValues, fpos_t FilePosition);
+fpos_t get_new_nodes_position(FILE * FileWithNodes);
+fpos_t get_new_values_position(FILE * FileWithValues);
 
 int record_tree(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 {
 	if (CurrentNode == NULL)
-		return NODE_NULL;
+		return NULL;///////////0
 	if (FileWithNodes == NULL || FileWithValues == NULL)
-		return FILE_ERROR;
+		return FILE_ERROR;///////////1
 	NODE * TempNode = CurrentNode->DownNode;
 	record_nodes(CurrentNode, FileWithNodes, FileWithValues);
 	record_nodes(CurrentNode->DownNode, FileWithNodes, FileWithValues);
@@ -26,6 +20,7 @@ int record_tree(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 		recursion(TempNode->NextNode, FileWithNodes, FileWithValues);
 		recursion(TempNode->DownNode, FileWithNodes, FileWithValues);
 	}
+	return SUCCESS;///////////////2
 }
 void recursion(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 {

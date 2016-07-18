@@ -73,9 +73,13 @@ void Directory(NODE *);
 //Добавление значения
 VALUE * AddValue(NODE *, char *, TYPE, char *);
 //Изменение значения
-int ChangeValue(NODE *, VALUE*, TYPE, char*, char*);
+//int ChangeValue(NODE *, VALUE*, TYPE, char*, char*);
+int ChangeQualifier(NODE *, VALUE * , char * );
+int ChangeValue(VALUE * , TYPE , char * );
 //Копирование значения
-VALUE* CopyPasteValue(NODE *, VALUE *, NODE *, int*);
+//VALUE* CopyPasteValue(NODE *, VALUE *, NODE *, int*);
+VALUE * Copy(VALUE *);
+int Paste(NODE * , VALUE *);
 //Поиск значения
 VALUE* findValueInNode(NODE*, char*);
 //Вывод всех значений 

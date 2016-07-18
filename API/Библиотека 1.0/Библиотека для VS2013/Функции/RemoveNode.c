@@ -3,7 +3,7 @@
 #include "DataBase15.h"
 NODE * delete_nodes(NODE *);
 
-int delete(NODE** CurrentNode, NODE** Root)//если удалил,то вернет 1;Нечего удалять --> вернет 0;
+int delete_node(NODE** CurrentNode, NODE** Root)//если удалил,то вернет 1;Нечего удалять --> вернет 0;
 {
 	NODE* temp = *CurrentNode;
 	if (*CurrentNode == NULL)
@@ -15,7 +15,7 @@ int delete(NODE** CurrentNode, NODE** Root)//если удалил,то верн
 	{
 		(*CurrentNode)->PreviousNode->NextNode = (*CurrentNode)->NextNode;
 		temp->NextNode->PreviousNode = temp->PreviousNode;
-		DeleteAllValue(temp, ALL);
+		delete_all_value(temp, ALL);
 		free(temp);
 	}
 	else if ((*CurrentNode)->PreviousNode)
@@ -51,8 +51,8 @@ NODE * delete_nodes(NODE * CurrentNode)
 {
 	if (CurrentNode == NULL)
 		return NULL;
-	CurrentNode->NextNode = DeleteNodes(CurrentNode->NextNode);
-	CurrentNode->DownNode = DeleteNodes(CurrentNode->DownNode);
+	CurrentNode->NextNode = delete_nodes(CurrentNode->NextNode);
+	CurrentNode->DownNode = delete_nodes(CurrentNode->DownNode);
 	delete_all_value(CurrentNode, ALL);
 	free(CurrentNode);
 	return NULL;

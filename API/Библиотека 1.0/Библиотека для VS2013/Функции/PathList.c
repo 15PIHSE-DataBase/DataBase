@@ -2,14 +2,14 @@
 
 void way(NODE * beginf);
 
-int PathList(NODE * CurrentNode)
+int path_list(NODE * CurrentNode)
 {
 	if (CurrentNode == NULL)
 		return NULL;//пустое дерево
-	PathList(CurrentNode->DownNode);
+	path_list(CurrentNode->DownNode);
 	if (CurrentNode->DownNode == NULL )
 		way(CurrentNode);
-	PathList(CurrentNode->NextNode);
+	path_list(CurrentNode->NextNode);
 	return 1;//1 если хоть что-то вывело
 }
 

@@ -4,7 +4,7 @@
 int delete_val(VALUE* toDelete, NODE* start)
 {
 	VALUE* beginV = start->Values;
-	VALUE* temp2 = NULL;
+	VALUE* temp2 = beginV;
 	VALUE* temp = NULL;
 	while (beginV != toDelete && beginV != NULL)
 	{

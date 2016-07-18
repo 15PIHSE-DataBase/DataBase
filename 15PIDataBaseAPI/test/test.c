@@ -106,7 +106,7 @@ void help() {
 	else if (choice1 == 'v' || choice1 == 'V') {
 		system("cls");
 		int c;
-		printf("\n 1 - add value \n 2 - change value \n 3 copy value \n 4 - print values in node \n 5 - delete a value \n 6 - delete all values \n 7 - exit \n");
+		printf("\n 1 - add value \n 2 - change value \n 3 - copy value \n 4 - print values in node \n 5 - delete a value \n 6 - delete all values \n 7 - exit \n");
 		scanf("%d", &c);
 		switch (c) {
 		case 1: callNewValue(); break;
@@ -263,36 +263,44 @@ void callChangeVal() {
 	printf("\n type in the name of the value you want to change\n");
 	scanf("%s", &buf4);
 
-	printf("\n type in the new name for the value \n");
-	scanf("%s", &buf1);
-
-	printf("\n type in the new type of variable 1 - int, 2 - float, 3 - double, 4 - char\n");
-	scanf("%d", &a);
-
-	switch (a) {
-	case 1:type1 = INT; break;
-	case 2:type1 = FLOAT; break;
-	case 3:type1 = DOUBLE; break;
-	case 4:type1 = CHAR; break;
-	}
-
-	printf("\n type in the new value itself\n");
-	scanf("%s", &buf2);
-
 	printf("\n type in the node where the value is stored \n");
 	scanf("%s", &buf3);
 
 	NODE* f = findnode(buf3, root);
 	newVal = findValueInNode(f, buf4);
 
-	lala = ChangeValue(f,newVal, type1, buf1, buf2);
+	printf("\n do you want to change the name of the variable? 1 - yes, 2 - no\n");
+	scanf("%d", &a);
+	if (a == 1) {
+		printf("\n type in the new name for the value \n");
+		scanf("%s", &buf1);
+		ChangeQualifier(f, newVal, buf1);
+	}
+	
+
+		printf("\n type in the new type of variable 1 - int, 2 - float, 3 - double, 4 - char\n");
+		scanf("%d", &a);
+
+		switch (a) {
+		case 1:type1 = INT; break;
+		case 2:type1 = FLOAT; break;
+		case 3:type1 = DOUBLE; break;
+		case 4:type1 = CHAR; break;
+		}
+
+		printf("\n type in the new value itself\n");
+		scanf("%s", &buf2);
+
+		ChangeValue(newVal, type1, buf2);
+	
 }
 
 void  callCopy() {
 	char buf1[255];
 	char buf2[255];
 	char buf3[255];
-	int mode;
+	
+	int lala;
 
 	printf("\n type in the node where the value is stored \n");
 	scanf("%s", &buf1);
@@ -303,14 +311,14 @@ void  callCopy() {
 	printf("\n type in the name of the value \n");
 	scanf("%s", &buf3);
 
-	printf("\n select mode 0 - copy, 1 - move \n");
-	scanf("%d", &mode);
 
 	NODE* from = findnode(buf1, root);
 	NODE* to = findnode(buf2, root);
 	VALUE* v = findValueInNode(from, buf3);
-
-	CopyPasteValue(from, v, to, mode);
+	VALUE* copied;
+	copied = Copy(v);
+	lala = Paste(to, copied);
+	
 }
 
 void callGetNameVal() {

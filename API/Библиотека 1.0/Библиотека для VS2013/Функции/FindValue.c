@@ -1,7 +1,7 @@
 ﻿
 #include "DataBase15.h"
 
-VALUE* find_value_in-node(NODE* nodeptr, char* key) {
+VALUE* find_value_in_node(NODE* nodeptr, char* key) {
 	if (nodeptr == NULL) return NULL;
 	if (nodeptr->Values != NULL) {
 		VALUE* curVal = nodeptr->Values;

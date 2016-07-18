@@ -1,4 +1,4 @@
-#include"DataBase13.h"
+#include"DataBase15.h"
 #include"FunctionsForTesting.h"
 
 void main()
@@ -84,6 +84,11 @@ void main()
 
 	printf("delete_all_value check...\n");					//void delete_all_value(NODE *, TYPE);
 	error_search_delete_all_values(pointer);
+	print_line();
+
+	puts("read_write check...");
+	error_search_read_write(MainRoot);
+	error_search_read_write(NULL);
 	print_line();
 
 	printf("\nPress any key to exit\n");

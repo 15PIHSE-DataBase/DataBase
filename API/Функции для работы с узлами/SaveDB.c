@@ -1,9 +1,9 @@
-fpos_t GetNewValuesPosition(FILE * );
-fpos_t GetNewNodesPosition(FILE * );
-void RecordValues(NODE * , FILE * , fpos_t );
-void RecordNodes(NODE * , FILE * , FILE* );
-void Recursion(NODE * , FILE * , FILE * );
-int RecordTree(NODE *, FILE *, FILE *);
+fpos_t get_new_values_position(FILE * );
+fpos_t get_new_nodes_position(FILE * );
+void record_values(NODE * , FILE * , fpos_t );
+void record_nodes(NODE * , FILE * , FILE* );
+void recursion(NODE * , FILE * , FILE * );
+int record_tree(NODE *, FILE *, FILE *);
 
 #define FILE_ERROR 3
 #define EMPTY_FILE 2
@@ -11,47 +11,47 @@ int RecordTree(NODE *, FILE *, FILE *);
 #define FOUND 0
 #define NODE_NULL -1
 
-int RecordTree(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
+int record_tree(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 {
 	if (CurrentNode == NULL)
 		return NODE_NULL;
 	if (FileWithNodes == NULL || FileWithValues == NULL)
 		return FILE_ERROR;
 	NODE * TempNode = CurrentNode->DownNode;
-	RecordNodes(CurrentNode, FileWithNodes, FileWithValues);
-	RecordNodes(CurrentNode->DownNode, FileWithNodes, FileWithValues);
+	record_nodes(CurrentNode, FileWithNodes, FileWithValues);
+	record_nodes(CurrentNode->DownNode, FileWithNodes, FileWithValues);
 	if (TempNode)
 	{
-		Recursion(TempNode->NextNode, FileWithNodes, FileWithValues);
-		Recursion(TempNode->DownNode, FileWithNodes, FileWithValues);
+		recursion(TempNode->NextNode, FileWithNodes, FileWithValues);
+		recursion(TempNode->DownNode, FileWithNodes, FileWithValues);
 	}
 }
-void Recursion(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
+void recursion(NODE * CurrentNode, FILE * FileWithNodes, FILE * FileWithValues)
 {
 	if (CurrentNode == NULL)
 		return;
 	fwrite(&CurrentNode->UpNode->key, sizeof(int), 1, FileWithNodes);
-	RecordNodes(CurrentNode, FileWithNodes, FileWithValues);
-	Recursion(CurrentNode->NextNode, FileWithNodes, FileWithValues);
-	Recursion(CurrentNode->DownNode, FileWithNodes, FileWithValues);
+	record_nodes(CurrentNode, FileWithNodes, FileWithValues);
+	recursion(CurrentNode->NextNode, FileWithNodes, FileWithValues);
+	recursion(CurrentNode->DownNode, FileWithNodes, FileWithValues);
 }
 
-void RecordNodes(NODE * CurrentNode, FILE * FileWithNodes, FILE* FileWithValues)
+void record_nodes(NODE * CurrentNode, FILE * FileWithNodes, FILE* FileWithValues)
 {
 	if (CurrentNode == NULL)
 		return;
 	bool check = 0;
 	NODE* TempNode = CurrentNode;
-	fpos_t ValuesPosition = GetNewValuesPosition(FileWithValues);
-	RecordValues(CurrentNode, FileWithValues, ValuesPosition);
+	fpos_t ValuesPosition = get_new_values_position(FileWithValues);
+	record_values(CurrentNode, FileWithValues, ValuesPosition);
 	fwrite(&check, sizeof(bool), 1, FileWithNodes);
 	fwrite(&TempNode->key, sizeof(int), 1, FileWithNodes);
 	fwrite(TempNode->NodeName, sizeof(char), 255, FileWithNodes);
 	fwrite(&ValuesPosition, sizeof(fpos_t), 1, FileWithNodes);
-	ValuesPosition = GetNewNodesPosition(FileWithNodes);
+	ValuesPosition = get_new_nodes_position(FileWithNodes);
 	fwrite(&ValuesPosition, sizeof(fpos_t), 1, FileWithNodes);
 }
-void RecordValues(NODE * CurrentNode, FILE * FileWithValues, fpos_t FilePosition)
+void record_values(NODE * CurrentNode, FILE * FileWithValues, fpos_t FilePosition)
 {
 	fseek(FileWithValues, FilePosition, SEEK_SET);
 	unsigned count = 0;
@@ -79,7 +79,7 @@ void RecordValues(NODE * CurrentNode, FILE * FileWithValues, fpos_t FilePosition
 	fwrite(&NewValues, sizeof(fpos_t), 1, FileWithValues);
 }
 
-fpos_t GetNewNodesPosition(FILE * FileWithNodes)
+fpos_t get_new_nodes_position(FILE * FileWithNodes)
 {
 	fpos_t BytesNumber;
 	fseek(FileWithNodes, 0, SEEK_END);
@@ -87,7 +87,7 @@ fpos_t GetNewNodesPosition(FILE * FileWithNodes)
 	return BytesNumber;
 }
 
-fpos_t GetNewValuesPosition(FILE * FileWithValues)
+fpos_t get_new_values_position(FILE * FileWithValues)
 {
 	fpos_t BytesNumber;
 	fseek(FileWithValues, 0, SEEK_END);

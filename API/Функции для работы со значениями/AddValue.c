@@ -5,11 +5,11 @@
 //char * Qualf - указатель на строку - спецификатор для новых данных
 //TYPE Type - тип помещаемого значения (INT,FLOAT,DOUBLE,CHAR)
 //char * Info - указатель на помещаемое значение в виде строки
-VALUE * AddValue(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
+VALUE * add_value(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 {
 	if (CurrentPtr == NULL) return NULL;
 	VALUE * Pointer = NULL;
-	if ((Type < 1) || (Type>4) || (Pointer = findValueInNode(CurrentPtr, Qualf)))
+	if ((Type < 1) || (Type>4) || (Pointer = find_value_in_node(CurrentPtr, Qualf)))
 		return NULL;
 	else
 	{

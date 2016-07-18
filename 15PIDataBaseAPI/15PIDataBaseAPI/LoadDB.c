@@ -1,23 +1,23 @@
-﻿
-#include "DataBase15.h"
+﻿#include "DataBase15.h"
 #include "key.h"
+
 // Требуется только для выгрузки дерева из файла. Конкретнее для выгрузки значений для узла
 VALUE* fread_value(fpos_t, FILE*);
 // Функция поиска узла по значению ключа
-NODE* findkey(int, NODE*);
+NODE* find_key(int, NODE*);
 //возвращает размер файла
-long int filesize(FILE *);
+long int file_size(FILE *);
 //функция только для чтения значений для root
 VALUE* value_root(fpos_t , FILE* );
 
-NODE* scanfile(FILE* FileWithNodes, FILE* FileWithValue)
+NODE* scan_file(FILE* FileWithNodes, FILE* FileWithValue)
 {
 	if (FileWithNodes == NULL) {
 		printf("\n!Error reading file\nCreated new data base...\n");
 		return NULL;
 	}
 
-	if (filesize(FileWithNodes) == 0) {
+	if (file_size(FileWithNodes) == 0) {
 		printf("\n!File is empty!\nCreated new data base...\n");
 		return NULL;
 	}
@@ -166,10 +166,10 @@ NODE* scanfile(FILE* FileWithNodes, FILE* FileWithValue)
 			children = children->NextNode;
 		}
 
-		//Поиск по всему дереву(findkey)
+		//Поиск по всему дереву(find_key)
 		if (check == 1) {
 			check = 0;
-			bufer = findkey(keyer, rootes);
+			bufer = find_key(keyer, rootes);
 			buf = bufer;
 			children = buf->DownNode;
 			children = Child;
@@ -293,7 +293,7 @@ VALUE* value_root(fpos_t posFile, FILE* FileWithValue)
 }
 
 
-NODE* findkey(int findkeyy, NODE* beginf)//Поиск файлов с помощью рекурсии
+NODE* find_key(int findkeyy, NODE* beginf)//Поиск файлов с помощью рекурсии
 {
 	NODE* buf = NULL;
 	if (beginf->key == findkeyy)//Идёт сравнение
@@ -304,7 +304,7 @@ NODE* findkey(int findkeyy, NODE* beginf)//Поиск файлов с помощ
 	if (beginf != NULL)
 		while (beginf != NULL)//Проходимся по каждому брату(NextNode)
 		{
-			buf = findkey(findkeyy, beginf);
+			buf = find_key(findkeyy, beginf);
 			if (buf != NULL)//Требуется, для возварата значения при отказе дальнейшего поиска
 				return(buf);
 			beginf = beginf->NextNode;
@@ -314,7 +314,7 @@ NODE* findkey(int findkeyy, NODE* beginf)//Поиск файлов с помощ
 }
 
 
-long int filesize(FILE *fp)
+long int file_size(FILE *fp)
 {
 	long int save_pos, size_of_file;
 

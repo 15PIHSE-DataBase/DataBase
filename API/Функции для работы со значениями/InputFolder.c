@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-void InputTree(NODE **currPtr)
+void input_tree(NODE **currPtr)
 {
-	Instruction();
+	instruction();
 	char buf[257], p = '/';
 	bool flag = 0;
 	int c;
@@ -68,7 +68,7 @@ void InputTree(NODE **currPtr)
 	(*currPtr)->DownNode = newPtr;//прицепляем новый узел к предку
 }//здесь заканчиваем заполнение новой структуры
 
-void Instruction()
+void instruction()
 {
 	puts("Warning!");
 	puts("1. The folder name cannot be empty");

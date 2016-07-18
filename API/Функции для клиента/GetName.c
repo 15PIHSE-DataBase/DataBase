@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-char* GetName(NODE **currPtr){
+char* get_name(NODE **currPtr){
 	bool flag = 0;
 	char buf[256], p = '/';
 	char *newname;

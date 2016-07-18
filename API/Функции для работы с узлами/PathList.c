@@ -1,4 +1,4 @@
-int PathList(NODE * CurrentNode)
+int path_list(NODE * CurrentNode)
 {
 	if (CurrentNode == NULL)
 		return NULL;//пустое дерево

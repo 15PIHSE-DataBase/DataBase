@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-NODE* InputTree(NODE *currPtr, char *newname)
+NODE* input_tree(NODE *currPtr, char *newname)
 {
 	NODE *newPtr = NULL;
 	newPtr = (NODE*)malloc(sizeof(NODE));//заводим новую структуру(папку)

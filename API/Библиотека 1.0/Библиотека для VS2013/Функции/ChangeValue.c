@@ -16,7 +16,7 @@ int change_value(VALUE * Value, TYPE type, char * string)
 		case INT:  Value->type = INT;  break;
 		case FLOAT:  Value->type = FLOAT;  break;
 		case DOUBLE:  Value->type = DOUBLE;  break;
-		case STRING:  Value->type = CHAR;  break;
+		case STRING:  Value->type = STRING;  break;
 		case ALL: break;
 		default:
 			return WRONG_DATA_TYPE;

@@ -15,7 +15,7 @@ typedef enum TYPE
 	INT,
 	FLOAT,
 	DOUBLE,
-	CHAR
+	STRING
 }TYPE;
 
 typedef struct VALUE

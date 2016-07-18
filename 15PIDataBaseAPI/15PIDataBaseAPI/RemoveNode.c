@@ -1,7 +1,6 @@
 ﻿
 
 #include "DataBase15.h"
-
 NODE * DeleteNodes(NODE *);
 
 int Delete(NODE** CurrentNode, NODE** Root)//если удалил,то вернет 1;Нечего удалять --> вернет 0;

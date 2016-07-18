@@ -205,14 +205,12 @@ VALUE* fread_value(fpos_t posFile, FILE* FileWithValue)
 		fseek(FileWithValue, buf_pos, SEEK_SET);
 		n = 0;
 		fread(&n, sizeof(unsigned), 1, FileWithValue); // Кол-во значений
-		printf("%d\n", n);
 		for (int i = 0; i < n; ++i) {
 			buf->NextValue = (VALUE*)malloc(sizeof(VALUE));
 			buf = buf->NextValue;
 			buf->NextValue = NULL;
 			//flagDel = 0;
 			//fread(&flagDel, sizeof(bool), 1, FileWithValue);
-			//printf("%d\n", flagDel);
 			/*if (flagDel == 1) {
 				length = 0;
 				fread(&length, sizeof(int), 1, FileWithValue);
@@ -258,14 +256,12 @@ VALUE* value_root(fpos_t posFile, FILE* FileWithValue)
 		fseek(FileWithValue, buf_pos, SEEK_SET);
 		n = 0;
 		fread(&n, sizeof(int), 1, FileWithValue); // Кол-во значений
-		printf("%d\n", n);
 		for (int i = 0; i < n; ++i) {
 			buf->NextValue = (VALUE*)malloc(sizeof(VALUE));
 			buf = buf->NextValue;
 			buf->NextValue = NULL;
 			//flagDel = 0;
 			//fread(&flagDel, sizeof(bool), 1, FileWithValue);
-			//printf("%d\n", flagDel);
 			/*if (flagDel == 1) {
 			length = 0;
 			fread(&length, sizeof(int), 1, FileWithValue);

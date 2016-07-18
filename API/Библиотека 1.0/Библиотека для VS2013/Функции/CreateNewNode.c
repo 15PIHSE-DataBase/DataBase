@@ -2,7 +2,7 @@
 
 NODE* InputTree(NODE *currPtr, char *newname)
 {
-	if (goToNode(newname, currPtr) != NULL) return(NULL); //проверяем существование узла с таким именем
+	if (go_to_node(newname, currPtr) != NULL) return(NULL); //проверяем существование узла с таким именем
 	NODE *newPtr = NULL;
 	newPtr = (NODE*)malloc(sizeof(NODE));//заводим новую структуру(папку)
 	if (newPtr == NULL) return(NULL);

@@ -5,7 +5,7 @@ VALUE * add_value(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 {
 	if (CurrentPtr == NULL) return NULL;
 	VALUE * Pointer = NULL;
-	if ((Type < 1) || (Type>4) || (Pointer = findValueInNode(CurrentPtr, Qualf)))
+	if ((Type < 1) || (Type>4) || (Pointer = find_value_in_node(CurrentPtr, Qualf)))
 		return NULL;
 	else
 	{
@@ -22,7 +22,7 @@ VALUE * add_value(NODE *CurrentPtr, char *Qualf, TYPE Type, char * Info)
 		case INT:  NewValue->type = INT;  break;
 		case FLOAT:  NewValue->type = FLOAT;  break;
 		case DOUBLE:  NewValue->type = DOUBLE;  break;
-		case CHAR:  NewValue->type = CHAR;  break;
+		case STRING:  NewValue->type = STRING;  break;
 		}
 		//int count = print_values(CurrentPtr, ALL); //Вывод всех данных узла с обновлениями, count - количество значений
 		return NewValue;

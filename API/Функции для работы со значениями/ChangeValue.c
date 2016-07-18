@@ -14,7 +14,7 @@ int change_value(NODE *CurrentPtr, VALUE* currPtr, TYPE Type, char* NewName, cha
 			case INT:  currPtr->type = INT;  break;
 			case FLOAT:  currPtr->type = FLOAT;  break;
 			case DOUBLE:  currPtr->type = DOUBLE;  break;
-			case CHAR:  currPtr->type = CHAR;  break;
+			case STRING:  currPtr->type = CHAR;  break;
 			default: return(1); break;
 			}
 		}

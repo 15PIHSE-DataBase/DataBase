@@ -1,31 +1,41 @@
 ﻿ 
 #include "DataBase15.h"
 
-int ChangeValue(NODE *CurrentPtr, VALUE* currPtr, TYPE Type, char* NewName, char* NewValue) //меняет значение, в т.ч. его тип: 1 указатель на узел, 2 указатель на значение, 3 тип, 4 новое имя, 5 новое значение
-																							//функция вернёт 0 в случае успеха, 1 в случае неправильного типа 2 при попытке переименовать спецификатор используя имя другого спецификатора
+#define ALREADY_EXISTS 1
+#define SUCCESS 2
+#define WRONG_DATA_TYPE 3
+
+int ChangeValue(VALUE * Value, TYPE type, char * string)
 {
-	if (NewValue != NULL)//если указатель NULL, то не меняем значение
-		strcpy(currPtr->Value, NewValue);
-	if (Type != ALL) //если тип ALL, то не меняем тип
+	if (Value == NULL || string == NULL)
+		return NULL;
+	if (Value->type != type)
 	{
-		if (currPtr->type != Type)
+		switch (type)
 		{
-			switch (Type)
-			{
-			case INT:  currPtr->type = INT;  break;
-			case FLOAT:  currPtr->type = FLOAT;  break;
-			case DOUBLE:  currPtr->type = DOUBLE;  break;
-			case CHAR:  currPtr->type = CHAR;  break;
-			default: return(1); break;
-			}
+		case INT:  Value->type = INT;  break;
+		case FLOAT:  Value->type = FLOAT;  break;
+		case DOUBLE:  Value->type = DOUBLE;  break;
+		case CHAR:  Value->type = CHAR;  break;
+		case ALL: break;
+		default:
+			return WRONG_DATA_TYPE;
+			break;
 		}
 	}
-	if (NewName != NULL)//если указатель NULL, то не меняем спецификатор
-	{
-		if (findValueInNode(CurrentPtr, NewName) == NULL)
-			strcpy(currPtr->Qualifier, NewName);
-		else
-			return(2);
-	}
-	return(0);
+	free(Value->Value);
+	Value->Value = (char*)malloc(strlen(string) + 1);
+	memmove(Value->Value, string, strlen(string) + 1);
+	return SUCCESS;
+}
+int ChangeQualifier(NODE * Current, VALUE * Value, char * string)
+{
+	if (Current == NULL || Value == NULL || string == NULL)
+		return NULL;
+	if (findValueInNode(Current, string) != NULL)
+		return ALREADY_EXISTS;
+	free(Value->Qualifier);
+	Value->Qualifier = (char*)malloc(strlen(string) + 1);
+	memmove(Value->Qualifier, string, strlen(string) + 1);
+	return SUCCESS;
 }

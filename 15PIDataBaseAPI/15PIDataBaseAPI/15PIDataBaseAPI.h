@@ -48,49 +48,44 @@ extern int keys;
 //*******************************Узлы*************************************
 
 //Добавление узла
-NODE* input_tree(NODE *, char *);
+NODE* InputTree(NODE *, char *);
 //Удаление узла
-int delete(NODE**, NODE**);//если удалил,то вернет 1;Нечего удалять --> вернет 0; - избавиться от глоб переменнной
+int Delete(NODE**, NODE**);//если удалил,то вернет 1;Нечего удалять --> вернет 0; - избавиться от глоб переменнной
 //Поиск узла
-NODE* find_node(char*, NODE*);
+NODE* findnode(char*, NODE*);
 void way(NODE *);
 //Переход по пути
-NODE* go_to_path(NODE *, char*);
+NODE* goToPath(NODE *, char*);
 //Сохранение базы данных
-int record_tree(NODE *, FILE *, FILE *);
+void Record(NODE *, FILE * );
 //Чтение базы данных
-NODE* scan_file(FILE*);
+NODE* scanfile(FILE*);
 //Возвращение на уровень вверх
-NODE* up_step(NODE*);
+NODE* UpStep(NODE*);
 //Изменение названия узла
-NODE* change_node_name(NODE *, char *);
+NODE* ChangeNodeName(NODE *, char *);
 //Вывод всех вложенных узлов
-void directory(NODE *);
-//Вывод всех путей
-int path_list(NODE *);
+void Directory(NODE *);
 //************************************************************************
 
 //*******************************Значения*********************************
 
 //Добавление значения
-VALUE * add_value(NODE *, char *, TYPE, char *);
+VALUE * AddValue(NODE *, char *, TYPE, char *);
 //Изменение значения
-int change_value(VALUE * Value, TYPE type, char * string);
-int change_qualifier(NODE * Current, VALUE * Value, char * string);
+int ChangeValue(NODE *, VALUE*, TYPE, char*, char*);
 //Копирование значения
-VALUE* copy(VALUE * ValueFrom);
-//Вставка значения
-int paste(NODE * PasteTo, VALUE * Copy);
+VALUE* CopyPasteValue(NODE *, VALUE *, NODE *, int*);
 //Поиск значения
-VALUE* find_value_in_node(NODE*, char*);
+VALUE* findValueInNode(NODE*, char*);
 //Вывод всех значений 
-int print_values(NODE *, TYPE);
+int PrintValues(NODE *, TYPE);
 //Удаление значения
-int delete_val(VALUE*, NODE*);
+int deleteVal(VALUE*, NODE*);
 //Удаление всех значений
-void delete_all_value(NODE *, TYPE);
+void DeleteAllValue(NODE *, TYPE);
 //Получение спецификатора по указателю на значение 
-char* get_qualifier(VALUE *);
+char* GetQualifier(VALUE *);
 //************************************************************************
 
 //========================================================================

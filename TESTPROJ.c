@@ -1,4 +1,4 @@
-﻿// TESTPROJ.cpp: определяет точку входа для консольного приложения.
+// TESTPROJ.cpp: определяет точку входа для консольного приложения.
 //
 
 #include "stdafx.h"
@@ -26,6 +26,7 @@ void callLoad();
 
 NODE* root = NULL;
 VALUE* COPY = NULL;
+bool Check = false;
 
 int main()
 {
@@ -37,19 +38,20 @@ int main()
 
 
 void help() {
+	printf("\n");
 	callPath();
 	printf("\n press: \n 0 - to quit \n 1 - to see node functions \n 2 - to see info functions\n 3 - Load DataBase\n 4 - Save DataBase\n");
 	int choice1;
-	char buf[2];
+	char buf[8];
 	int c;
-	gets_s(buf, 2);
+	gets_s(buf, 8);
 	sscanf(buf, "%d", &choice1);
 	fflush(stdin);
 	while ((choice1 != 1) && (choice1 != 2) && (choice1 != 0) && (choice1 != 3) && (choice1 != 4))
 	{
 		printf("\n");
 		printf("Incorrect Choice\n");
-		gets_s(buf, 2);
+		gets_s(buf, 8);
 		sscanf(buf, "%d", &choice1);
 		fflush(stdin);
 	}
@@ -62,17 +64,17 @@ void help() {
 		system("cls");
 		int c;
 		callPath();
-		printf(" 0 - back\n 1 - new node \n 2 - delete node \n 3 - print tree \n 4 - print all sub nodes \n 5 - change node name \n");
-		gets_s(buf, 2);
+		printf(" 0 - back\n 1 - new node \n 2 - delete node \n 3 - print all sub nodes \n 4 - change node name\n");
+		gets_s(buf, 8);
 		sscanf(buf, "%d", &c);
 		fflush(stdin);
 		switch (c) {
 		case 0: break;
 		case 1: callNewNode(); break;
 		case 2: callDeleteNode(); break;
-		case 3: callPath(); break;
-		case 4: callPrintNode(); break;
-		case 5: callChangeNodeName(); break;
+		//case 3: callPath(); break;
+		case 3: callPrintNode(); break;
+		case 4: callChangeNodeName(); break;
 		default: printf("Invalid input\n"); help(); break;
 		}
 		break;
@@ -81,7 +83,7 @@ void help() {
 		callPath();
 		printf(" 0 - back\n 1 - add information\n 2 - change information\n 3 - copy information\n 4 - paste information\n"
 			" 5 - print infromation in node\n 6 - delete infromation\n 7 - delete all information(all/by type) \n");
-		gets_s(buf, 2);
+		gets_s(buf, 8);
 		sscanf(buf, "%d", &c);
 		fflush(stdin);
 		switch (c) {
@@ -129,6 +131,8 @@ void callNewNode() {
 	gets_s(buf1, 254);
 	fflush(stdin);
 	curNode = input_tree(f, buf1);
+	if (curNode == NULL)
+		printf("Such node already exists\n");
 }
 
 void callDeleteNode() {
@@ -239,6 +243,17 @@ void callSaveDB() {
 }
 
 void  callExit() {
+	char buf[8];
+	int choice;
+	if (root)
+	{
+		printf("\nwould you like to save your current database? 1-yes, 2-no\n");
+		gets_s(buf, 8);
+		sscanf(buf, "%d", &choice);
+		fflush(stdin);
+		if (choice == 1)
+			callSaveDB();
+	}
 	printf("\nEXIT\n");
 	exit(0);
 }
@@ -252,7 +267,7 @@ void callNewValue() {
 	char buf1[255];
 	char buf2[255];
 	char buf3[255];
-	char buf[2];
+	char buf[8];
 	TYPE type1;
 	int a;
 
@@ -272,7 +287,7 @@ void callNewValue() {
 	fflush(stdin);
 
 	printf("\ntype in the type of information (1 - int, 2 - float, 3 - double, 4 - string)>>");
-	gets_s(buf, 2);
+	gets_s(buf, 8);
 	sscanf(buf, "%d", &a);
 	fflush(stdin);
 
@@ -307,7 +322,7 @@ void callChangeVal() {
 	char buf2[255];
 	char buf3[255];
 	char buf4[255];
-	char buf[2];
+	char buf[8];
 	TYPE type1;
 	int a;
 	system("cls");
@@ -321,7 +336,11 @@ void callChangeVal() {
 		printf("Invalid path\n");
 		return;
 	}
-	print_values(f, ALL);
+	if (print_values(f, ALL) == 0)
+	{
+		printf("Nothing to change\n");
+		return;
+	}
 
 	printf("\ntype in info field you want to change>>\n");
 	gets_s(buf4, 254);
@@ -336,7 +355,7 @@ void callChangeVal() {
 	}
 
 	printf("\ndo you want to change info field ? 1 - yes, 2 - no\n");
-	gets_s(buf, 2);
+	gets_s(buf, 8);
 	sscanf(buf, "%d", &a);
 	fflush(stdin);
 	if (a == 1) {
@@ -353,7 +372,7 @@ void callChangeVal() {
 
 
 	printf("\ntype in new information type  1 - int, 2 - float, 3 - double, 4 - string\n");
-	gets_s(buf, 2);
+	gets_s(buf, 8);
 	sscanf(buf, "%d", &a);
 	fflush(stdin);
 
@@ -390,26 +409,30 @@ void  callCopy() {
 		printf("Invalid path\n");
 		return;
 	}
+	if (print_values(from, ALL) == 0)
+	{
+		printf("Nothing to copy\n");
+		return;
+	}
 	printf("\ntype in info field to copy>>\n");
-	print_values(from, ALL);
 	gets_s(buf3, 254);
 	fflush(stdin);
-	if (print_values(from, ALL) == 0)
-		return;
 
 	VALUE* v = find_value_in_node(from, buf3);
 
 	if (v == NULL)
 	{
 		printf("Such field doesnt exist\n");
+		return;
 	}
-	if (COPY != NULL)
+	if (COPY != NULL && Check == false)
 	{
 		free(COPY->Qualifier);
 		free(COPY->Value);
 		free(COPY);
 	}
 	COPY = copy(v);
+	Check = false;
 }
 void callPaste()
 {
@@ -418,13 +441,23 @@ void callPaste()
 		printf("DataBase is empty\n");
 		return;
 	}
+	if (COPY == NULL)
+	{
+		printf("Nothing to paste\n");
+		return;
+	}
 	char buf2[255];
 	printf("\ntype in path to the node where the copy should be moved>>\n");
 	gets_s(buf2, 254);
 	fflush(stdin);
 	NODE* to = go_to_path(root, buf2);
 	if (paste(to, COPY) == 1)
+	{
 		printf("Such field already exists\n");
+		return;
+	}
+	COPY == NULL;
+	Check = true;
 }
 
 
@@ -438,7 +471,7 @@ void callPrintVal() {
 	TYPE type1;
 	char buf1[255];
 	char buf2[255];
-	char buf[2];
+	char buf[8];
 	system("cls");
 	callPath();
 	printf("\ntype in path to the node, which you want to print>>\n");
@@ -452,8 +485,8 @@ void callPrintVal() {
 		return;
 	}
 
-	printf("\n type in information you want to print 1 - int, 2 - float, 3 - double, 4 - string, 5 - ALL\n");
-	gets_s(buf, 2);
+	printf("\ntype in information you want to print 1 - int, 2 - float, 3 - double, 4 - string, 5 - ALL\n");
+	gets_s(buf, 8);
 	sscanf(buf, "%d", &a);
 	fflush(stdin);
 
@@ -497,10 +530,9 @@ void callDeleteVal() {
 	if (print_values(f, ALL) == 0)
 		return;
 	printf("\ntype in info field, which you want to delete>>\n");
-	print_values(f, ALL);
 
 	gets_s(buf2, 254);
-	fflush(stdin);
+	fflush(stdin); 
 	VALUE* v = find_value_in_node(f, buf2);
 	if (v == NULL)
 	{
@@ -521,7 +553,7 @@ void callDeleteAllVal() {
 	int a;
 	TYPE type1;
 	char buf1[255];
-	char buf[2];
+	char buf[8];
 
 	printf("\ntype in path to the node, from which you want to delete>>\n");
 	gets_s(buf1, 254);
@@ -533,7 +565,7 @@ void callDeleteAllVal() {
 	}
 
 	printf("\ntype in the type of variables you want to delete 1 - int, 2 - float, 3 - double, 4 - string, 5 - ALL\n");
-	gets_s(buf, 2);
+	gets_s(buf, 8);
 	sscanf(buf, "%d", &a);
 	fflush(stdin);
 
@@ -558,10 +590,10 @@ void callCreateNew() {
 void callLoad() {
 	if (root)
 	{
-		char buf[2];
+		char buf[8];
 		int choice;
 		printf("\nwould you like to save your current database? 1-yes, 2-no\n");
-		gets_s(buf, 2);
+		gets_s(buf, 8);
 		sscanf(buf, "%d", &choice);
 		fflush(stdin);
 		if (choice == 1) 

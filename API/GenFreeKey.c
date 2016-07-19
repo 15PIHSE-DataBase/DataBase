@@ -1,4 +1,3 @@
-﻿
 #include "key.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,7 +10,7 @@ int gen_newkey()
 {
 	int save = 0;
 	int * buf;
-	if (number != 0)
+	/*if (number != 0)
 	{
 		save = *(freek + number - 1);
 		--number;
@@ -24,7 +23,7 @@ int gen_newkey()
 			*(freek + i) = *(buf + i);
 		free(buf);
 		return save;
-	}
+	}*/
 	++keys;
 	return keys;
 }
@@ -58,6 +57,11 @@ int compare(const void * x1, const void * x2)
 
 void create_freek(int * buf, int size)
 {
+	for (int i = 0; i < size; ++i) {
+		if (keys < *(buf + i))
+			keys = *(buf + i);
+	}
+
 	qsort(buf, size, sizeof(int), compare);
 	int save = *(buf + size - 1);
 	int t = 0;

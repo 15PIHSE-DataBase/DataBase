@@ -28,6 +28,7 @@ int delete_node(NODE** CurrentNode, NODE** Root)//если удалил,то в�
 	else if ((*CurrentNode)->NextNode)
 	{
 		(*CurrentNode)->UpNode->DownNode = (*CurrentNode)->NextNode;
+		TempNode->NextNode->PreviousNode = NULL;
 		delete_all_value(temp, ALL);
 		free(temp);
 	}

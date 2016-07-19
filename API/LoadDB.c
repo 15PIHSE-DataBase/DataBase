@@ -53,7 +53,7 @@ NODE* scan_file(FILE* FileWithNodes, FILE* FileWithValue)
 	fread(&posTree, sizeof(fpos_t), 1, FileWithNodes); // Cмещения на подузлы
 	
 	if(feof(FileWithNodes))
-	return roots;
+	return rootes;
 
 	flagDel = 0;
 	fread(&flagDel, sizeof(bool), 1, FileWithNodes);// Флаг удаления

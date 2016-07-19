@@ -51,6 +51,9 @@ NODE* scan_file(FILE* FileWithNodes, FILE* FileWithValue)
 	rootes->Values = value_root(posVal, FileWithValue); // Сами значения
 	posTree = 0;
 	fread(&posTree, sizeof(fpos_t), 1, FileWithNodes); // Cмещения на подузлы
+	
+	if(feof(FileWithNodes))
+	return roots;
 
 	flagDel = 0;
 	fread(&flagDel, sizeof(bool), 1, FileWithNodes);// Флаг удаления
